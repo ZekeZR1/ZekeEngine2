@@ -1,0 +1,9 @@
+<map id="LobbyType.h" name="LobbyType.h">
+<area shape="rect" id="node3" href="$a03707.html" title="LobbyStatsResponse.h" alt="" coords="98,77,232,101"/>
+<area shape="rect" id="node19" href="$a03704.html" title="LobbyStatsRequest.h" alt="" coords="257,77,383,101"/>
+<area shape="rect" id="node42" href="$a03719.html" title="RoomOptions.h" alt="" coords="407,77,501,101"/>
+<area shape="rect" id="node5" href="$a05904.html" title="Listener.h" alt="" coords="154,221,224,245"/>
+<area shape="rect" id="node7" href="$a05868.html" title="Client.h" alt="" coords="161,293,217,317"/>
+<area shape="rect" id="node21" href="$a05934.html" title="Peer.h" alt="" coords="404,149,457,173"/>
+<area shape="rect" id="node23" href="$a03713.html" title="MutableRoom.h" alt="" coords="477,221,571,245"/>
+</map>

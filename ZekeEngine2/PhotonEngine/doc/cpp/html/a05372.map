@@ -1,0 +1,49 @@
+<map id="ToString" name="ToString">
+<area shape="rect" id="node3" href="$a04809.html" title="Base" alt="" coords="153,865,199,889"/>
+<area shape="rect" id="node109" href="$a05309.html" title="JString" alt="" coords="149,913,203,937"/>
+<area shape="rect" id="node111" href="$a05325.html" title="LogFormatOptions" alt="" coords="121,961,231,985"/>
+<area shape="rect" id="node113" href="$a05329.html" title="Logger" alt="" coords="148,1009,204,1033"/>
+<area shape="rect" id="node5" href="$a05573.html" title="AuthenticationValues" alt="" coords="296,5,421,29"/>
+<area shape="rect" id="node7" href="$a05577.html" title="Channel" alt="" coords="328,53,389,77"/>
+<area shape="rect" id="node9" href="$a04813.html" title="BaseCharString" alt="" coords="309,101,408,125"/>
+<area shape="rect" id="node15" href="$a04825.html" title="CustomTypeBase" alt="" coords="305,149,412,173"/>
+<area shape="rect" id="node19" href="$a04829.html" title="CustomTypeFactory\&lt;\l typeCode \&gt;" alt="" coords="296,198,421,234"/>
+<area shape="rect" id="node21" href="$a04833.html" title="DeSerializer" alt="" coords="319,259,399,283"/>
+<area shape="rect" id="node23" href="$a04857.html" title="DictionaryBase" alt="" coords="311,307,406,331"/>
+<area shape="rect" id="node33" href="$a04865.html" title="EGTime" alt="" coords="329,355,388,379"/>
+<area shape="rect" id="node35" href="$a04869.html" title="Hashtable" alt="" coords="323,403,394,427"/>
+<area shape="rect" id="node41" href="$a04893.html" title="JVector\&lt; Etype \&gt;" alt="" coords="306,948,411,972"/>
+<area shape="rect" id="node43" href="$a04893.html" title="JVector\&lt; Common::ExitGames\l::Common::JString \&gt;" alt="" coords="630,765,797,801"/>
+<area shape="rect" id="node45" href="$a04893.html" title="JVector\&lt; nByte \&gt;" alt="" coords="660,593,767,617"/>
+<area shape="rect" id="node47" href="$a04893.html" title="JVector\&lt; ExitGames\l::LoadBalancing::LobbyStats\lRequest \&gt;" alt="" coords="633,833,793,881"/>
+<area shape="rect" id="node49" href="$a04893.html" title="JVector\&lt; int \&gt;" alt="" coords="669,680,758,704"/>
+<area shape="rect" id="node51" href="$a04893.html" title="JVector\&lt; Common::ExitGames\l::Common::JVector\&lt; unsigned\l int \&gt; \&gt;" alt="" coords="630,939,797,987"/>
+<area shape="rect" id="node53" href="$a04893.html" title="JVector\&lt; ExitGames\l::LoadBalancing::Room *\&gt;" alt="" coords="641,522,786,558"/>
+<area shape="rect" id="node55" href="$a04893.html" title="JVector\&lt; ExitGames\l::LoadBalancing::Player *\&gt;" alt="" coords="639,1021,787,1057"/>
+<area shape="rect" id="node57" href="$a04893.html" title="JVector\&lt; Common::ExitGames\l::Common::Object \&gt;" alt="" coords="630,1181,797,1217"/>
+<area shape="rect" id="node59" href="$a04893.html" title="JVector\&lt; ExitGames\l::LoadBalancing::FriendInfo \&gt;" alt="" coords="632,1102,795,1138"/>
+<area shape="rect" id="node61" href="$a04893.html" title="JVector\&lt; ExitGames\l::Chat::Channel *\&gt;" alt="" coords="653,1357,773,1393"/>
+<area shape="rect" id="node63" href="$a04893.html" title="JVector\&lt; ExitGames\l::Common::Object \&gt;" alt="" coords="653,1269,773,1305"/>
+<area shape="rect" id="node65" href="$a05361.html" title="Object" alt="" coords="332,1404,385,1428"/>
+<area shape="rect" id="node71" href="$a05369.html" title="Serializer" alt="" coords="325,1452,392,1476"/>
+<area shape="rect" id="node74" href="$a05481.html" title="FriendInfo" alt="" coords="323,1500,394,1524"/>
+<area shape="rect" id="node76" href="$a05533.html" title="LobbyStatsRequest" alt="" coords="300,1548,417,1572"/>
+<area shape="rect" id="node78" href="$a05537.html" title="LobbyStatsResponse" alt="" coords="295,1596,422,1620"/>
+<area shape="rect" id="node80" href="$a05553.html" title="Player" alt="" coords="333,1644,385,1668"/>
+<area shape="rect" id="node84" href="$a05557.html" title="RaiseEventOptions" alt="" coords="302,1692,415,1716"/>
+<area shape="rect" id="node86" href="$a05561.html" title="Room" alt="" coords="334,1740,383,1764"/>
+<area shape="rect" id="node90" href="$a05565.html" title="RoomOptions" alt="" coords="315,1788,402,1812"/>
+<area shape="rect" id="node92" href="$a05569.html" title="WebFlags" alt="" coords="323,1836,394,1860"/>
+<area shape="rect" id="node94" href="$a05465.html" title="TrafficStats" alt="" coords="319,1884,398,1908"/>
+<area shape="rect" id="node96" href="$a05469.html" title="TrafficStatsGameLevel" alt="" coords="292,1932,425,1956"/>
+<area shape="rect" id="node11" href="$a04801.html" title="ANSIString" alt="" coords="676,53,751,77"/>
+<area shape="rect" id="node13" href="$a05377.html" title="UTF8String" alt="" coords="676,101,751,125"/>
+<area shape="rect" id="node17" href="$a04821.html" title="CustomType\&lt; typeCode \&gt;" alt="" coords="640,149,787,173"/>
+<area shape="rect" id="node25" href="$a04837.html" title="Dictionary\&lt; nByte,\l Common::ExitGames::\lCommon::Object \&gt;" alt="" coords="993,257,1122,305"/>
+<area shape="rect" id="node27" href="$a04837.html" title="Dictionary\&lt; nByte,\l Common::Object \&gt;" alt="" coords="1001,339,1113,375"/>
+<area shape="rect" id="node29" href="$a04837.html" title="Dictionary\&lt; EKeyType,\l EValueType \&gt;" alt="" coords="648,301,779,337"/>
+<area shape="rect" id="node67" href="$a05321.html" title="KeyObject\&lt; Etype \&gt;" alt="" coords="655,1445,772,1469"/>
+<area shape="rect" id="node69" href="$a05385.html" title="ValueObject\&lt; Etype \&gt;" alt="" coords="650,1493,777,1517"/>
+<area shape="rect" id="node82" href="$a05541.html" title="MutablePlayer" alt="" coords="669,1644,758,1668"/>
+<area shape="rect" id="node88" href="$a05545.html" title="MutableRoom" alt="" coords="670,1740,757,1764"/>
+</map>
