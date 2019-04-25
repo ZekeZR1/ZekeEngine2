@@ -2,8 +2,8 @@
 * @brief	シェーダー。
 */
 #include "stdafx.h"
-#include "Engine/graphics/Shader.h"
-#include "Engine/graphics/ShaderResources.h"
+#include "Shader.h"
+#include "ShaderResources.h"
 
 
 namespace {

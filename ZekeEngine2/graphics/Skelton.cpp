@@ -6,9 +6,7 @@
 /*!
 *@brief	ƒXƒPƒ‹ƒgƒ“
 */
-#include "stdafx.h"
-
-#include "Engine/graphics/SkinModelShaderConst.h"
+#include "SkinModelShaderConst.h"
 #include <comdef.h> 
 
 void Bone::CalcWorldTRS(CVector3& trans, CQuaternion& rot, CVector3& scale)

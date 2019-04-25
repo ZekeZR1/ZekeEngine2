@@ -4,9 +4,9 @@
 */
 
 #include "stdafx.h"
-#include "Engine/graphics/ShaderResources.h"
-#include "Engine/graphics/Shader.h"
-#include "Engine/util/Util.h"
+#include "ShaderResources.h"
+#include "Shader.h"
+#include "../util/Util.h"
 
 namespace {
 	std::unique_ptr<char[]> ReadFile(const char* filePath, int& fileSize)
@@ -205,7 +205,7 @@ bool ShaderResources::Load(
 			if (errorBlob != nullptr) {
 				static char errorMessage[10 * 1024];
 				sprintf_s(errorMessage, "filePath : %s, %s", filePath, (char*)errorBlob->GetBufferPointer());
-				MessageBox(NULL, errorMessage, "シェーダーコンパイルエラー", MB_OK);
+				MessageBoxA(NULL, errorMessage, "シェーダーコンパイルエラー", MB_OK);
 			}
 			return false;
 		}

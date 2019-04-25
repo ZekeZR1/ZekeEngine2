@@ -3,8 +3,8 @@
 */
 
 #include "stdafx.h"
-#include "Engine/graphics/animation/AnimationClip.h"
-#include "Engine/graphics/skelton.h"
+#include "AnimationClip.h"
+#include "graphics/skelton.h"
 
 
 AnimationClip::~AnimationClip()
@@ -23,7 +23,7 @@ void AnimationClip::Load(const wchar_t* filePath)
 		//ファイルが開けなかったときの処理。
 		char message[256];
 		sprintf(message, "AnimationClip::Load, ファイルのオープンに失敗しました。%ls\n", filePath);
-		MessageBox(NULL, message, "Error", MB_OK);
+		MessageBoxA(NULL, message, "Error", MB_OK);
 		//止める。
 		std::abort();
 #endif

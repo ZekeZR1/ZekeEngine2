@@ -4,14 +4,11 @@
 
 #pragma once
 
-#include "Engine/graphics/animation/AnimationClip.h"
-#include "Engine/graphics/animation/AnimationPlayController.h"
-
-
+#include "AnimationClip.h"
+#include "AnimationPlayController.h"
 
 class Skeleton;
 class SkinModel;
-
 
 /*!
 * @brief	アニメーションクラス。

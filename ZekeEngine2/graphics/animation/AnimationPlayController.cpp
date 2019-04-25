@@ -3,10 +3,10 @@
 */
 
 #include "stdafx.h"
-#include "Engine/graphics/animation/AnimationPlayController.h"
-#include "Engine/graphics/animation/Animation.h"
-#include "Engine/graphics/animation/AnimationClip.h"
-#include "Engine/graphics/skelton.h"
+#include "AnimationPlayController.h"
+#include "Animation.h"
+#include "AnimationClip.h"
+#include "../Skelton.h"
 
 
 
@@ -70,7 +70,7 @@ void AnimationPlayController::Update(float deltaTime, Animation* animation)
 		}
 		else {
 #ifdef _DEBUG			
-			MessageBox(NULL, "AnimationPlayController::Update : 存在しないボーンに値を書き込もうとしています。次のような原因が考えられます。\n"
+			MessageBoxA(NULL, "AnimationPlayController::Update : 存在しないボーンに値を書き込もうとしています。次のような原因が考えられます。\n"
 				"① tkaファイルを出力する時に、選択したルートボーンがスケルトンのルートボーンと異なっている。\n"
 				"② 異なるスケルトンのアニメーションクリップを使っている。\n"
 				"もう一度tkaファイルを出力しなおしてください。", "error", MB_OK);

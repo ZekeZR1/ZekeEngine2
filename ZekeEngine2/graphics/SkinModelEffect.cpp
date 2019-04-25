@@ -1,6 +1,6 @@
 #include "stdafx.h"
-#include "Engine/graphics/SkinModelEffect.h"
-#include "Engine/graphics/SkinModelShaderConst.h"
+#include "SkinModelEffect.h"
+#include "SkinModelShaderConst.h"
 
 void __cdecl ModelEffect::Apply(ID3D11DeviceContext* deviceContext)
 {

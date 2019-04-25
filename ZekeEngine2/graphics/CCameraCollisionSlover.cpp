@@ -1,6 +1,6 @@
 #include "stdafx.h"
-#include "Engine/graphics/CCameraCollisionSlover.h"
-#include "Engine/physics/CSphereCollider.h"
+#include "CCameraCollisionSlover.h"
+#include "../physics/CSphereCollider.h"
 
 struct SConvexSweepCallback : public btCollisionWorld::ClosestConvexResultCallback
 {

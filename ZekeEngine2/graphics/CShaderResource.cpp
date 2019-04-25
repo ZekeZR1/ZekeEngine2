@@ -186,16 +186,16 @@ bool CShaderResource::Load(
 		TScopedResource<ID3DBlob> blobOut;
 		TScopedResource<ID3DBlob> errorBlob;
 
-		SetCurrentDirectory("shader");
+		SetCurrentDirectoryA("shader");
 		hr = D3DCompile(shaderProgram->program.get(), shaderProgram->programSize, filePath, nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE, entryFuncName,
 			shaderModelNames[(int)shaderType], dwShaderFlags, 0, &blobOut.res, &errorBlob.res);
-		SetCurrentDirectory("../");
+		SetCurrentDirectoryA("../");
 		if (FAILED(hr))
 		{
 			if (errorBlob.res != nullptr) {
 				static char errorMessage[10 * 1024];
 				sprintf(errorMessage, "filePath : %s, %s", filePath, (char*)errorBlob.res->GetBufferPointer());
-				MessageBox(NULL, errorMessage, "シェーダーコンパイルエラー", MB_OK);
+				MessageBoxA(NULL, errorMessage, "シェーダーコンパイルエラー", MB_OK);
 			}
 			return false;
 		}

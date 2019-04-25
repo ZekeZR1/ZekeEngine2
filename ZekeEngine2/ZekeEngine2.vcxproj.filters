@@ -7,9 +7,6 @@
     <Filter Include="src\character">
       <UniqueIdentifier>{19204cd3-5a0d-4c1e-ac1e-cc49a41d5bf9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\debug">
-      <UniqueIdentifier>{6c87a639-3fc7-4e44-a88f-05ff8abdcacc}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\graphics">
       <UniqueIdentifier>{1e64c6f9-a731-4659-9667-f829d4794d3a}</UniqueIdentifier>
     </Filter>
@@ -55,6 +52,9 @@
     <Filter Include="src\window">
       <UniqueIdentifier>{33f41912-feb4-4dab-ad8a-830850063d3f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\gameobject">
+      <UniqueIdentifier>{6c87a639-3fc7-4e44-a88f-05ff8abdcacc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -67,13 +67,13 @@
       <Filter>src\character</Filter>
     </ClInclude>
     <ClInclude Include="gameObject\GameObject.h">
-      <Filter>src\debug</Filter>
+      <Filter>src\gameobject</Filter>
     </ClInclude>
     <ClInclude Include="gameObject\GameObjectManager.h">
-      <Filter>src\debug</Filter>
+      <Filter>src\gameobject</Filter>
     </ClInclude>
     <ClInclude Include="gameObject\CTransform.h">
-      <Filter>src\debug</Filter>
+      <Filter>src\gameobject</Filter>
     </ClInclude>
     <ClInclude Include="graphics\CConstantBuffer.h">
       <Filter>src\graphics</Filter>
@@ -306,13 +306,13 @@
       <Filter>src\character</Filter>
     </ClCompile>
     <ClCompile Include="gameObject\GameObjectManager.cpp">
-      <Filter>src\debug</Filter>
+      <Filter>src\gameobject</Filter>
     </ClCompile>
     <ClCompile Include="gameObject\CTransform.cpp">
-      <Filter>src\debug</Filter>
+      <Filter>src\gameobject</Filter>
     </ClCompile>
     <ClCompile Include="gameObject\GameObject.cpp">
-      <Filter>src\debug</Filter>
+      <Filter>src\gameobject</Filter>
     </ClCompile>
     <ClCompile Include="graphics\CConstantBuffer.cpp">
       <Filter>src\graphics</Filter>

@@ -26,6 +26,7 @@
 #include <cstring>
 #include <string>
 
+#define  MRT_MAX  8
 const float FRAME_BUFFER_W = 1280.0f;
 const float FRAME_BUFFER_H = 720.0f;
 static const int MAX_BONE = 512;
@@ -56,13 +57,13 @@ static const int MAX_BONE = 512;
 #include "physics/Physics.h"
 #include "HID/Pad.h"
 
+//TODO : photon include
 //#include "Common-cpp/inc/Common.h"
 //#include "LoadBalancing-cpp/inc/Client.h"
-//kusokusokusokuso
 //#include "Network/NetworkLogic.h"
-#include "../Game/Online/NetworkLogic.h"
+//#include "../Game/Online/NetworkLogic.h"
 //#include "Network/Console.h"
-#include "../Game/Online/Console.h"
+//#include "../Game/Online/Console.h"
 
 #include "Engine.h"
 #include "gameObject/GameObject.h"

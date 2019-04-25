@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../graphics/Sprite/Sprite.h"
-#include "../graphics/Camera.h"
+#include "Sprite/Sprite.h"
+#include "Camera.h"
 
 class SpriteRender : public GameObject
 {

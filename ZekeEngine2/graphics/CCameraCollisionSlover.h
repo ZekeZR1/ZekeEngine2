@@ -1,5 +1,5 @@
 #pragma once
-#include "Engine/physics/CSphereCollider.h"
+#include "../physics/CSphereCollider.h"
 
 //class CSphereCollider;
 

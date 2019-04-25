@@ -1,6 +1,6 @@
 		#pragma once
 
-#include "Engine/graphics/Shader.h"
+#include "Shader.h"
 /*!
 *@brief	モデルエフェクト。
 */

@@ -2,8 +2,8 @@
 
 #include "CShaderResource.h"
 #include "Effect\CEffectEngine.h"
-#include "../graphics/RenderTarget.h"
-#include "../graphics/font/CFONT.h"
+#include "RenderTarget.h"
+#include "font/CFONT.h"
 
 class CShaderResource;
 class CEffectEngine;

@@ -1,13 +1,13 @@
 #include "stdafx.h"
-#include "Engine/graphics/CRenderContext.h"
-#include "Engine/graphics/RenderTarget.h"
-#include "Engine/graphics/ShaderResouceView.h"
-#include "Engine/graphics/CUnorderedAccessView.h"
-#include "Engine/graphics/CVertexBuffer.h"
-#include "Engine/graphics/CConstantBuffer.h"
-#include "Engine/graphics/GPUBuffer/CGPUBuffer.h"
-#include "Engine/graphics/CShader.h"
-#include "Engine/graphics/CSamplerState.h"
+#include "../graphics/CRenderContext.h"
+#include "../graphics/RenderTarget.h"
+#include "../graphics/ShaderResouceView.h"
+#include "../graphics/CUnorderedAccessView.h"
+#include "../graphics/CVertexBuffer.h"
+#include "../graphics/CConstantBuffer.h"
+#include "../graphics/GPUBuffer/CGPUBuffer.h"
+#include "../graphics/CShader.h"
+#include "../graphics/CSamplerState.h"
 
 CRenderContext::CRenderContext()
 {

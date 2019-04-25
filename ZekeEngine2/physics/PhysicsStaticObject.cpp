@@ -3,7 +3,7 @@
 */
 
 #include "stdafx.h"
-#include "Engine/physics/PhysicsStaticObject.h"
+#include "PhysicsStaticObject.h"
 
 
 PhysicsStaticObject::PhysicsStaticObject()

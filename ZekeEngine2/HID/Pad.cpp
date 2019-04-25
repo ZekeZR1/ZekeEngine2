@@ -2,7 +2,7 @@
 *@brief	パッド。
 */
 #include "stdafx.h"
-#include "Engine/HID/Pad.h"
+#include "Pad.h"
 #include <limits.h>
 
 #define INPUT_DEADZONE  ( 0.24f * FLOAT(0x7FFF) )  // 入力の遊びとなる範囲。

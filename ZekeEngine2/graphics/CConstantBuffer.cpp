@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "CConstantBuffer.h"
-#include "Engine/graphics/GPUBuffer/CGPUBuffer.h"
-
+#include "GPUBuffer/CGPUBuffer.h"
 
 CConstantBuffer::CConstantBuffer()
 {

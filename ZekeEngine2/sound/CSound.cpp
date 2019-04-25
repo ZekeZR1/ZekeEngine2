@@ -28,14 +28,14 @@ void Sound::Init(const wchar_t* filepath, bool roopflag) {
 		soundEffect = std::make_unique<DirectX::SoundEffect>(ISoundEngine().audEngine.get(), filepath);
 		char hoge[256];
 		sprintf(hoge, "filePath = %s Engine Addr = %lx\n", ISoundEngine().audEngine.get(), filepath);
-		OutputDebugString(hoge);
+		OutputDebugStringA(hoge);
 		effect = soundEffect->CreateInstance();
 	}
 	else {
 		soundEffect = std::make_unique<DirectX::SoundEffect>(ISoundEngine().audEngine.get(), filepath);
 		char hoge[256];
 		sprintf(hoge, "filePath = %s Engine Addr = %lx\n", ISoundEngine().audEngine.get(), filepath);
-		OutputDebugString(hoge);
+		OutputDebugStringA(hoge);
 	}
 	m_isInited = true;
 }

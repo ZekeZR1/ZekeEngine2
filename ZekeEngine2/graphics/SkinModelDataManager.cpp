@@ -1,7 +1,7 @@
 #include "stdafx.h"
-#include "Engine/graphics/SkinModelDataManager.h"
-#include "Engine/graphics/SkinModelEffect.h"
-#include "Engine/graphics/Skelton.h"
+#include "SkinModelDataManager.h"
+#include "SkinModelEffect.h"
+#include "Skelton.h"
 
 SkinModelDataManager g_skinModelDataManager;
 
