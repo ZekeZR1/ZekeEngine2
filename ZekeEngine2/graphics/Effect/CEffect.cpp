@@ -24,13 +24,7 @@ void CEffect::Update() {
 	Effekseer::Matrix43::Multiple(mBase, mScale, mRot);
 	Effekseer::Matrix43::Multiple(mBase, mBase, mTrans);
 	GraphicsEngine().GetEffectEngine().GetEffekseerManager().SetBaseMatrix(m_handle, mBase);
-	//CMatrix mTrans, mRot, mScale, mBase;
-	//mTrans.MakeTranslation(m_position);
-	//mRot.MakeRotationFromQuaternion(m_rotation);
-	//mScale.MakeScaling(m_scale);
-	//mBase = mBase * mTrans;
-	//mBase = mScale * mRot;
-	//g_graphicsEngine->GetEffectEngine().GetEffekseerManager().SetBaseMatrix(m_handle, mBase);
+
 	if (!IsPlay() && isPlayed) {
 		Stop();
 		DeleteGO(this);

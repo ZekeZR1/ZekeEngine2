@@ -335,6 +335,7 @@ void Sprite::Draw()
 	);
 }
 
+//TODO : ‚±‚Ì–¼‘O‚È‚ñ‚Æ‚©‚·‚é
 void Sprite::Draww()
 {
 	auto d3dDeviceContext = GraphicsEngine().GetD3DDeviceContext();

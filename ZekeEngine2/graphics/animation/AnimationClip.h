@@ -17,7 +17,6 @@ struct AnimClipHeader {
 /*!
 *@brief	アニメーションイベント
 *@アニメーションイベントは未対応。
-* やりたかったら自分で実装するように。
 */
 struct AnimationEventData {
 	float	invokeTime;					//!<アニメーションイベントが発生する時間(単位:秒)
@@ -45,7 +44,6 @@ struct KeyframeRow {
 */
 class AnimationClip {
 public:
-	//タイプ量が長ったらしくて、うざいのでstd::vector<KeyFrame*>の別名定義。
 	using keyFramePtrList = std::vector<Keyframe*>;
 	/*!
 	* @brief	コンストラクタ

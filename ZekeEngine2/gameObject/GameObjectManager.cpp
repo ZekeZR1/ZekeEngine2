@@ -37,6 +37,7 @@ void GameObjectManager::Execute()
 		{ 0.0f, 0.0f, 0.0f }
 	);
 
+	//ポストエフェクトを更新。
 	m_postEffect.Update();
 
 	GraphicsEngine().GetEffectEngine().Update();
@@ -87,7 +88,6 @@ void GameObjectManager::Execute()
 	if(PhysicsWorld().IsDrawDebugLine())
 		PhysicsWorld().DebugDraw();
 #endif
-	//g_physics.GetDynamicWorld()->debugDrawWorld();
 
 	//レンダリングターゲットをフレームバッファに戻す。
 	GraphicsEngine().ChangeRenderTarget(
@@ -95,7 +95,8 @@ void GameObjectManager::Execute()
 		m_frameBufferDepthStencilView,
 		&m_frameBufferViewports
 	);
-	//ドロドロ
+
+
 	m_copyMainRtToFrameBufferSprite.Draww();
 
 	m_frameBufferRenderTargetView->Release();

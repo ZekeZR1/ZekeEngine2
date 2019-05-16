@@ -36,7 +36,6 @@ void AnimationClip::Load(const wchar_t* filePath)
 
 	if (header.numAnimationEvent > 0) {
 		//アニメーションイベントは未対応。
-		//就職作品でチャレンジしてみよう。
 		std::abort();
 	}
 

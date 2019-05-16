@@ -23,11 +23,7 @@ public:
 public:
 	virtual bool Start() { return true; }
 	virtual void Update() {}
-	//virtual void Render(CRenderContext& renderContext)
-	virtual void Render()
-	{
-		//(void)renderContext;
-	}
+	virtual void Render() {}
 	virtual void OnDestroy(){}
 
 	GameObjectPrio GetPriority() const
@@ -62,10 +58,7 @@ public:
 	 *@details
 	 * ポストエフェクトの後で実行されます。HUDなどポストエフェクトの影響を受けたくない描画物はここでレンダリングしてください。
 	 */
-	//virtual void PostRender(CRenderContext& renderContext) {
-	virtual void PostRender() {
-		//(void)renderContext;
-	}
+	virtual void PostRender() {}
 	/*!
 	*@brief	死亡フラグを立てる。
 	*@details
@@ -118,45 +111,48 @@ public:
 		return m_tags;
 	}
 
-	//void PostRenderWrapper(CRenderContext& renderContext)
 	void PostRenderWrapper()
 	{
 		if (m_isActive && m_isStart && !m_isDead && !m_isRegistDeadList) {
 			PostRender();
 		}
 	}
-	//void RenderWrapper(CRenderContext& renderContext)
+
 	void RenderWrapper()
 	{
 		if (m_isActive && m_isStart && !m_isDead && !m_isRegistDeadList) {
 			Render();
 		}
 	}
-	//void PreRenderWrapper(CRenderContext& renderContext)
+
 	void PreRenderWrapper()
 	{
 		if (m_isActive && m_isStart && !m_isDead && !m_isRegistDeadList) {
 			PreRender();
 		}
 	}
+
 	void PostUpdateWrapper()
 	{
 		if (m_isActive && m_isStart && !m_isDead && !m_isRegistDeadList) {
 			PostUpdate();
 		}
 	}
+
 	void PreUpdateWrapper()
 	{
 		if (m_isActive && m_isStart && !m_isDead && !m_isRegistDeadList) {
 			PreUpdate();
 		}
 	}
+
 	void UpdateWrapper()
 	{
 		if (m_isActive && m_isStart && !m_isDead && !m_isRegistDeadList) {
 			Update();
 		}
 	}
+
 	void StartWrapper()
 	{
 		if (m_isActive && !m_isStart && !m_isDead && !m_isRegistDeadList) {
@@ -166,15 +162,19 @@ public:
 			}
 		}
 	}
+
 	void SetMarkNewFromGameObjectManager()
 	{
 		m_isNewFromGameObjectManager = true;
 	}
+
 	bool IsNewFromGameObjectManager() const
 	{
 		return m_isNewFromGameObjectManager;
 	}
+
 	friend class GameObjectManager;
+
 protected:
 	GameObjectPrio	m_priority;			//!<実行優先度。
 	bool m_isStart;						//!<Startの開始フラグ。
