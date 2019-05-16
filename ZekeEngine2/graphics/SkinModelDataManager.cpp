@@ -26,12 +26,12 @@ DirectX::Model* SkinModelDataManager::Load(const wchar_t* filePath, const Skelet
 	if (it == m_directXModelMap.end()) {
 		//未登録なので、新規でロードする。
 		//エフェクトファクトリ。
-		SkinModelEffectFactory effectFactory(g_graphicsEngine->GetD3DDevice(), psmain, vsmain, normalMap, specularMap);
+		SkinModelEffectFactory effectFactory(GraphicsEngine().GetD3DDevice(), psmain, vsmain, normalMap, specularMap);
 		//テクスチャがあるフォルダを設定する。
 		effectFactory.SetDirectory(L"Assets/modelData");
 		//CMOファイルのロード。
 		auto model = DirectX::Model::CreateFromCMO(	
-			g_graphicsEngine->GetD3DDevice(),			
+			GraphicsEngine().GetD3DDevice(),
 			filePath,								
 			effectFactory,						
 			false,										

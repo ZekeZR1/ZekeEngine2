@@ -71,7 +71,7 @@ void Sprite::InitConstantBuffer()
 	desc.ByteWidth = (((sizeof(ConstantBuffer) - 1) / 16) + 1) * 16;
 	desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 	desc.CPUAccessFlags = 0;
-	g_graphicsEngine->GetD3DDevice()->CreateBuffer(&desc, NULL, &m__cb);
+	GraphicsEngine().GetD3DDevice()->CreateBuffer(&desc, NULL, &m__cb);
 }
 
 
@@ -125,7 +125,7 @@ void Sprite::InitVertexBuffer(float w, float h)
 	InitData.pSysMem = vertex;
 
 	//頂点バッファの作成。
-	g_graphicsEngine->GetD3DDevice()->CreateBuffer(&bd, &InitData, &m_vertexBuffer);
+	GraphicsEngine().GetD3DDevice()->CreateBuffer(&bd, &InitData, &m_vertexBuffer);
 }
 
 void Sprite::InitIndexBuffer()
@@ -150,7 +150,7 @@ void Sprite::InitIndexBuffer()
 	InitData.pSysMem = index;
 
 	//インデックスバッファの作成。
-	g_graphicsEngine->GetD3DDevice()->CreateBuffer(
+	GraphicsEngine().GetD3DDevice()->CreateBuffer(
 		&bd, &InitData, &m_indexBuffer
 	);
 }
@@ -163,7 +163,7 @@ void Sprite::InitSamplerState()
 	desc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
 	desc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
 	desc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
-	g_graphicsEngine->GetD3DDevice()->CreateSamplerState(&desc, &m_samplerState);
+	GraphicsEngine().GetD3DDevice()->CreateSamplerState(&desc, &m_samplerState);
 }
 
 void Sprite::InitCommon(float w, float h)
@@ -192,7 +192,7 @@ void Sprite::InitCommon(float w, float h)
 	BlendDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
 	BlendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
 	BlendDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
-	g_graphicsEngine->GetD3DDevice()->CreateBlendState(&BlendDesc, &pBlendState);
+	GraphicsEngine().GetD3DDevice()->CreateBlendState(&BlendDesc, &pBlendState);
 }
 
 void Sprite::Init(ID3D11ShaderResourceView* srv, float w, float h)
@@ -214,7 +214,7 @@ void Sprite::Init(const wchar_t* texFilePath, float w, float h)
 	m_effect.Load("Assets/shader/sprite.fx");
 	wchar_t filePath[256];
 	DirectX::CreateDDSTextureFromFileEx(
-		g_graphicsEngine->GetD3DDevice(),
+		GraphicsEngine().GetD3DDevice(),
 		texFilePath,
 		0,
 
@@ -230,7 +230,7 @@ void Sprite::Init(const wchar_t* texFilePath, float w, float h)
 
 	D3D11_BLEND_DESC blendDesc;
 	ZeroMemory(&blendDesc, sizeof(blendDesc));
-	ID3D11Device* pd3d = g_graphicsEngine->GetD3DDevice();
+	ID3D11Device* pd3d = GraphicsEngine().GetD3DDevice();
 	blendDesc.RenderTarget[0].BlendEnable = true;
 	//blendDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_ONE;
 	blendDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
@@ -246,7 +246,7 @@ void Sprite::Init(const wchar_t* texFilePath, float w, float h)
 		{
 			D3D11_DEPTH_STENCIL_DESC desc;
 			ZeroMemory(&desc, sizeof(desc));
-			ID3D11Device* pd3d = g_graphicsEngine->GetD3DDevice();
+			ID3D11Device* pd3d = GraphicsEngine().GetD3DDevice();
 			desc.DepthEnable = true;
 			desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
 			desc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
@@ -266,7 +266,7 @@ void Sprite::Init(const wchar_t* texFilePath, float w, float h)
 		}
 		{
 			D3D11_RASTERIZER_DESC desc = {};
-			ID3D11Device* pd3d = g_graphicsEngine->GetD3DDevice();
+			ID3D11Device* pd3d = GraphicsEngine().GetD3DDevice();
 			desc.CullMode = D3D11_CULL_FRONT;
 			desc.FillMode = D3D11_FILL_SOLID;
 			desc.DepthClipEnable = true;
@@ -281,15 +281,14 @@ void Sprite::Draw()
 	m_effect.BeginRender();
 	unsigned int vertexSize = sizeof(SVertex);
 	unsigned int offset = 0;
-	GraphicsEngine* ge = g_graphicsEngine;
-	ge->GetD3DDeviceContext()->IASetVertexBuffers(
+	GraphicsEngine().GetD3DDeviceContext()->IASetVertexBuffers(
 		0,
 		1,
 		&m_vertexBuffer,
 		&vertexSize,
 		&offset
 	);
-	ge->GetD3DDeviceContext()->IASetIndexBuffer(
+	GraphicsEngine().GetD3DDeviceContext()->IASetIndexBuffer(
 		m_indexBuffer,
 		DXGI_FORMAT_R32_UINT,
 		0
@@ -309,27 +308,27 @@ void Sprite::Draw()
 	//ge->GetD3DDeviceContext()->IASetInputLayout(m_vs.GetInputLayout());
 	////
 	float blendFactor[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
-	g_graphicsEngine->GetD3DDeviceContext()->OMSetBlendState(pBlendState, blendFactor, 0xffffffff);
-	g_graphicsEngine->GetD3DDeviceContext()->PSSetShaderResources(0, 1, &m_texture);
-	g_graphicsEngine->GetD3DDeviceContext()->PSSetSamplers(0, 1, &m_samplerState);
+	GraphicsEngine().GetD3DDeviceContext()->OMSetBlendState(pBlendState, blendFactor, 0xffffffff);
+	GraphicsEngine().GetD3DDeviceContext()->PSSetShaderResources(0, 1, &m_texture);
+	GraphicsEngine().GetD3DDeviceContext()->PSSetSamplers(0, 1, &m_samplerState);
 	//g_graphicsEngine->GetD3DDeviceContext()->OMSetDepthStencilState(spriteRender, 0);
 	//g_graphicsEngine->GetD3DDeviceContext()->RSSetState(rspriteRender);
 	ConstantBuffer cb;
 	cb.WVP = m_world;
 	if (m_cameraMode == Camera::enUpdateProjMatrixFunc_Ortho) {
-		cb.WVP.Mul(cb.WVP, camera2d->GetViewMatrix());
-		cb.WVP.Mul(cb.WVP, camera2d->GetProjectionMatrix());
+		cb.WVP.Mul(cb.WVP, MainCamera2D().GetViewMatrix());
+		cb.WVP.Mul(cb.WVP, MainCamera2D().GetProjectionMatrix());
 	}
 	else if(m_cameraMode == Camera::enUpdateProjMatrixFunc_Perspective){
-		cb.WVP.Mul(cb.WVP, camera3d->GetViewMatrix());
-		cb.WVP.Mul(cb.WVP, camera3d->GetProjectionMatrix());
+		cb.WVP.Mul(cb.WVP, MainCamera().GetViewMatrix());
+		cb.WVP.Mul(cb.WVP, MainCamera().GetProjectionMatrix());
 	}
 	cb.mulCol = m_mulCol;
-	ge->GetD3DDeviceContext()->UpdateSubresource(m__cb, 0, NULL, &cb, 0, 0);
-	ge->GetD3DDeviceContext()->VSSetConstantBuffers(0, 1, &m__cb);
-	ge->GetD3DDeviceContext()->PSSetConstantBuffers(0, 1, &m__cb);
-	ge->GetD3DDeviceContext()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	ge->GetD3DDeviceContext()->DrawIndexed(
+	GraphicsEngine().GetD3DDeviceContext()->UpdateSubresource(m__cb, 0, NULL, &cb, 0, 0);
+	GraphicsEngine().GetD3DDeviceContext()->VSSetConstantBuffers(0, 1, &m__cb);
+	GraphicsEngine().GetD3DDeviceContext()->PSSetConstantBuffers(0, 1, &m__cb);
+	GraphicsEngine().GetD3DDeviceContext()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	GraphicsEngine().GetD3DDeviceContext()->DrawIndexed(
 		6,
 		0,
 		0
@@ -338,7 +337,7 @@ void Sprite::Draw()
 
 void Sprite::Draww()
 {
-	auto d3dDeviceContext = g_graphicsEngine->GetD3DDeviceContext();
+	auto d3dDeviceContext = GraphicsEngine().GetD3DDeviceContext();
 
 	unsigned int vertexSize = sizeof(SVertex);	//頂点のサイズ。
 	unsigned int offset = 0;
@@ -373,14 +372,13 @@ void Sprite::Draww()
 	d3dDeviceContext->PSSetSamplers(0, 1, &m_samplerState);
 	ConstantBuffer cb;
 	cb.WVP = m_world;
-	cb.WVP.Mul(cb.WVP, camera2d->GetViewMatrix());
-	cb.WVP.Mul(cb.WVP, camera2d->GetProjectionMatrix());
+	cb.WVP.Mul(cb.WVP, MainCamera2D().GetViewMatrix());
+	cb.WVP.Mul(cb.WVP, MainCamera2D().GetProjectionMatrix());
 	cb.mulCol = m_mulCol;
-	GraphicsEngine* ge = g_graphicsEngine;
-	ge->GetD3DDeviceContext()->UpdateSubresource(m__cb, 0, NULL, &cb, 0, 0);
-	ge->GetD3DDeviceContext()->VSSetConstantBuffers(0, 1, &m__cb);
-	ge->GetD3DDeviceContext()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	ge->GetD3DDeviceContext()->DrawIndexed(
+	GraphicsEngine().GetD3DDeviceContext()->UpdateSubresource(m__cb, 0, NULL, &cb, 0, 0);
+	GraphicsEngine().GetD3DDeviceContext()->VSSetConstantBuffers(0, 1, &m__cb);
+	GraphicsEngine().GetD3DDeviceContext()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	GraphicsEngine().GetD3DDeviceContext()->DrawIndexed(
 		6,
 		0,
 		0

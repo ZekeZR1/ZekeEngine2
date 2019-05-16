@@ -52,7 +52,7 @@ void ShadowMap::UpdateFromLightTarget(CVector3 lightCameraPos, CVector3 lightCam
 }
 void ShadowMap::RenderToShadowMap()
 {
-	auto d3dDeviceContext = g_graphicsEngine->GetD3DDeviceContext();
+	auto d3dDeviceContext = GraphicsEngine().GetD3DDeviceContext();
 	//レンダリングターゲット切り替え
 	ID3D11RenderTargetView* rts[] = {
 		m_shadowMapRT.GetRenderTargetView()

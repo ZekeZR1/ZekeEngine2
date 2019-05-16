@@ -48,6 +48,7 @@ static const int MAX_BONE = 512;
 
 #include "math/Vector.h"
 #include "math/Matrix.h"
+#include "graphics/Camera.h"
 #include "graphics/GraphicsEngine.h"
 #include "graphics/Sprite/Sprite.h"
 #include "graphics\animation\Animation.h"
@@ -65,6 +66,7 @@ static const int MAX_BONE = 512;
 //#include "Network/Console.h"
 //#include "../Game/Online/Console.h"
 
+#include "EngineStruct.h"
 #include "Engine.h"
 #include "gameObject/GameObject.h"
 #include "GameObject/GameObjectManager.h"
@@ -79,7 +81,7 @@ static const int MAX_BONE = 512;
 #include "graphics/font/FontRender.h"
 #include "graphics/animation/Animation.h"
 #include "graphics/animation/AnimationClip.h"
-#include "graphics/Camera.h"
+//#include "graphics/Camera.h"
 #include "graphics/Effect/CEffectEngine.h"
 #include "graphics/Effect/CEffect.h"
 #include "HID/Mouse.h"

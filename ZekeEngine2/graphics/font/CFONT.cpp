@@ -2,12 +2,12 @@
 #include "CFONT.h"
 CFont::CFont()
 {
-	m_spriteBatch = g_graphicsEngine->GetSpriteBatch();
-	m_spriteFont = g_graphicsEngine->GetSpriteFont(m_type);
+	m_spriteBatch = GraphicsEngine().GetSpriteBatch();
+	m_spriteFont = GraphicsEngine().GetSpriteFont(m_type);
 	m_scaleMat.MakeScaling(
 		{
-			g_graphicsEngine->GetFrameBufferWidth() / static_cast<float>(g_graphicsEngine->Get2DSpaceScreenWidth()),
-			g_graphicsEngine->GetFrameBufferHeight() / static_cast<float>(g_graphicsEngine->Get2DSpaceScreenHeight()),
+			GraphicsEngine().GetFrameBufferWidth() / static_cast<float>(GraphicsEngine().Get2DSpaceScreenWidth()),
+			GraphicsEngine().GetFrameBufferHeight() / static_cast<float>(GraphicsEngine().Get2DSpaceScreenHeight()),
 			1.0f
 		}
 	);
@@ -18,12 +18,12 @@ CFont::~CFont()
 
 void CFont::Begin()
 {
-	auto dc = g_graphicsEngine->GetD3DDeviceContext();
+	auto dc = GraphicsEngine().GetD3DDeviceContext();
 	dc->OMGetBlendState(&m_blendState, m_BlendFactor, &m_SampleMask);
 	dc->RSGetState(&m_rasterizerState);
 	dc->OMGetDepthStencilState(&m_depthStencilState, &m_StencilRef);
 	m_spriteBatch->Begin();
-	m_spriteFont = g_graphicsEngine->GetSpriteFont(m_type);
+	m_spriteFont = GraphicsEngine().GetSpriteFont(m_type);
 	/*if (m_type == en_Japanese)
 		m_spriteFont = g_graphicsEngine->GetSpriteFont(en_Japanese);*/
 }
@@ -31,7 +31,7 @@ void CFont::End()
 {
 	m_spriteBatch->End();
 	float blendFactor[4] = { 0.0f };
-	auto dc = g_graphicsEngine->GetD3DDeviceContext();
+	auto dc = GraphicsEngine().GetD3DDeviceContext();
 	dc->OMSetBlendState(m_blendState,m_BlendFactor,m_SampleMask);
 	dc->RSSetState(m_rasterizerState);
 	dc->OMSetDepthStencilState(m_depthStencilState, m_StencilRef);
@@ -48,8 +48,8 @@ void CFont::Draw(
 	CVector2 pivot)
 {
 	CVector2 pos = position;
-	float frameBufferHalfWidth = g_graphicsEngine->Get2DSpaceScreenWidth() * 0.5f;
-	float frameBufferHalfHeight = g_graphicsEngine->Get2DSpaceScreenHeight() * 0.5f;
+	float frameBufferHalfWidth = GraphicsEngine().Get2DSpaceScreenWidth() * 0.5f;
+	float frameBufferHalfHeight = GraphicsEngine().Get2DSpaceScreenHeight() * 0.5f;
 	pos.x += frameBufferHalfWidth;
 	pos.y = -pos.y + frameBufferHalfHeight;
 

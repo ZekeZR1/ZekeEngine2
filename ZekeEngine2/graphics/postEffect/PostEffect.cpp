@@ -77,7 +77,7 @@ void PostEffect::InitFullScreenQuadPrimitive()
 	InitData.pSysMem = vertex;
 
 	//頂点バッファの作成。
-	g_graphicsEngine->GetD3DDevice()->CreateBuffer(&bd, &InitData, &m_vertexBuffer);
+	GraphicsEngine().GetD3DDevice()->CreateBuffer(&bd, &InitData, &m_vertexBuffer);
 }
 
 

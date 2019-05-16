@@ -182,7 +182,7 @@ void Skeleton::InitBoneMatrixArrayStructuredBuffer()
 	desc.StructureByteStride = stride;
 
 	//StructuredBufferを作成。
-	g_graphicsEngine->GetD3DDevice()->CreateBuffer(&desc, NULL, &m_boneMatrixSB);
+	GraphicsEngine().GetD3DDevice()->CreateBuffer(&desc, NULL, &m_boneMatrixSB);
 }
 void Skeleton::InitBoneMatrixArrayShaderResourceView()
 {
@@ -198,7 +198,7 @@ void Skeleton::InitBoneMatrixArrayShaderResourceView()
 	desc.Format = DXGI_FORMAT_UNKNOWN;
 	desc.BufferEx.NumElements = descBuf.ByteWidth / descBuf.StructureByteStride;
 
-	g_graphicsEngine->GetD3DDevice()->CreateShaderResourceView(m_boneMatrixSB, &desc, &m_boneMatrixSRV);
+	GraphicsEngine().GetD3DDevice()->CreateShaderResourceView(m_boneMatrixSB, &desc, &m_boneMatrixSRV);
 }
 void Skeleton::Update(const CMatrix& mWorld)
 {
@@ -230,10 +230,10 @@ void Skeleton::SendBoneMatrixArrayToGPU()
 		return;
 	}
 	//StructuredBufferを更新。
-	g_graphicsEngine->GetD3DDeviceContext()->UpdateSubresource(
+	GraphicsEngine().GetD3DDeviceContext()->UpdateSubresource(
 		m_boneMatrixSB, 0, NULL, &m_boneMatrixs.front(), 0, 0
 	);
 	//ボーン行列を頂点シェーダーステージに設定。
-	g_graphicsEngine->GetD3DDeviceContext()->VSSetShaderResources(enSkinModelSRVReg_BoneMatrixArray, 1, &m_boneMatrixSRV);
+	GraphicsEngine().GetD3DDeviceContext()->VSSetShaderResources(enSkinModelSRVReg_BoneMatrixArray, 1, &m_boneMatrixSRV);
 
 }

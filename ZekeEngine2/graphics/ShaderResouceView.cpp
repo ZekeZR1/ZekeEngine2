@@ -80,7 +80,7 @@ bool ShaderResouceView::CreateFromDDSTextureFromFile(const wchar_t* fileName)
 {
 	Release();
 	HRESULT hr = DirectX::CreateDDSTextureFromFileEx(
-		g_graphicsEngine->GetD3DDevice(), fileName, 0,
+		GraphicsEngine().GetD3DDevice(), fileName, 0,
 		D3D11_USAGE_DEFAULT, D3D11_BIND_SHADER_RESOURCE, 0, 0,
 		false, nullptr, &m_srv);
 	if (FAILED(hr)) {

@@ -68,7 +68,7 @@ void GaussianBlur::Execute(PostEffect& postEffect)
 		//初期化できてないぞ。
 		return;
 	}
-	auto deviceContext = g_graphicsEngine->GetD3DDeviceContext();
+	auto deviceContext = GraphicsEngine().GetD3DDeviceContext();
 	//ガウシアンフィルターの重みテーブルを更新する。
 	UpdateWeights();
 	
@@ -86,7 +86,7 @@ void GaussianBlur::Execute(PostEffect& postEffect)
 	//Xブラー。
 	{
 		//Xブラー用のレンダリングターゲットに変更する。
-		g_graphicsEngine->ChangeRenderTarget(
+		GraphicsEngine().ChangeRenderTarget(
 			&m_renderTarget[enRenderTarget_XBlur], 
 			m_renderTarget[enRenderTarget_XBlur].GetViewport());
 		
@@ -102,7 +102,7 @@ void GaussianBlur::Execute(PostEffect& postEffect)
 	//続いてYブラー
 	{
 		//Yブラー用のレンダリングターゲットに変更する。
-		g_graphicsEngine->ChangeRenderTarget(
+		GraphicsEngine().ChangeRenderTarget(
 			&m_renderTarget[enRenderTarget_YBlur], 
 			m_renderTarget[enRenderTarget_YBlur].GetViewport()
 		);

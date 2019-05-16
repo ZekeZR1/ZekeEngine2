@@ -44,37 +44,35 @@ void Primitive::Release() {
 }
 
 void Primitive::Draw() {
-	auto ge = g_graphicsEngine;
 	UINT offset = 0;
 	UINT stride = m_vertexBuffer.GetStride();
-	ge->GetD3DDeviceContext()->IASetVertexBuffers(
+	GraphicsEngine().GetD3DDeviceContext()->IASetVertexBuffers(
 		0,
 		1,
 		&m_vertexBuffer.GetBody(),
 		&stride,
 		&offset
 	);
-	ge->GetD3DDeviceContext()->IASetIndexBuffer(
+	GraphicsEngine().GetD3DDeviceContext()->IASetIndexBuffer(
 		m_indexBuffer.GetBody(),
 		DXGI_FORMAT_R32_UINT,
 		0
 	);
-	ge->GetD3DDeviceContext()->IASetPrimitiveTopology(m_topology);
-	ge->GetD3DDeviceContext()->DrawIndexed(m_indexBuffer.GetNumIndex(), 0, 0);
+	GraphicsEngine().GetD3DDeviceContext()->IASetPrimitiveTopology(m_topology);
+	GraphicsEngine().GetD3DDeviceContext()->DrawIndexed(m_indexBuffer.GetNumIndex(), 0, 0);
 }
 
 void Primitive::Draw(int numVertex) {
-	auto ge = g_graphicsEngine;
 	UINT offset = 0;
 	UINT stride = m_vertexBuffer.GetStride();
-	ge->GetD3DDeviceContext()->IASetVertexBuffers(
+	GraphicsEngine().GetD3DDeviceContext()->IASetVertexBuffers(
 		0,
 		1,
 		&m_vertexBuffer.GetBody(),
 		&stride,
 		&offset
 	);
-	ge->GetD3DDeviceContext()->IASetPrimitiveTopology(m_topology);
-	ge->GetD3DDeviceContext()->Draw(numVertex, 0);
+	GraphicsEngine().GetD3DDeviceContext()->IASetPrimitiveTopology(m_topology);
+	GraphicsEngine().GetD3DDeviceContext()->Draw(numVertex, 0);
 
 }

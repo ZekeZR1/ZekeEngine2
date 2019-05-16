@@ -3,17 +3,15 @@
 #include "RigitBody.h"
 #include "PhysicsDebugDraw.h"
 
-PhysicsWorld g_physics;
-
-PhysicsWorld::PhysicsWorld() {
+CPhysicsWorld::CPhysicsWorld() {
 
 }
 
-PhysicsWorld::~PhysicsWorld()
+CPhysicsWorld::~CPhysicsWorld()
 {
 	Release();
 }
-void PhysicsWorld::Release()
+void CPhysicsWorld::Release()
 {
 	delete dynamicWorld;
 	delete constraintSolver;
@@ -29,7 +27,7 @@ void PhysicsWorld::Release()
 	collisionConfig = nullptr;
 	debugDrawer = nullptr;
 }
-void PhysicsWorld::Init()
+void CPhysicsWorld::Init()
 {
 	Release();
 	//•¨—ƒGƒ“ƒWƒ“‚ð‰Šú‰»B
@@ -58,20 +56,21 @@ void PhysicsWorld::Init()
 	dynamicWorld->setDebugDrawer(debugDrawer);
 	debugDrawer->setDebugMode(1);
 }
-void PhysicsWorld::Update()
+
+void CPhysicsWorld::Update()
 {
 	dynamicWorld->stepSimulation(1.0f / 60.0f);
 }
-void PhysicsWorld::AddRigidBody(RigidBody& rb)
+void CPhysicsWorld::AddRigidBody(RigidBody& rb)
 {
 	dynamicWorld->addRigidBody(rb.GetBody());
 }
-void PhysicsWorld::RemoveRigidBody(RigidBody& rb)
+void CPhysicsWorld::RemoveRigidBody(RigidBody& rb)
 {
 	dynamicWorld->removeRigidBody(rb.GetBody());
 }
 
-void PhysicsWorld::DebugDraw() {
+void CPhysicsWorld::DebugDraw() {
 	m_debugDraw->BeginDraw();
 	dynamicWorld->debugDrawWorld();
 	m_debugDraw->EndDraw();

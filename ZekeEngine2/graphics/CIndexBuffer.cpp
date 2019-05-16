@@ -44,7 +44,7 @@ bool CIndexBuffer::Create(int numIndex, EnIndexType indexType, const void* pSrcI
 	ZeroMemory(&InitData, sizeof(InitData));
 	InitData.pSysMem = pSrcIndexBuffer;
 
-	HRESULT hr = g_graphicsEngine->GetD3DDevice()->CreateBuffer(&bd, &InitData, &m_indexBuffer);
+	HRESULT hr = GraphicsEngine().GetD3DDevice()->CreateBuffer(&bd, &InitData, &m_indexBuffer);
 	if (FAILED(hr)) {
 		return false;
 	}

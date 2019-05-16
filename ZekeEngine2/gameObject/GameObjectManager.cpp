@@ -39,11 +39,11 @@ void GameObjectManager::Execute()
 
 	m_postEffect.Update();
 
-	g_graphicsEngine->GetEffectEngine().Update();
+	GraphicsEngine().GetEffectEngine().Update();
 
-	g_graphicsEngine->BegineRender();
+	GraphicsEngine().BegineRender();
 	//フレームバッファののレンダリングターゲットをバックアップしておく。
-	auto d3dDeviceContext = g_graphicsEngine->GetD3DDeviceContext();
+	auto d3dDeviceContext = GraphicsEngine().GetD3DDeviceContext();
 	d3dDeviceContext->OMGetRenderTargets(
 		1,
 		&m_frameBufferRenderTargetView,
@@ -55,7 +55,7 @@ void GameObjectManager::Execute()
 	//シャドウマップにレンダリング
 	m_shadowMap.RenderToShadowMap();
 	//レンダリングターゲットをメインに変更する。
-	g_graphicsEngine->ChangeRenderTarget(&m_mainRenderTarget, &m_frameBufferViewports);
+	GraphicsEngine().ChangeRenderTarget(&m_mainRenderTarget, &m_frameBufferViewports);
 	//メインレンダリングターゲットをクリアする。
 	float clearColor[] = { 0.2f, 0.2f, 0.2f, 1.0f };
 	m_mainRenderTarget.ClearRenderTarget(clearColor);
@@ -73,7 +73,7 @@ void GameObjectManager::Execute()
 		}
 	}
 
-	g_graphicsEngine->GetEffectEngine().Draw();
+	GraphicsEngine().GetEffectEngine().Draw();
 
 	for (GameObjectList objList : m_gameObjectListArray) {
 		for (GameObject* obj : objList) {
@@ -84,13 +84,13 @@ void GameObjectManager::Execute()
 	m_postEffect.Draw();
 	//physics
 #if _DEBUG
-	if(g_physics.IsDrawDebugLine())
-		g_physics.DebugDraw();
+	if(PhysicsWorld().IsDrawDebugLine())
+		PhysicsWorld().DebugDraw();
 #endif
 	//g_physics.GetDynamicWorld()->debugDrawWorld();
 
 	//レンダリングターゲットをフレームバッファに戻す。
-	g_graphicsEngine->ChangeRenderTarget(
+	GraphicsEngine().ChangeRenderTarget(
 		m_frameBufferRenderTargetView,
 		m_frameBufferDepthStencilView,
 		&m_frameBufferViewports
@@ -100,7 +100,7 @@ void GameObjectManager::Execute()
 
 	m_frameBufferRenderTargetView->Release();
 	m_frameBufferDepthStencilView->Release();
-	g_graphicsEngine->EndRender();
+	GraphicsEngine().EndRender();
 }
 
 void GameObjectManager::UpdateSceneGraph()

@@ -25,9 +25,9 @@ Effect::~Effect()
 }
 void Effect::BeginRender()
 {
-	g_graphicsEngine->GetD3DDeviceContext()->IASetInputLayout(m_inputLayout);
-	g_graphicsEngine->GetD3DDeviceContext()->VSSetShader(m_vs, NULL, NULL);
-	g_graphicsEngine->GetD3DDeviceContext()->PSSetShader(m_ps, NULL, NULL);
+	GraphicsEngine().GetD3DDeviceContext()->IASetInputLayout(m_inputLayout);
+	GraphicsEngine().GetD3DDeviceContext()->VSSetShader(m_vs, NULL, NULL);
+	GraphicsEngine().GetD3DDeviceContext()->PSSetShader(m_ps, NULL, NULL);
 }
 void Effect::Load(const char* filePath)
 {
@@ -45,15 +45,15 @@ void Effect::Load(const char* filePath)
 
 	D3DCompile(readBuff.get(), fileSize, filePath, nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE, "VSMain",
 		"vs_5_0", D3DCOMPILE_ENABLE_STRICTNESS, 0, &m_vsBlobOut, NULL);
-	g_graphicsEngine->GetD3DDevice()->CreateVertexShader(m_vsBlobOut->GetBufferPointer(), m_vsBlobOut->GetBufferSize(), NULL, &m_vs);
+	GraphicsEngine().GetD3DDevice()->CreateVertexShader(m_vsBlobOut->GetBufferPointer(), m_vsBlobOut->GetBufferSize(), NULL, &m_vs);
 
 	D3DCompile(readBuff.get(), fileSize, filePath, nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE, "PSMain",
 		"ps_5_0", D3DCOMPILE_ENABLE_STRICTNESS, 0, &m_psBlobOut, NULL);
-	g_graphicsEngine->GetD3DDevice()->CreatePixelShader(m_psBlobOut->GetBufferPointer(), m_psBlobOut->GetBufferSize(), NULL, &m_ps);
+	GraphicsEngine().GetD3DDevice()->CreatePixelShader(m_psBlobOut->GetBufferPointer(), m_psBlobOut->GetBufferSize(), NULL, &m_ps);
 
 	D3D11_INPUT_ELEMENT_DESC inputLayoutDesc[] = {
 		{ "SV_Position", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 	{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 16, D3D11_INPUT_PER_VERTEX_DATA, 0 }
 	};
-	g_graphicsEngine->GetD3DDevice()->CreateInputLayout(inputLayoutDesc, sizeof(inputLayoutDesc) / sizeof(inputLayoutDesc[0]), m_vsBlobOut->GetBufferPointer(), m_vsBlobOut->GetBufferSize(), &m_inputLayout);
+	GraphicsEngine().GetD3DDevice()->CreateInputLayout(inputLayoutDesc, sizeof(inputLayoutDesc) / sizeof(inputLayoutDesc[0]), m_vsBlobOut->GetBufferPointer(), m_vsBlobOut->GetBufferSize(), &m_inputLayout);
 }

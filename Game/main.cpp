@@ -1,5 +1,5 @@
 #include "stdafx.h"
-//#include "Game.h"
+#include "Game.h"
 
 signed WINAPI wWinMain(
 	HINSTANCE hInstance,
@@ -7,32 +7,37 @@ signed WINAPI wWinMain(
 	LPWSTR lpCmdLine,
 	int nCmdShow) {
 	//Initialize
-	Engine::IEngine().Init(hInstance, hPrevInstance, lpCmdLine, nCmdShow);
-	//NewGO<Game>(0,"Game");
-	//camera
-	camera3d = new Camera;
-	camera3d->SetTarget(CVector3::Zero());
-	camera3d->SetPosition({ 0,0,-100 });
-	camera3d->SetUpdateProjMatrixFunc(Camera::enUpdateProjMatrixFunc_Perspective);
-	camera3d->SetNear(0.1f);
-	camera3d->SetFar(50000.0f);
-	camera3d->Update();
-	//2d
-	camera2d = new Camera;
-	camera2d->SetTarget(CVector3::Zero());
-	camera2d->SetPosition({ 0.0f, 0.0f, -10.0f });
-	camera2d->SetUpdateProjMatrixFunc(Camera::enUpdateProjMatrixFunc_Ortho);
-	camera2d->SetNear(0.1f);
-	camera2d->SetFar(1000.0f);
-	camera2d->Update();
+	EngineParam  eParam;
+	eParam.hInstance = hInstance;
+	eParam.hPrevInstance = hPrevInstance;
+	eParam.lpCmdLine = lpCmdLine;
+	eParam.nCmdShow = nCmdShow;
+	eParam.screenWidth = 1280;
+	eParam.screenHeight = 720;
 
-	g_physics.SetDebugDraw(true);
-	//SkinModelRender* sm = NewGO<SkinModelRender>(0, "sm");
-	//sm->Init(L"Assets/modelData/tesEnemy3.cmo");
-	//sm->SetPosition(CVector3::Zero());
-	//sm->SetScale({ 0.001f,0.001f,0.001f });
-	//MainRoop
-	Engine::IEngine().GameRoop();
+	//Start Main Roop
+	if (Engine().Init(eParam)) {
+		//Camera
+		MainCamera().SetTarget(CVector3::Zero());
+		MainCamera().SetPosition({ 0,0,-500 });
+		MainCamera().SetUpdateProjMatrixFunc(Camera::enUpdateProjMatrixFunc_Perspective);
+		MainCamera().SetNear(0.1f);
+		MainCamera().SetFar(50000.0f);
+		MainCamera().Update();
+		//2d
+		MainCamera2D().SetTarget(CVector3::Zero());
+		MainCamera2D().SetPosition({ 0.0f, 0.0f, -10.0f });
+		MainCamera2D().SetUpdateProjMatrixFunc(Camera::enUpdateProjMatrixFunc_Ortho);
+		MainCamera2D().SetNear(0.1f);
+		MainCamera2D().SetFar(1000.0f);
+		MainCamera2D().Update();
+		//bullet physics debug drawing flag
+		PhysicsWorld().SetDebugDraw(true);
+
+		NewGO<Game>(0, "Game");
+		Engine().GameRoop();
+	}
+
 	//Release
-	Engine::IEngine().Final();
+	Engine().Final();
 }

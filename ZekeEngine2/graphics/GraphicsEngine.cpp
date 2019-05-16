@@ -4,28 +4,28 @@
 #include "CShaderResource.h"
 
 
-GraphicsEngine::GraphicsEngine()
+CGraphicsEngine::CGraphicsEngine()
 {
 }
 
 
-GraphicsEngine::~GraphicsEngine()
+CGraphicsEngine::~CGraphicsEngine()
 {
 	Release();
 }
 
-void GraphicsEngine::BegineRender() {
+void CGraphicsEngine::BegineRender() {
 	float ClearColor[4] = { 0.5f, 0.5f, 0.5f, 1.0f };
 	m_pd3dDeviceContext->OMSetRenderTargets(1, &m_backBuffer, m_depthStencilView);
 	m_pd3dDeviceContext->ClearRenderTargetView(m_backBuffer, ClearColor);
 	m_pd3dDeviceContext->ClearDepthStencilView(m_depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 }
 
-void GraphicsEngine::EndRender() {
+void CGraphicsEngine::EndRender() {
 	m_pSwapChain->Present(2, 0);
 }
 
-void GraphicsEngine::Release()
+void CGraphicsEngine::Release()
 {
 	if (m_rasterizerState != NULL) {
 		m_rasterizerState->Release();
@@ -57,7 +57,7 @@ void GraphicsEngine::Release()
 	}
 }
 
-void GraphicsEngine::InitDirectX(HWND hwnd) {
+bool CGraphicsEngine::InitDirectX(HWND hwnd) {
 	DXGI_SWAP_CHAIN_DESC sd;
 	ZeroMemory(&sd, sizeof(sd));
 	sd.BufferCount = 1;
@@ -141,13 +141,14 @@ void GraphicsEngine::InitDirectX(HWND hwnd) {
 	m_spriteBatch = std::make_unique<DirectX::SpriteBatch>(m_pd3dDeviceContext);
 	m_spriteFont = std::make_unique<DirectX::SpriteFont>(m_pd3dDevice, L"Assets/font/myfile.spritefont");
 	m_spriteFontJa = std::make_unique<DirectX::SpriteFont>(m_pd3dDevice, L"Assets/font/myfileJa.spritefont");
-	m_spriteFontJaBig = std::make_unique<DirectX::SpriteFont>(m_pd3dDevice, L"Assets/font/myfileJaBig.spritefont");
+	//m_spriteFontJaBig = std::make_unique<DirectX::SpriteFont>(m_pd3dDevice, L"Assets/font/myfileJaBig.spritefont");
 
 	m_effectEngine.Init();
+	return true;
 }
 
 
-void GraphicsEngine::ChangeRenderTarget(ID3D11RenderTargetView* renderTarget, ID3D11DepthStencilView* depthStensil, D3D11_VIEWPORT* viewport)
+void CGraphicsEngine::ChangeRenderTarget(ID3D11RenderTargetView* renderTarget, ID3D11DepthStencilView* depthStensil, D3D11_VIEWPORT* viewport)
 {
 	ID3D11RenderTargetView* rtTbl[] = {
 		renderTarget
@@ -160,7 +161,7 @@ void GraphicsEngine::ChangeRenderTarget(ID3D11RenderTargetView* renderTarget, ID
 	}
 }
 
-void GraphicsEngine::ChangeRenderTarget(RenderTarget* renderTarget, D3D11_VIEWPORT* viewport)
+void CGraphicsEngine::ChangeRenderTarget(RenderTarget* renderTarget, D3D11_VIEWPORT* viewport)
 {
 	ChangeRenderTarget(
 		renderTarget->GetRenderTargetView(),

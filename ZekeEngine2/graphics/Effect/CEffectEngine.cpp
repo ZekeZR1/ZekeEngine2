@@ -17,7 +17,7 @@ CEffectEngine::~CEffectEngine()
 
 
 void CEffectEngine::Init() {
-	m_renderer = ::EffekseerRendererDX11::Renderer::Create(g_graphicsEngine->GetD3DDevice(), g_graphicsEngine->GetD3DDeviceContext(), 2000);
+	m_renderer = ::EffekseerRendererDX11::Renderer::Create(GraphicsEngine().GetD3DDevice(), GraphicsEngine().GetD3DDeviceContext(), 2000);
 	// エフェクト管理用インスタンスの生成
 	m_manager = ::Effekseer::Manager::Create(2000);
 	m_manager->SetCoordinateSystem(::Effekseer::CoordinateSystem::LH);
@@ -36,23 +36,23 @@ void CEffectEngine::Init() {
 
 void CEffectEngine::Update() {
 	// 視点位置を確定
-	CVector3 pos = camera3d->GetPosition();
+	CVector3 pos = MainCamera().GetPosition();
 	m_position = ::Effekseer::Vector3D(pos.x, pos.y, pos.z);
 
 	// カメラ行列を設定
-	CVector3 tar = camera3d->GetTarget();
+	CVector3 tar = MainCamera().GetTarget();
 	/*
 	g_renderer->SetCameraMatrix(
 	::Effekseer::Matrix44().LookAtLH(g_position, ::Effekseer::Vector3D(tar.x, tar.y, tar.z), ::Effekseer::Vector3D(0.0f, 1.0f, 0.0f)));
 	*/
-	m_renderer->SetCameraMatrix(camera3d->GetViewMatrix());
+	m_renderer->SetCameraMatrix(MainCamera().GetViewMatrix());
 
 	// 投影行列を設定
 	/*
 	g_renderer->SetProjectionMatrix(
 	::Effekseer::Matrix44().PerspectiveFovLH(camera3d->GetViewAngle(), camera3d->GetAspect(), 0.1f, 50000.0f));
 	*/
-	m_renderer->SetProjectionMatrix(camera3d->GetProjectionMatrix());
+	m_renderer->SetProjectionMatrix(MainCamera().GetProjectionMatrix());
 
 	m_manager->Update();
 }

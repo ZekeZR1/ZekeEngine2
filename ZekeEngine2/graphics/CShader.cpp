@@ -110,7 +110,7 @@ void CShader::Release()
 bool CShader::Load(const char* filePath, const char* entryFuncName, EnType shaderType)
 {
 	Release();
-	bool result = g_graphicsEngine->GetShaderResources().Load(
+	bool result = GraphicsEngine().GetShaderResources().Load(
 		m_shader,
 		m_inputLayout,
 		m_blobOut,

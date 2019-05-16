@@ -28,7 +28,7 @@ void PhysicsDebugDraw::InitConstantBuffer() {
 	desc.ByteWidth = (((sizeof(SConstantBuffer) - 1) / 16) + 1) * 16;
 	desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 	desc.CPUAccessFlags = 0;
-	g_graphicsEngine->GetD3DDevice()->CreateBuffer(&desc, nullptr, &m_cb);
+	GraphicsEngine().GetD3DDevice()->CreateBuffer(&desc, nullptr, &m_cb);
 	assert(m_cb != nullptr);
 }
 
@@ -44,17 +44,16 @@ void PhysicsDebugDraw::drawLine(const btVector3& from, const btVector3& to, cons
 
 void PhysicsDebugDraw::EndDraw() {
 	SConstantBuffer cb;
-	cb.mView = camera3d->GetViewMatrix();
-	cb.mProj = camera3d->GetProjectionMatrix();
+	cb.mView = MainCamera().GetViewMatrix();
+	cb.mProj = MainCamera().GetProjectionMatrix();
 	//g_graphicsEngine->GetD3DDeviceContext()->UpdateSubresource(m_cb, &cb);
 	//m_renderContext->UpdateSubresource(m_cb, &cb);
-	auto ge = g_graphicsEngine;
-	ge->GetD3DDeviceContext()->VSSetShader((ID3D11VertexShader*	)m_vs.GetBody(), nullptr, 0);
-	ge->GetD3DDeviceContext()->PSSetShader((ID3D11PixelShader*)m_ps.GetBody(), nullptr, 0);
-	ge->GetD3DDeviceContext()->UpdateSubresource(m_primitive.GetVertexBuffer().GetBody(), 0, NULL, &m_vertexBuffer[0], 0, 0);
-	ge->GetD3DDeviceContext()->UpdateSubresource(m_cb, 0, NULL, &cb, 0, 0);
-	ge->GetD3DDeviceContext()->VSSetConstantBuffers(0, 1, &m_cb);
-	ge->GetD3DDeviceContext()->PSSetConstantBuffers(0, 1, &m_cb);
+	GraphicsEngine().GetD3DDeviceContext()->VSSetShader((ID3D11VertexShader*	)m_vs.GetBody(), nullptr, 0);
+	GraphicsEngine().GetD3DDeviceContext()->PSSetShader((ID3D11PixelShader*)m_ps.GetBody(), nullptr, 0);
+	GraphicsEngine().GetD3DDeviceContext()->UpdateSubresource(m_primitive.GetVertexBuffer().GetBody(), 0, NULL, &m_vertexBuffer[0], 0, 0);
+	GraphicsEngine().GetD3DDeviceContext()->UpdateSubresource(m_cb, 0, NULL, &cb, 0, 0);
+	GraphicsEngine().GetD3DDeviceContext()->VSSetConstantBuffers(0, 1, &m_cb);
+	GraphicsEngine().GetD3DDeviceContext()->PSSetConstantBuffers(0, 1, &m_cb);
 	m_primitive.Draw(m_numLine * 2);
 	//ge->GetD3DDeviceContext()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	//

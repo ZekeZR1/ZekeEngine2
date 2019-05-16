@@ -80,7 +80,7 @@ void SkinModel::InitConstantBuffer()
 	bufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;			//バッファをどのようなパイプラインにバインドするかを指定する。
 																//定数バッファにバインドするので、D3D11_BIND_CONSTANT_BUFFERを指定する。
 	bufferDesc.CPUAccessFlags = 0;
-	g_graphicsEngine->GetD3DDevice()->CreateBuffer(&bufferDesc, NULL, &m_cb);
+	GraphicsEngine().GetD3DDevice()->CreateBuffer(&bufferDesc, NULL, &m_cb);
 }
 
 void SkinModel::InitDirectionLight() {
@@ -106,7 +106,7 @@ void SkinModel::InitSamplerState()
 	desc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
 	desc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
 	desc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
-	g_graphicsEngine->GetD3DDevice()->CreateSamplerState(&desc, &m_samplerState);
+	GraphicsEngine().GetD3DDevice()->CreateSamplerState(&desc, &m_samplerState);
 }
 void SkinModel::UpdateWorldMatrix(CVector3 position, CQuaternion rotation, CVector3 scale)
 {
@@ -135,9 +135,9 @@ void SkinModel::UpdateWorldMatrix(CVector3 position, CQuaternion rotation, CVect
 
 void SkinModel::Draw(CMatrix viewMatrix, CMatrix projMatrix)
 {
-	DirectX::CommonStates state(g_graphicsEngine->GetD3DDevice());
+	DirectX::CommonStates state(GraphicsEngine().GetD3DDevice());
 
-	ID3D11DeviceContext* d3dDeviceContext = g_graphicsEngine->GetD3DDeviceContext();
+	ID3D11DeviceContext* d3dDeviceContext = GraphicsEngine().GetD3DDeviceContext();
 
 	//定数バッファの内容を更新。
 	SVSConstantBuffer vsCb;
@@ -168,8 +168,8 @@ void SkinModel::Draw(CMatrix viewMatrix, CMatrix projMatrix)
 
 void SkinModel::Draw(EnRenderMode renderMode, CMatrix viewMatrix, CMatrix projMatrix)
 {
-	auto deviceContext = g_graphicsEngine->GetD3DDeviceContext();
-	DirectX::CommonStates state(g_graphicsEngine->GetD3DDevice());
+	auto deviceContext = GraphicsEngine().GetD3DDeviceContext();
+	DirectX::CommonStates state(GraphicsEngine().GetD3DDevice());
 
 	//auto shadowMap = g_game->GetShadowMap();
 	auto shadowMap = IGameObjectManager().GetShadowMap();
@@ -182,7 +182,7 @@ void SkinModel::Draw(EnRenderMode renderMode, CMatrix viewMatrix, CMatrix projMa
 		modelFxCb.mCol[i] = m_DirCol[i];
 		modelFxCb.mDir[i] = m_DirLight[i];
 	}
-	modelFxCb.eyePos = camera3d->GetPosition();
+	modelFxCb.eyePos = MainCamera().GetPosition();
 	modelFxCb.specPow = m_specPow;
 	//todo ライトカメラのビュー、プロジェクション行列を送る。
 	modelFxCb.mLightProj = shadowMap->GetLightProjMatrix();
@@ -204,7 +204,7 @@ void SkinModel::Draw(EnRenderMode renderMode, CMatrix viewMatrix, CMatrix projMa
 	}else{
 		modelFxCb.hasSpecularMap = 0;
 	}
-	modelFxCb.ambientLight = g_graphicsEngine->GetAmbientLight();
+	modelFxCb.ambientLight = GraphicsEngine().GetAmbientLight();
 	deviceContext->UpdateSubresource(m_cb, 0, nullptr, &modelFxCb, 0, 0);
 	//ライト用の定数バッファを更新。
 	//deviceContext->UpdateSubresource(m_lightCb, 0, nullptr, &m_dirLight, 0, 0);
@@ -226,20 +226,20 @@ void SkinModel::Draw(EnRenderMode renderMode, CMatrix viewMatrix, CMatrix projMa
 		deviceContext,
 		state,
 		m_worldMatrix,
-		camera3d->GetViewMatrix(),
-		camera3d->GetProjectionMatrix()
+		MainCamera().GetViewMatrix(),
+		MainCamera().GetProjectionMatrix()
 	);
 }
 
 void SkinModel::Draw()
 {
 
-	CMatrix viewMatrix = camera3d->GetViewMatrix(); 
-	CMatrix projMatrix = camera3d->GetProjectionMatrix();
+	CMatrix viewMatrix = MainCamera().GetViewMatrix();
+	CMatrix projMatrix = MainCamera().GetProjectionMatrix();
 
-	DirectX::CommonStates state(g_graphicsEngine->GetD3DDevice());
+	DirectX::CommonStates state(GraphicsEngine().GetD3DDevice());
 
-	ID3D11DeviceContext* d3dDeviceContext = g_graphicsEngine->GetD3DDeviceContext();
+	ID3D11DeviceContext* d3dDeviceContext = GraphicsEngine().GetD3DDeviceContext();
 
 	//定数バッファの内容を更新。
 	SVSConstantBuffer vsCb;
@@ -250,7 +250,7 @@ void SkinModel::Draw()
 		vsCb.mCol[i] = m_DirCol[i];
 		vsCb.mDir[i] = m_DirLight[i];
 	}
-	vsCb.eyePos = camera3d->GetPosition();
+	vsCb.eyePos = MainCamera().GetPosition();
 	vsCb.specPow = m_specPow;
 	d3dDeviceContext->UpdateSubresource(m_cb, 0, nullptr, &vsCb, 0, 0);
 	//定数バッファをGPUに転送。
@@ -272,7 +272,7 @@ void SkinModel::Draw()
 
 void SkinModel::FindVertexPosition(std::function<void(CVector3* pos)> func) {
 	FindMesh([&](const auto& mesh) {
-		ID3D11DeviceContext* deviceContext = g_graphicsEngine->GetD3DDeviceContext();
+		ID3D11DeviceContext* deviceContext = GraphicsEngine().GetD3DDeviceContext();
 		{
 			D3D11_MAPPED_SUBRESOURCE subresource;
 			HRESULT hr = deviceContext->Map(mesh->vertexBuffer.Get(), 0, D3D11_MAP_WRITE_NO_OVERWRITE, 0, &subresource);

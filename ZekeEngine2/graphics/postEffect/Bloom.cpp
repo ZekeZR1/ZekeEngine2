@@ -36,7 +36,7 @@ void Bloom::InitConstantBuffer()
 	desc.ByteWidth = (((sizeof(SBlurParam) - 1) / 16) + 1) * 16;	//16バイトアライメントに切りあげる。
 	desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 	desc.CPUAccessFlags = 0;
-	g_graphicsEngine->GetD3DDevice()->CreateBuffer(&desc, NULL, &m_blurParamCB);
+	GraphicsEngine().GetD3DDevice()->CreateBuffer(&desc, NULL, &m_blurParamCB);
 }
 void Bloom::InitSamplerState()
 {
@@ -46,7 +46,7 @@ void Bloom::InitSamplerState()
 	desc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
 	desc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
 	desc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
-	g_graphicsEngine->GetD3DDevice()->CreateSamplerState(&desc, &m_samplerState);
+	GraphicsEngine().GetD3DDevice()->CreateSamplerState(&desc, &m_samplerState);
 }
 
 void Bloom::InitShader()
@@ -104,7 +104,7 @@ void Bloom::InitAlphaBlendState()
 	CD3D11_DEFAULT defaultSettings;
 	//デフォルトセッティングで初期化する。
 	CD3D11_BLEND_DESC blendDesc(defaultSettings);
-	auto device = g_graphicsEngine->GetD3DDevice();
+	auto device = GraphicsEngine().GetD3DDevice();
 
 	device->CreateBlendState(&blendDesc, &m_disableBlendState);
 
@@ -131,7 +131,7 @@ void Bloom::Update()
 
 void Bloom::Draw(PostEffect& postEffect)
 {
-	auto deviceContext = g_graphicsEngine->GetD3DDeviceContext();
+	auto deviceContext = GraphicsEngine().GetD3DDeviceContext();
 	deviceContext->PSSetSamplers(0, 1, &m_samplerState);
 	float clearColor[] = { 0.0f, 0.0f, 0.0f, 1.0f };
 	//まずは輝度を抽出する。
@@ -140,7 +140,7 @@ void Bloom::Draw(PostEffect& postEffect)
 		float blendFactor[] = { 0.0f, 0.0f, 0.0f, 0.0f };
 		deviceContext->OMSetBlendState(m_disableBlendState, blendFactor, 0xffffffff);
 		//輝度抽出用のレンダリングターゲットに変更する。
-		g_graphicsEngine->ChangeRenderTarget(&m_luminanceRT, m_luminanceRT.GetViewport());
+		GraphicsEngine().ChangeRenderTarget(&m_luminanceRT, m_luminanceRT.GetViewport());
 		//レンダリングターゲットのクリア。
 		m_luminanceRT.ClearRenderTarget(clearColor);
 			//シーンをテクスチャとする。
@@ -158,7 +158,7 @@ void Bloom::Draw(PostEffect& postEffect)
 			//XBlur
 			{
 				//	//Xブラー用のレンダリングターゲットに変更する。
-				g_graphicsEngine->ChangeRenderTarget(&m_downSamplingRT[rtIndex], m_downSamplingRT[rtIndex].GetViewport());
+				GraphicsEngine().ChangeRenderTarget(&m_downSamplingRT[rtIndex], m_downSamplingRT[rtIndex].GetViewport());
 				m_blurParam.offset.x = 16.0f / prevRt->GetWidth();
 				m_blurParam.offset.y = 0.0f;
 				deviceContext->UpdateSubresource(m_blurParamCB, 0, nullptr, &m_blurParam, 0, 0);
@@ -174,7 +174,7 @@ void Bloom::Draw(PostEffect& postEffect)
 			rtIndex++;
 			//YBlur
 			{
-				g_graphicsEngine->ChangeRenderTarget(&m_downSamplingRT[rtIndex], m_downSamplingRT[rtIndex].GetViewport());
+				GraphicsEngine().ChangeRenderTarget(&m_downSamplingRT[rtIndex], m_downSamplingRT[rtIndex].GetViewport());
 				m_blurParam.offset.x = 0.0f;
 				//TODO : add some func to bloom shader
 				m_blurParam.offset.y = 16.0f / prevRt->GetWidth();
@@ -194,7 +194,7 @@ void Bloom::Draw(PostEffect& postEffect)
 	}
 	//ボケ画像の作成。
 	{
-		g_graphicsEngine->ChangeRenderTarget(&m_combineRT, m_combineRT.GetViewport());
+		GraphicsEngine().ChangeRenderTarget(&m_combineRT, m_combineRT.GetViewport());
 		float blendFactor[] = { 0.0f, 0.0f, 0.0f, 0.0f };
 		deviceContext->OMSetBlendState(m_disableBlendState, blendFactor, 0xffffffff);
 		m_combineRT.ClearRenderTarget(clearColor);
@@ -211,7 +211,7 @@ void Bloom::Draw(PostEffect& postEffect)
 	//最終合成。
 	{
 		auto mainRT = IGameObjectManager().GetMainRenderTarget();
-		g_graphicsEngine->ChangeRenderTarget(mainRT, mainRT->GetViewport());
+		GraphicsEngine().ChangeRenderTarget(mainRT, mainRT->GetViewport());
 		// アルファブレンディングを加算合成にする。
 		float blendFactor[] = { 0.0f, 0.0f, 0.0f, 0.0f };
 		deviceContext->OMSetBlendState(m_finalBlendState, blendFactor, 0xffffffff);

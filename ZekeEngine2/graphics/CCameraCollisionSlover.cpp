@@ -49,7 +49,7 @@ bool CCameraCollisionSlover::Execute(CVector3& result, const CVector3& position,
 	btStart.setOrigin(btVector3(target.x, target.y, target.z));
 	btEnd.setOrigin(btVector3(position.x, position.y, position.z));
 	SConvexSweepCallback callback(vWk);
-	g_physics.ConvexSweepTest((const btConvexShape*)m_collider.GetBody(), btStart, btEnd, callback);
+	PhysicsWorld().ConvexSweepTest((const btConvexShape*)m_collider.GetBody(), btStart, btEnd, callback);
 	if (callback.hasHit()) {
 		CVector3 vHitPos;
 		vHitPos.Set(callback.m_hitPointWorld);

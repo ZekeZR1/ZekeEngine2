@@ -15,15 +15,15 @@ enum EnRenderMode {
 	enRenderMode_Num,				//レンダリングモードの数。
 };
 
-class GraphicsEngine
+class CGraphicsEngine
 {
 public:
-	GraphicsEngine();
-	~GraphicsEngine();
+	CGraphicsEngine();
+	~CGraphicsEngine();
 
-	void InitDirectX(HWND hwnd);
+	bool InitDirectX(HWND hwnd);
 	void Release();
-	CShaderResource &GetShaderResources()
+	CShaderResource& GetShaderResources()
 	{
 		return m_shaderResources;
 	}
@@ -52,6 +52,17 @@ public:
 			return m_spriteFontJaBig.get();
 		}
 	}
+
+	Camera& GetMainCamera()
+	{
+		return m_mainCamera;
+	}
+
+	Camera& Get2DCamera()
+	{
+		return m_2dCamera;
+	}
+
 	int GetFrameBufferWidth() const
 	{
 		return m_frameBufferWidth;
@@ -109,6 +120,8 @@ private:
 	std::unique_ptr<DirectX::SpriteFont>	m_spriteFontJa;
 	std::unique_ptr<DirectX::SpriteFont>	m_spriteFontJaBig;
 	CEffectEngine m_effectEngine;
+	Camera	m_mainCamera;		//3d camera
+	Camera	m_2dCamera;
 	int						m_2dSpaceScreenWidth = 1280;
 	int						m_2dSpaceScreenHeight = 720;
 	int						m_frameBufferWidth = 0;

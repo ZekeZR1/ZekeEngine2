@@ -14,6 +14,5 @@ MapChip::MapChip(const LevelObjectData& objData)
 
 void MapChip::Draw()
 {
-	extern Camera*  camera3d;
-	m_model.Draw(camera3d->GetViewMatrix(),camera3d->GetProjectionMatrix());
+	m_model.Draw(MainCamera().GetViewMatrix(), MainCamera().GetProjectionMatrix());
 }

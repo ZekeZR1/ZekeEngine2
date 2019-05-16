@@ -24,7 +24,7 @@ public:
 		m_scale = scale;
 	}
 	bool IsPlay() const {
-		return g_graphicsEngine->GetEffectEngine().GetEffekseerManager().GetShown(m_handle);
+		return GraphicsEngine().GetEffectEngine().GetEffekseerManager().GetShown(m_handle);
 	}
 private:
 	bool isPlayed = false;

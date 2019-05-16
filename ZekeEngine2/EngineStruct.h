@@ -1,9 +1,11 @@
 #pragma once
 #include "stdafx.h"
 
-struct SInitParam {
-	HINSTANCE hInstance;
+struct EngineParam {
+	HINSTANCE  hInstance;
 	HINSTANCE hPrevInstance;
 	LPWSTR lpCmdLine;
+	int screenWidth;
+	int screenHeight;
 	int nCmdShow;
 };

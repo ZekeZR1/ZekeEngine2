@@ -19,7 +19,7 @@ void ConstantBufferGPU::Create(const void* pInitData, int bufferSize)
 	bufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 	bufferDesc.CPUAccessFlags = 0;
 
-	auto d3dDevice = g_graphicsEngine->GetD3DDevice();
+	auto d3dDevice = GraphicsEngine().GetD3DDevice();
 	if (pInitData != nullptr) {
 		//初期化データが指定されている。
 		D3D11_SUBRESOURCE_DATA InitData;

@@ -15,7 +15,7 @@ bool CEffect::Start() {
 }
 
 void CEffect::Update() {
-	g_graphicsEngine->GetEffectEngine().GetEffekseerManager().SetScale(m_handle, m_scale.x, m_scale.y, m_scale.z);
+	GraphicsEngine().GetEffectEngine().GetEffekseerManager().SetScale(m_handle, m_scale.x, m_scale.y, m_scale.z);
 	Effekseer::Matrix43 mBase;
 	CMatrix mRot, mScale, mTrans;
 	mTrans.MakeTranslation(m_position);
@@ -23,7 +23,7 @@ void CEffect::Update() {
 	mScale.MakeScaling(m_scale);
 	Effekseer::Matrix43::Multiple(mBase, mScale, mRot);
 	Effekseer::Matrix43::Multiple(mBase, mBase, mTrans);
-	g_graphicsEngine->GetEffectEngine().GetEffekseerManager().SetBaseMatrix(m_handle, mBase);
+	GraphicsEngine().GetEffectEngine().GetEffekseerManager().SetBaseMatrix(m_handle, mBase);
 	//CMatrix mTrans, mRot, mScale, mBase;
 	//mTrans.MakeTranslation(m_position);
 	//mRot.MakeRotationFromQuaternion(m_rotation);
@@ -42,13 +42,13 @@ void CEffect::Render() {
 
 
 void CEffect::Play(const wchar_t* filepath, float speed) {
-	m_effect = Effekseer::Effect::Create(&(g_graphicsEngine->GetEffectEngine().GetEffekseerManager()), (const EFK_CHAR*)filepath);
-	m_handle = g_graphicsEngine->GetEffectEngine().GetEffekseerManager().Play(m_effect, 0,0,0);
-	g_graphicsEngine->GetEffectEngine().GetEffekseerManager().SetSpeed(m_handle, speed);
+	m_effect = Effekseer::Effect::Create(&(GraphicsEngine().GetEffectEngine().GetEffekseerManager()), (const EFK_CHAR*)filepath);
+	m_handle = GraphicsEngine().GetEffectEngine().GetEffekseerManager().Play(m_effect, 0,0,0);
+	GraphicsEngine().GetEffectEngine().GetEffekseerManager().SetSpeed(m_handle, speed);
 
 	isPlayed = true;
 }
 
 void CEffect::Stop() {
-	g_graphicsEngine->GetEffectEngine().GetEffekseerManager().StopEffect(m_handle);
+	GraphicsEngine().GetEffectEngine().GetEffekseerManager().StopEffect(m_handle);
 }

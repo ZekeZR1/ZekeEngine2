@@ -1,19 +1,21 @@
 #pragma once
 #include "PhysicsDebugDraw.h"
 class RigidBody;
+class PhysicsDebugDraw;
 
-class PhysicsWorld {
+class CPhysicsWorld {
 	btDefaultCollisionConfiguration* collisionConfig = nullptr;
 	btCollisionDispatcher* collisionDispatcher = nullptr;
 	btBroadphaseInterface* overlappingPairCache = nullptr;
 	btSequentialImpulseConstraintSolver* constraintSolver = nullptr;
 	btDiscreteDynamicsWorld*	 dynamicWorld = nullptr;		
 	btIDebugDraw* debugDrawer = nullptr;
-	PhysicsDebugDraw* m_debugDraw;
+	PhysicsDebugDraw* m_debugDraw = nullptr;
+	//PhysicsDebugDraw tes;
 	bool m_isDrawLine = false;
 public:
-	PhysicsWorld();
-	~PhysicsWorld();
+	CPhysicsWorld();
+	~CPhysicsWorld();
 	void Init();
 	void SetDebugDraw(bool flag) {
 		m_isDrawLine = flag;
@@ -57,7 +59,3 @@ public:
 		dynamicWorld->contactTest(colObj, resultCallback);
 	}
 };
-
-extern PhysicsWorld g_physics;
-
-

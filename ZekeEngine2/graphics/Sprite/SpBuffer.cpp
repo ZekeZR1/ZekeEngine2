@@ -34,7 +34,7 @@ void InitVertexBuffer(ID3D11Buffer*& vertexBuffer, float w, float h)
 	ZeroMemory(&InitData, sizeof(InitData));
 	InitData.pSysMem = vertex;
 
-	g_graphicsEngine->GetD3DDevice()->CreateBuffer(&bd, &InitData, &vertexBuffer);
+	GraphicsEngine().GetD3DDevice()->CreateBuffer(&bd, &InitData, &vertexBuffer);
 }
 void InitIndexBuffer(ID3D11Buffer*& indexBuffer)
 {
@@ -53,7 +53,7 @@ void InitIndexBuffer(ID3D11Buffer*& indexBuffer)
 	ZeroMemory(&InitData, sizeof(InitData));
 	InitData.pSysMem = index;
 
-	g_graphicsEngine->GetD3DDevice()->CreateBuffer(&bd, &InitData, &indexBuffer);
+	GraphicsEngine().GetD3DDevice()->CreateBuffer(&bd, &InitData, &indexBuffer);
 }
 void InitSamplerState(ID3D11SamplerState*& samplerState)
 {
@@ -63,5 +63,5 @@ void InitSamplerState(ID3D11SamplerState*& samplerState)
 	desc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
 	desc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
 	desc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
-	g_graphicsEngine->GetD3DDevice()->CreateSamplerState(&desc, &samplerState);
+	GraphicsEngine().GetD3DDevice()->CreateSamplerState(&desc, &samplerState);
 }
