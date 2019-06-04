@@ -74,13 +74,14 @@ void GameObjectManager::Execute()
 		}
 	}
 
-	GraphicsEngine().GetEffectEngine().Draw();
 
 	for (GameObjectList objList : m_gameObjectListArray) {
 		for (GameObject* obj : objList) {
 			obj->PostRenderWrapper();
 		}
 	}
+
+	GraphicsEngine().GetEffectEngine().Draw();
 
 	m_postEffect.Draw();
 	//physics

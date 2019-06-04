@@ -4,23 +4,131 @@
 
 CFPSCounter* FPS = nullptr;
 
-int nNotch = 0;
-
-
-
 LRESULT CALLBACK MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	static int nWheelFraction = 0;	// 回転量の端数
+
 	switch (msg)
 	{
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		break;
+	case WM_ACTIVATE:
+		// ウィンドウのアクティブ切り替え時に端数をリセット
+		nWheelFraction = 0;
+		break;
+
+	case WM_MOUSEWHEEL:
+	{
+
+		DWORD fwKeys = GET_KEYSTATE_WPARAM(wParam);	// 同時に押されているキー情報
+		int zDelta = GET_WHEEL_DELTA_WPARAM(wParam);	// 回転量
+
+		// 前回の端数を追加
+		//zDelta += nWheelFraction;
+		// ノッチ数を求める
+		int nNotch = zDelta / WHEEL_DELTA;
+		Engine().SetMouseNotch(nNotch);
+		// 端数を保存する
+		nWheelFraction = zDelta % WHEEL_DELTA;
+
+		break;
+	}
+	case WM_LBUTTONDOWN:
+	{
+		//左クリックされた
+		//mEve[0] = true;
+		Engine().SetMouseEvent(enLeftClick, true);
+		break;
+	}
+	case WM_LBUTTONUP:
+	{
+		//左ボタンを離した
+		//mEve[0] = false;
+		Engine().SetMouseEvent(enLeftClick, false);
+		break;
+	}
+	case WM_MBUTTONDOWN:
+	{
+		//ミドルクリックされた
+		//mEve[1] = true;
+		Engine().SetMouseEvent(enMiddleClick, true);
+		break;
+	}
+	case WM_MBUTTONUP:
+	{
+		//ミドルボタンを離した
+		//mEve[1] = false;
+		Engine().SetMouseEvent(enMiddleClick, false);
+		break;
+	}
+	case WM_RBUTTONDOWN:
+	{
+		//右クリックされた
+		//mEve[2] = true;
+		Engine().SetMouseEvent(enRightClick, true);
+		break;
+	}
+	case WM_RBUTTONUP:
+	{
+		//右ボタンを離した
+		//mEve[2] = false;
+		Engine().SetMouseEvent(enRightClick, false);
+		break;
+	}
+	case WM_KEYDOWN:
+	{
+
+		Engine().SetKey(wParam);
+		//g_Key = wParam;
+		/*if (wParam == VK_SHIFT)
+		{
+			g_isPressShift = true;
+		}*/
+		/*switch (wParam)
+		{
+		case VK_RETURN:
+			break;
+		case VK_BACK:
+			break;
+		case VK_SHIFT:
+			break;
+		case VK_OEM_102:
+			break;
+		}*/
+		break;
+	}
+	case WM_KEYUP:
+	{
+
+		/*if (wParam == VK_SHIFT)
+		{
+			g_isPressShift = false;
+		}*/
+		break;
+	}
 	default:
-		return DefWindowProc(hWnd, msg, wParam, lParam);
+		break;
 	}
 
-	return 0;
+
+	return DefWindowProc(hWnd, msg, wParam, lParam);
+	//return 0;
 }
+
+//LRESULT CALLBACK MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+//{
+//	switch (msg)
+//	{
+//	case WM_DESTROY:
+//		PostQuitMessage(0);
+//		break;
+//	default:
+//		return DefWindowProc(hWnd, msg, wParam, lParam);
+//	}
+//
+//	return 0;
+//}
 //void CEngine::Init(HINSTANCE hInstance,
 //	HINSTANCE hPrevInstance,
 //	LPWSTR lpCmdLine,
@@ -62,6 +170,7 @@ void CEngine::Update() {
 	for (auto& pad : m_pad) {
 		pad.Update();
 	}
+	Mouse::UpdateMouseInput();
 	IGameObjectManager().Execute();
 	m_physicsWorld.Update();
 #if _DEBUG

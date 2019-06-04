@@ -16,5 +16,11 @@ void Game::OnDestroy() {
 }
 
 void Game::Update() {
-	
+
+	if (Mouse::IsTrigger(enRightClick)) {
+		OutputDebugString("CLIKEJFIODJSI\n");
+	}
+	if (Mouse::IsTrigger(enLeftClick)) {
+		OutputDebugString("CLIKEJFIODJSI\n");
+	}
 }

@@ -6,12 +6,12 @@ enum enMouseEve {
 	enNotchUp,
 	enNotchDown,
 	enNumMouseEve
-	//TODO : マウスイベントのenNotchUp down追加してtrigger取れるようにする
 };
 namespace Mouse {
+	//TODO : 動作確認まだ
 	int GetMouseNotch();
 	void UpdateMouseInput();
-	bool isTrigger(enMouseEve);
-	bool isPress(enMouseEve);
+	bool IsTrigger(enMouseEve);
+	bool IsPress(enMouseEve);
 	CVector3 GetCursorPos();
 }
