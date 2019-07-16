@@ -2,6 +2,7 @@
 #include "Mouse.h"
 
 namespace Mouse {
+	//TODO :　マウス変数管理するクラスを作成する
 	bool trigger[enNumMouseEve] = { false };
 	bool prePress[enNumMouseEve] = { false };
 	bool press[enNumMouseEve] = { false };

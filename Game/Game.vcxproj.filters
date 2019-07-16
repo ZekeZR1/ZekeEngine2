@@ -18,6 +18,15 @@
     <ClCompile Include="Game.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="Vehicle.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="GameCamera.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -26,14 +35,27 @@
     <ClInclude Include="Game.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="Vehicle.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="GameCamera.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\TGame\ZekeGame\ZekeGame\Assets\modelData\boxTex.png">
+    <MeshContentTask Include="Assets\modelData\Stage.FBX">
       <Filter>Assets</Filter>
-    </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <MeshContentTask Include="Assets\modelData\egg.FBX">
+    </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\chassis.FBX">
+      <Filter>Assets</Filter>
+    </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\wheel.FBX">
+      <Filter>Assets</Filter>
+    </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\Box.FBX">
       <Filter>Assets</Filter>
     </MeshContentTask>
   </ItemGroup>

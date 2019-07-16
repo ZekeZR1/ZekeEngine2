@@ -1,26 +1,22 @@
-// ñºÇÕGameÇ∆ê\Ç∑ÅB
-
 #include "stdafx.h"
 #include "Game.h"
-
+#include "Vehicle.h"
+#include "Stage.h"
+#include "GameCamera.h"
 
 bool Game::Start() {
-	m_model = NewGO<SkinModelRender>(0);
-	m_model->Init(L"Assets/modelData/egg.cmo");
-	m_model->SetPosition(CVector3::Zero());
+	m_vehicle.init();
+	NewGO<Stage>(0);
+	m_gameCamera = NewGO<GameCamera>(0);
 	return true;
 }
 
 void Game::OnDestroy() {
-	
+	DeleteGO(m_stage);
+	DeleteGO(m_gameCamera);
 }
 
 void Game::Update() {
-
-	if (Mouse::IsTrigger(enRightClick)) {
-		OutputDebugString("CLIKEJFIODJSI\n");
-	}
-	if (Mouse::IsTrigger(enLeftClick)) {
-		OutputDebugString("CLIKEJFIODJSI\n");
-	}
+	m_vehicle.stepSimulation();
+	m_vehicle.KeyUpdate();
 }

@@ -297,6 +297,9 @@
     <ClInclude Include="Engine.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="physics\CylinderCollider.h">
+      <Filter>src\physics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -520,6 +523,9 @@
     </ClCompile>
     <ClCompile Include="Engine.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="physics\CylinderCollider.cpp">
+      <Filter>src\physics</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

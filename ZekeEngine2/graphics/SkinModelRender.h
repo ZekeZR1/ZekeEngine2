@@ -55,6 +55,10 @@ public:
 	{
 		m_scale = scale;
 	}
+
+	CVector3 GetScale() {
+		return m_scale;
+	}
 	//SetFbxUp
 	void SetFbxUpAxis(EnFbxUpAxis enFbxUpAxis) {
 		m_enFbxUpAxis = enFbxUpAxis;

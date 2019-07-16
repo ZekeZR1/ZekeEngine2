@@ -27,5 +27,6 @@ public:
 	{
 		return rigidBody;
 	}
+	//btAlignedObjectArray<btCollisionShape*> m_collisionShapes;
 };
 

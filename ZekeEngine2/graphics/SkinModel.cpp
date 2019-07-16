@@ -16,11 +16,11 @@ SkinModel::~SkinModel()
 }
 
 void SkinModel::Init(const wchar_t* filePath, EnFbxUpAxis enFbxUpAxis,
-	const char* entryPS, const char* entryVS, 
+	const char* entryPS, const char* entryVS,
 	const wchar_t* normalMap, const wchar_t* specularMap)
 {
 	m_psmain = entryPS;
-	m_vsmain= entryVS;
+	m_vsmain = entryVS;
 	//スケルトンのデータを読み込む。
 
 	InitSkeleton(filePath);
@@ -30,7 +30,7 @@ void SkinModel::Init(const wchar_t* filePath, EnFbxUpAxis enFbxUpAxis,
 
 	//サンプラステートの初期化。
 	InitSamplerState();
-	
+
 	//ディレクションライトの初期化
 	InitDirectionLight();
 	if (normalMap) {
@@ -84,17 +84,10 @@ void SkinModel::InitConstantBuffer()
 }
 
 void SkinModel::InitDirectionLight() {
-		m_DirLight[0] = CVector3::Zero();
-		m_DirCol[0] = CVector4::Zero;
-
-		m_DirLight[1] = CVector3::Zero();
-		m_DirCol[1] = CVector4::Zero;
-
-		m_DirLight[2] = CVector3::Zero();
-		m_DirCol[2] = CVector4::Zero;
-
-		m_DirLight[3] = CVector3::Zero();
-		m_DirCol[3] = CVector4::Zero;
+	for (int i = 0; i < NUM_DIRECTION_LIG; i++) {
+		m_DirLight[i] = m_defDir;
+		m_DirCol[i] = m_defCol;
+	}
 }
 
 void SkinModel::InitSamplerState()
@@ -178,6 +171,7 @@ void SkinModel::Draw(EnRenderMode renderMode, CMatrix viewMatrix, CMatrix projMa
 	modelFxCb.mWorld = m_worldMatrix;
 	modelFxCb.mProj = projMatrix;
 	modelFxCb.mView = viewMatrix;
+
 	for (int i = 0; i < NUM_DIRECTION_LIG; i++) {
 		modelFxCb.mCol[i] = m_DirCol[i];
 		modelFxCb.mDir[i] = m_DirLight[i];
@@ -201,7 +195,8 @@ void SkinModel::Draw(EnRenderMode renderMode, CMatrix viewMatrix, CMatrix projMa
 	}
 	if (m_hasSpecularMap) {
 		modelFxCb.hasSpecularMap = 1;
-	}else{
+	}
+	else {
 		modelFxCb.hasSpecularMap = 0;
 	}
 	modelFxCb.ambientLight = GraphicsEngine().GetAmbientLight();
@@ -220,7 +215,7 @@ void SkinModel::Draw(EnRenderMode renderMode, CMatrix viewMatrix, CMatrix projMa
 		auto modelMaterial = reinterpret_cast<ModelEffect*>(material);
 		modelMaterial->SetRenderMode(renderMode);
 		modelMaterial->SetShadoMapSRV(m_shadowMapSRV);
-	});
+		});
 	m_skeleton.SendBoneMatrixArrayToGPU();
 	m_modelDx->Draw(
 		deviceContext,
@@ -292,5 +287,5 @@ void SkinModel::FindVertexPosition(std::function<void(CVector3* pos)> func) {
 			}
 			deviceContext->Unmap(mesh->vertexBuffer.Get(), 0);
 		}
-	});
+		});
 }

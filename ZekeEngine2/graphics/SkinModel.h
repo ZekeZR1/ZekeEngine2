@@ -54,7 +54,7 @@ public:
 		return m_skeleton.GetBone(boneId);
 	}
 	void FindVertexPosition(std::function<void(CVector3* pos)>func);
-	
+
 	void Draw(CMatrix viewMatrix, CMatrix projMatrix);
 
 	void Draw(EnRenderMode renderMode, CMatrix viewMatrix, CMatrix projMatrix);
@@ -87,11 +87,11 @@ public:
 		enSkinModelSRVReg_BoneMatrix,				//!<ボーン行列。
 	};
 
-	void SetDirColor(CVector4 col,int index) {
+	void SetDirColor(CVector4 col, int index) {
 		m_DirCol[index] = col;
 	}
 
-	void SetDirLight(CVector4 dir,int index) {
+	void SetDirLight(CVector4 dir, int index) {
 		m_DirLight[index] = dir;
 	}
 
@@ -122,7 +122,7 @@ private:
 	{
 		m_renderMode = renderMode;
 	}
-	public:
+public:
 	void SetShadowReciever(bool flag) {
 		m_isShadowReciever = flag;
 	}
@@ -146,11 +146,11 @@ private:
 		int hasSpecularMap;
 	};
 	EnFbxUpAxis			m_enFbxUpAxis = enFbxUpAxisZ;	//!<FBXの上方向。
-	ID3D11Buffer*		m_cb = nullptr;					//!<定数バッファ。
-	ID3D11Buffer*		m_cb1 = nullptr;					//!<定数バッファ。
+	ID3D11Buffer* m_cb = nullptr;					//!<定数バッファ。
+	ID3D11Buffer* m_cb1 = nullptr;					//!<定数バッファ。
 	Skeleton			m_skeleton;						//!<スケルトン。
 	CMatrix				m_worldMatrix;					//!<ワールド行列。
-	DirectX::Model*		m_modelDx;						//!<DirectXTKが提供するモデルクラス。
+	DirectX::Model* m_modelDx;						//!<DirectXTKが提供するモデルクラス。
 	ID3D11SamplerState* m_samplerState = nullptr;		//!<サンプラステート。
 	CVector4 m_DirLight[NUM_DIRECTION_LIG];// = { 0.707,-0.707,0.0f,0.0f };
 	CVector4 m_DirCol[NUM_DIRECTION_LIG];// = { 1.0f,1.0f,1.0f,1.0f };
@@ -162,6 +162,9 @@ private:
 	bool m_hasSpecularMap = false;
 	EnRenderMode m_renderMode = enRenderMode_Invalid;	//レンダリングモード。
 	ID3D11ShaderResourceView* m_shadowMapSRV = nullptr;
+	//TODO : Zeke: ライト関係流石にアな感じでごちゃごちゃなので整理する。
+	const CVector4 m_defCol = { 1.f,1.f,1.f,1.f };
+	const CVector4 m_defDir = { 0.707,-0.707,0.0f,0.0f };
 	//DirectionLight m_light;q
 };
 

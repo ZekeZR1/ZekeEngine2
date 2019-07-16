@@ -1,6 +1,10 @@
 #pragma once
 //#include "GameCamera.h"
+#include "Vehicle.h"
 
+class Stage;
+class Vehicle;
+class GameCamera;
 
 class Game : public GameObject
 {
@@ -9,6 +13,8 @@ public:
 	void OnDestroy() override;
 	void Update() override;
 private:
-	SkinModelRender* m_model = nullptr;
+	Vehicle m_vehicle;
+	Stage* m_stage = nullptr;
+	GameCamera* m_gameCamera = nullptr;
 };
 

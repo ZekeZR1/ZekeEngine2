@@ -8,7 +8,6 @@ enum enMouseEve {
 	enNumMouseEve
 };
 namespace Mouse {
-	//TODO : “®ìŠm”F‚Ü‚¾
 	int GetMouseNotch();
 	void UpdateMouseInput();
 	bool IsTrigger(enMouseEve);

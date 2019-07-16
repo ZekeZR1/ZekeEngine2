@@ -6,6 +6,12 @@ signed WINAPI wWinMain(
 	HINSTANCE hPrevInstance,
 	LPWSTR lpCmdLine,
 	int nCmdShow) {
+
+	//Console
+	AllocConsole();
+	freopen("CON", "r", stdin);
+	freopen("CON", "w", stdout);
+
 	//Initialize
 	EngineParam  eParam;
 	eParam.hInstance = hInstance;
@@ -19,17 +25,17 @@ signed WINAPI wWinMain(
 	if (Engine().Init(eParam)) {
 		//Camera
 		MainCamera().SetTarget(CVector3::Zero());
-		MainCamera().SetPosition({ 0,0,-500 });
+		MainCamera().SetPosition({ 0,4,-4 });
 		MainCamera().SetUpdateProjMatrixFunc(Camera::enUpdateProjMatrixFunc_Perspective);
 		MainCamera().SetNear(0.1f);
-		MainCamera().SetFar(50000.0f);
+		MainCamera().SetFar(1000.0f);
 		MainCamera().Update();
 		//2d
 		MainCamera2D().SetTarget(CVector3::Zero());
 		MainCamera2D().SetPosition({ 0.0f, 0.0f, -10.0f });
 		MainCamera2D().SetUpdateProjMatrixFunc(Camera::enUpdateProjMatrixFunc_Ortho);
-		MainCamera2D().SetNear(0.1f);
-		MainCamera2D().SetFar(1000.0f);
+		MainCamera2D().SetNear(1.f);
+		MainCamera2D().SetFar(3000.0f);
 		MainCamera2D().Update();
 		//bullet physics debug drawing flag
 		PhysicsWorld().SetDebugDraw(true);
