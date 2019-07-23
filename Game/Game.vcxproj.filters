@@ -7,6 +7,12 @@
     <Filter Include="Assets">
       <UniqueIdentifier>{893285a7-e01f-4d23-8874-0b69e30342b5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Assets\model">
+      <UniqueIdentifier>{af8818a8-573e-4311-a90f-e9345fe40485}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\model\car">
+      <UniqueIdentifier>{5a9799c1-cbdc-4f86-b5ac-6104fe78c435}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -52,26 +58,26 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <MeshContentTask Include="Assets\modelData\Stage.FBX">
-      <Filter>Assets</Filter>
-    </MeshContentTask>
-    <MeshContentTask Include="Assets\modelData\chassis.FBX">
-      <Filter>Assets</Filter>
-    </MeshContentTask>
-    <MeshContentTask Include="Assets\modelData\wheel.FBX">
-      <Filter>Assets</Filter>
-    </MeshContentTask>
-    <MeshContentTask Include="Assets\modelData\Box.FBX">
-      <Filter>Assets</Filter>
-    </MeshContentTask>
-    <MeshContentTask Include="Assets\modelData\car.FBX">
-      <Filter>Assets</Filter>
-    </MeshContentTask>
-    <MeshContentTask Include="Assets\modelData\rearWheel.FBX">
-      <Filter>Assets</Filter>
-    </MeshContentTask>
-    <MeshContentTask Include="Assets\modelData\frontWheel.FBX">
-      <Filter>Assets</Filter>
-    </MeshContentTask>
+    <None Include="Assets\modelData\Box.FBX">
+      <Filter>Assets\model</Filter>
+    </None>
+    <None Include="Assets\modelData\Stage.FBX">
+      <Filter>Assets\model</Filter>
+    </None>
+    <None Include="Assets\modelData\wheel.FBX">
+      <Filter>Assets\model\car</Filter>
+    </None>
+    <None Include="Assets\modelData\rearWheel.FBX">
+      <Filter>Assets\model\car</Filter>
+    </None>
+    <None Include="Assets\modelData\frontWheel.FBX">
+      <Filter>Assets\model\car</Filter>
+    </None>
+    <None Include="Assets\modelData\chassis.FBX">
+      <Filter>Assets\model\car</Filter>
+    </None>
+    <None Include="Assets\modelData\car.FBX">
+      <Filter>Assets\model\car</Filter>
+    </None>
   </ItemGroup>
 </Project>

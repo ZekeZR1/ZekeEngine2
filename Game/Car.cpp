@@ -264,6 +264,7 @@ void Car::stepSimulation() {
 	{
 		int wheelIndex = 2;
 		m_vehicle->applyEngineForce(gEngineForce, wheelIndex);
+		printf("breaking force ... %f\n", gBreakingForce);
 		m_vehicle->setBrake(gBreakingForce, wheelIndex);
 		wheelIndex = 3;
 		m_vehicle->applyEngineForce(gEngineForce, wheelIndex);
@@ -351,31 +352,64 @@ void Car::stepSimulation() {
 
 void  Car::buttonUpdate() {
 
+	auto LStick = Pad(0).GetLStickXF();
+	auto R2Trigger = Pad(0).GetRTrigger();
+	auto L2Trigger = Pad(0).GetLTrigger();
+
+	//ステアリング
+	{
+		gVehicleSteering = LStick;
+		if (gVehicleSteering > steeringClamp)
+			gVehicleSteering = steeringClamp;
+		if(gVehicleSteering < -steeringClamp)
+			gVehicleSteering = -steeringClamp;
+
+	}
+
+	//エンジンパワー
+	{
+		static const int engineParam = 1000;
+		float engineForce = 0.f;
+		//前進
+		auto frontForce = R2Trigger * engineParam;
+		//後退
+		auto backForce = L2Trigger * engineParam;
+
+		gEngineForce = frontForce - backForce;
+		
+		if (R2Trigger > 0.f or L2Trigger > 0.f) {
+			gBreakingForce = 0.f;
+		}
+		else {
+			gBreakingForce = defaultBreakingForce;
+		}
+	}
+
+	//リセット
 	if (Pad(0).IsTrigger(enButtonA)) {
 		ResetCar();
 	}
 
-	if (Pad(0).IsTrigger(enButtonLeft)) {
-		gVehicleSteering += steeringIncrement;
-		if (gVehicleSteering > steeringClamp)
-			gVehicleSteering = steeringClamp;
-	}
+	//if (Pad(0).IsTrigger(enButtonLeft)) {
+	//	gVehicleSteering += steeringIncrement;
+	//	
+	//}
 
-	if (Pad(0).IsTrigger(enButtonRight)) {
-		gVehicleSteering -= steeringIncrement;
-		if (gVehicleSteering < -steeringClamp)
-			gVehicleSteering = -steeringClamp;
-	}
+	//if (Pad(0).IsTrigger(enButtonRight)) {
+	//	gVehicleSteering -= steeringIncrement;
+	//	if (gVehicleSteering < -steeringClamp)
+	//		gVehicleSteering = -steeringClamp;
+	//}
 
-	if (Pad(0).IsTrigger(enButtonDown)) {
-		gEngineForce = maxEngineForce;
-		gBreakingForce = 0.f;
-	}
+	//if (Pad(0).IsTrigger(enButtonDown)) {
+	//	gEngineForce = maxEngineForce;
+	//	gBreakingForce = 0.f;
+	//}
 
-	if (Pad(0).IsTrigger(enButtonUp)) {
-		gEngineForce = -maxEngineForce;
-		gBreakingForce = 0.f;
-	}
+	//if (Pad(0).IsTrigger(enButtonUp)) {
+	//	gEngineForce = -maxEngineForce;
+	//	gBreakingForce = 0.f;
+	//}
 }
 
  void Car::ResetCar() {
