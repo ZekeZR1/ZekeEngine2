@@ -29,6 +29,7 @@ private:
 	btAlignedObjectArray<btCollisionShape*> m_collisionShapes;
 
 	btRigidBody* m_carChassis;
+	int m_wheelInstances[4];
 
 	//RigidBody m_rigidBody;
 	btDiscreteDynamicsWorld* m_dynamicsWorld = nullptr;

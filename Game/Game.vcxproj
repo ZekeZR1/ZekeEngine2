@@ -129,6 +129,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Car.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameCamera.cpp" />
     <ClCompile Include="main.cpp" />
@@ -139,6 +140,7 @@
     <ClCompile Include="Vehicle.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Car.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameCamera.h" />
     <ClInclude Include="Stage.h" />
@@ -147,7 +149,10 @@
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\Box.FBX" />
+    <MeshContentTask Include="Assets\modelData\car.FBX" />
     <MeshContentTask Include="Assets\modelData\chassis.FBX" />
+    <MeshContentTask Include="Assets\modelData\frontWheel.FBX" />
+    <MeshContentTask Include="Assets\modelData\rearWheel.FBX" />
     <MeshContentTask Include="Assets\modelData\Stage.FBX" />
     <MeshContentTask Include="Assets\modelData\wheel.FBX" />
   </ItemGroup>

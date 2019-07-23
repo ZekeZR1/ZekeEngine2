@@ -86,6 +86,10 @@ public:
 	{
 		Set(x, y, z);
 	}
+
+	CVector3(btVector3 btv) {
+		Set(btv.getX(), btv.getY(), btv.getZ());
+	}
 	/*!
 	* @brief	ê¸å`ï‚ä‘ÅB
 	*@details
@@ -508,6 +512,11 @@ public:
 	CQuaternion() {}
 	CQuaternion(float x, float y, float z, float w) :
 		CVector4(x, y, z, w)
+	{
+	}
+
+	CQuaternion(btQuaternion btq):
+		CVector4(btq.getX(),btq.getY(),btq.getZ(),btq.getW())
 	{
 	}
 

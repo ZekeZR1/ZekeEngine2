@@ -27,6 +27,9 @@
     <ClCompile Include="GameCamera.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="Car.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -44,6 +47,9 @@
     <ClInclude Include="GameCamera.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="Car.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\Stage.FBX">
@@ -56,6 +62,15 @@
       <Filter>Assets</Filter>
     </MeshContentTask>
     <MeshContentTask Include="Assets\modelData\Box.FBX">
+      <Filter>Assets</Filter>
+    </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\car.FBX">
+      <Filter>Assets</Filter>
+    </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\rearWheel.FBX">
+      <Filter>Assets</Filter>
+    </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\frontWheel.FBX">
       <Filter>Assets</Filter>
     </MeshContentTask>
   </ItemGroup>

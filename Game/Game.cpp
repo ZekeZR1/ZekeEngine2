@@ -5,8 +5,8 @@
 #include "GameCamera.h"
 
 bool Game::Start() {
-	m_vehicle.init();
-	NewGO<Stage>(0);
+	//m_vehicle.init();
+	//NewGO<Stage>(0);
 	m_gameCamera = NewGO<GameCamera>(0);
 	return true;
 }
@@ -17,6 +17,8 @@ void Game::OnDestroy() {
 }
 
 void Game::Update() {
-	m_vehicle.stepSimulation();
-	m_vehicle.KeyUpdate();
+	m_car.stepSimulation();
+	m_car.buttonUpdate();
+	//m_vehicle.stepSimulation();
+	//m_vehicle.KeyUpdate();
 }

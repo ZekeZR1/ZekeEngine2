@@ -2,12 +2,13 @@
 #include "Vehicle.h"
 
 #include "BulletCollision/CollisionShapes/btHeightfieldTerrainShape.h"
-
+#include "BulletDynamics/Vehicle/btRaycastVehicle.h"
 #include "BulletDynamics/MLCPSolvers/btDantzigSolver.h"
 #include "BulletDynamics/MLCPSolvers/btSolveProjectedGaussSeidel.h"
 #include "BulletDynamics/MLCPSolvers/btMLCPSolver.h"
 
 class btVehicleTuning;
+struct btVehicleRaycaster;
 class btCollisionShape;
 
 #include "BulletDynamics/ConstraintSolver/btHingeConstraint.h"
