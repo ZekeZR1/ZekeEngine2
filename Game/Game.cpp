@@ -6,7 +6,7 @@
 
 bool Game::Start() {
 	NewGO<Stage>(0);
-	m_car.SetChassisPositionFix(CVector3(0.f,0.8f,-0.f ));
+	//m_car.SetChassisPositionFix(CVector3(0.f,0.8f,-0.f ));
 	m_gameCamera = NewGO<GameCamera>(0);
 	return true;
 }

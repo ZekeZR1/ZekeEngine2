@@ -153,24 +153,24 @@
     <MeshContentTask Include="Assets\modelData\Box.FBX">
       <FileType>Document</FileType>
     </MeshContentTask>
-    <None Include="Assets\modelData\car.FBX">
+    <MeshContentTask Include="Assets\modelData\car.FBX">
       <FileType>Document</FileType>
-    </None>
-    <None Include="Assets\modelData\chassis.FBX">
+    </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\chassis.FBX">
       <FileType>Document</FileType>
-    </None>
-    <None Include="Assets\modelData\frontWheel.FBX">
+    </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\frontWheel.FBX">
       <FileType>Document</FileType>
-    </None>
-    <None Include="Assets\modelData\rearWheel.FBX">
+    </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\rearWheel.FBX">
       <FileType>Document</FileType>
-    </None>
-    <None Include="Assets\modelData\Stage.FBX">
+    </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\Stage.FBX">
       <FileType>Document</FileType>
-    </None>
-    <None Include="Assets\modelData\wheel.FBX">
+    </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\wheel.FBX">
       <FileType>Document</FileType>
-    </None>
+    </MeshContentTask>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

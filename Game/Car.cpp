@@ -285,9 +285,6 @@ void Car::stepSimulation() {
 
 void Car::modelUpdate() {
 	{
-		if (Pad(0).IsPress(enButtonB)) {
-			testParam += 0.1f;
-		}
 		//シャーシーのワールド行列ををモデルにセット
 		{
 			auto chassisTransform = m_vehicle->getChassisWorldTransform();
@@ -297,9 +294,6 @@ void Car::modelUpdate() {
 			chassisPosition += m_chassisPositionFix;
 			m_chassiModel->SetPosition(chassisPosition);
 			m_chassiModel->SetRotation(chassisRotation);
-			printf("param ... %f\n", testParam);
-			MainCamera().SetTarget({ origin.getX(),origin.getY(),origin.getZ() });
-			MainCamera().Update();
 		}
 		//ホイールのワールド行列も同じ
 
