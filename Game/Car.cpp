@@ -61,7 +61,7 @@ float maxBreakingForce = 100.f;
 
 float gVehicleSteering = 0.f;
 float steeringIncrement = 0.04f;
-float steeringClamp = 0.4f;
+float steeringClamp = 0.2f;
 
 float suspensionStiffness = 20.f;
 float suspensionDamping = 2.3f;
@@ -358,9 +358,8 @@ void  Car::buttonUpdate() {
 		gVehicleSteering = LStick;
 		if (gVehicleSteering > steeringClamp)
 			gVehicleSteering = steeringClamp;
-		else if(gVehicleSteering < -steeringClamp)
+		if(gVehicleSteering < -steeringClamp)
 			gVehicleSteering = -steeringClamp;
-
 	}
 
 	//エンジンパワー
@@ -384,7 +383,7 @@ void  Car::buttonUpdate() {
 	
 	//ブースト
 	if (Pad(0).IsPress(enButtonB)) {
-		static const int boostParam = 5000;
+		static const int boostParam = 20000;
 		auto rigidbody = m_vehicle->getRigidBody();
 		auto forward = m_vehicle->getForwardVector();
 		rigidbody->applyCentralForce(forward * boostParam);
@@ -394,14 +393,11 @@ void  Car::buttonUpdate() {
 		static const int jumpParam = 5000;
 		auto rigidbody = m_vehicle->getRigidBody();
 		auto forward = m_vehicle->getForwardVector();
+		//TODO : 車の上方向に力を加える
 		rigidbody->applyCentralImpulse(btVector3(0,1,0) * jumpParam);
 	}
-	//回転
-	{
-		//auto rigidbody = m_vehicle->getRigidBody();
-		////auto forward = m_vehicle->getForwardVector();
-		//rigidbody->
-	}
+	//エアリアル制御
+	Aerial();
 	//リセット
 	if (Pad(0).IsTrigger(enButtonStart)) {
 		ResetCar();
@@ -482,5 +478,45 @@ void Car::modelInit() {
 		m_rearLeftWheel = NewGO<SkinModelRender>(0);
 		m_rearLeftWheel->Init(L"Assets/modelData/rearWheel.cmo");
 		m_rearLeftWheel->SetScale(m_wheelModelScale);
+	}
+}
+
+void Car::Aerial() {
+	//エアリアル
+	//auto force = m_vehicle->getRigidBody()->getTotalForce();
+	auto wtr = m_vehicle->getWheelTransformWS(0);
+	printf("wtr... %f", wtr.getOrigin().getY());
+	//TODO : とりあえず床走ってるときしか考えてない
+	if (wtr.getOrigin().getY() < 0.6f) return;
+
+	{
+		auto LStickX = Pad(0).GetLStickXF();
+		auto LStickY = Pad(0).GetLStickYF();
+		auto rigidbody = m_vehicle->getRigidBody();
+		auto rdtr = rigidbody->getWorldTransform();
+		auto rdrot = rdtr.getRotation();
+		float rotationSpeed = 3.f;
+		auto forward = m_vehicle->getForwardVector();
+		//printf("forward x : %f y : %f z : %f", forward.getX(), forward.getY(), forward.getZ());
+		if (Pad(0).IsPress(enButtonRB1)) {
+			//前軸回転
+			CQuaternion rot = CQuaternion::Identity();
+			rot.SetRotationDeg({ 0,0,1 }, LStickX * -rotationSpeed);
+			rdrot *= btQuaternion(rot);
+		}
+		else {
+			//上軸回転
+			CQuaternion rot = CQuaternion::Identity();
+			rot.SetRotationDeg({ 0,1,0 }, LStickX * rotationSpeed);
+			rdrot *= btQuaternion(rot);
+		}
+
+		//横軸回転
+		CQuaternion rot = CQuaternion::Identity();
+		rot.SetRotationDeg({ 1,0,0 }, LStickY * rotationSpeed);
+		rdrot *= btQuaternion(rot);
+
+		rdtr.setRotation(rdrot);
+		rigidbody->setWorldTransform(rdtr);
 	}
 }

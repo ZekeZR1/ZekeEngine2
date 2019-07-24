@@ -17,6 +17,7 @@ void Game::OnDestroy() {
 }
 
 void Game::Update() {
+	m_gameCamera->SetTarget(m_car.GetPosition());
 	m_car.stepSimulation();
 	m_car.buttonUpdate();
 	//m_vehicle.stepSimulation();

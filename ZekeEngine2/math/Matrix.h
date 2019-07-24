@@ -44,6 +44,8 @@ public:
 		Effekseer::Matrix44 eMat = *((Effekseer::Matrix44*)&mat);
 		return eMat;
 	}
+
+
 	operator Effekseer::Matrix43() const
 	{
 		Effekseer::Matrix43 eMat;

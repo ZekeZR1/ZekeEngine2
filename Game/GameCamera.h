@@ -19,7 +19,13 @@ public:
 	}
 
 private:
-	CVector3 m_pos = { 0,5,-10 };
-	CVector3 m_target = CVector3::Zero();
+	CVector3 m_pos = { 0.f,0.f,-10.f };
+	const float m_distanceMoveParam = 50.f;
+	const float m_raiseViewPoint = 2.f;
+	const float m_maxDistance = 650.f;
+	const float m_minDistance = 200.f;
+	float cameraRotationSpeed = 1.f;
+	CVector3 m_target = { 0.0f, 1.0f, 0.0f };
+	CVector3 m_toCameraPos = { 0.0f, 0.0f, 5.f };
 };
 

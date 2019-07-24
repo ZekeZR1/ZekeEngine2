@@ -8,8 +8,8 @@ public:
 	{
 		return m_dynamicsWorld;
 	}
-	virtual void stepSimulation();
-	virtual void buttonUpdate();
+	void stepSimulation();
+	void buttonUpdate();
 	void ResetCar();
 
 	void SetChassisPositionFix(CVector3 vec) {
@@ -22,11 +22,19 @@ public:
 		m_chassisShapeSize = size;
 	}
 
+	CVector3 GetPosition() const{
+		return m_chassiModel->GetPosition();
+	}
+
+	float GetSpeedKmHour() const{
+		return m_vehicle->getCurrentSpeedKmHour();
+	}
+
 private:
 	void init();
 	void modelInit();
 	void modelUpdate();
-
+	void Aerial(); //エアリアル制御
 	//調整用
 	//collider
 	CVector3 m_chassisShapeSize = { 0.7,0.3,1.5 };
@@ -38,6 +46,7 @@ private:
 	CVector3 m_chassisModelScale = CVector3::One();
 	CVector3 m_wheelPositionFix = CVector3::Zero();
 	CVector3 m_wheelModelScale = CVector3::One();
+
 
 
 	class btDiscreteDynamicsWorld* m_dynamicsWorld;

@@ -520,6 +520,16 @@ public:
 	{
 	}
 
+	operator btQuaternion() const
+	{
+		btQuaternion eQuaternion;
+		eQuaternion.setX(x);
+		eQuaternion.setY(y);
+		eQuaternion.setZ(z);
+		eQuaternion.setW(w);
+		return eQuaternion;
+	}
+
 	/*!
 	*@brief	任意の軸周りの回転クォータニオンを作成。
 	*/

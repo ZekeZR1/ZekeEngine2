@@ -5,6 +5,7 @@
 bool Stage::Start() {
 	m_floorModel = NewGO<SkinModelRender>(0);
 	m_floorModel->Init(L"Assets/modelData/Box.cmo");
+	m_floorModel->SetShadowCasterFlag(false);
 	m_floorModel->SetPosition(CVector3::Zero());
 	m_floorModel->SetRotation(CQuaternion::Identity());
 

@@ -10,21 +10,41 @@ void GameCamera::OnDestroy() {
 }
 
 void GameCamera::Update() {
-	static const float moveSpeed = 1;
-	/*if (Pad(0).IsPress(enButtonUp)) {
-		m_pos.y += moveSpeed;
+	MainCamera2D().Update();
+
+	m_target.y += m_raiseViewPoint;
+
+	float x = Pad(0).GetRStickXF();
+	float y = Pad(0).GetRStickYF();
+
+	//Y軸周りの回転
+	CQuaternion qRot;
+	qRot.SetRotationDeg(CVector3::AxisY(), cameraRotationSpeed * x);
+	qRot.Multiply(m_toCameraPos);
+
+	CVector3 toCameraPosOld = m_toCameraPos;
+
+	//X軸周りの回転。
+	CVector3 axisX;
+	axisX.Cross(CVector3::AxisY(), m_toCameraPos);
+	axisX.Normalize();
+	qRot.SetRotationDeg(axisX, cameraRotationSpeed * y);
+	qRot.Multiply(m_toCameraPos);
+	CVector3 toPosDir = m_toCameraPos;
+	toPosDir.Normalize();
+
+	if (toPosDir.y < -0.5f) {
+		//カメラ上向きすぎ。
+		m_toCameraPos = toCameraPosOld;
 	}
-	if (Pad(0).IsPress(enButtonDown)) {
-		m_pos.y += -moveSpeed;
+	else if (toPosDir.y > 0.8f) {
+		//カメラ下向きすぎ。
+		m_toCameraPos = toCameraPosOld;
 	}
-	if (Pad(0).IsPress(enButtonLeft)) {
-		m_pos.z += moveSpeed;
-	}
-	if (Pad(0).IsPress(enButtonRight)) {
-		m_pos.z += -moveSpeed;
-	}*/
-/*
-	MainCamera().SetPosition(m_pos);
+
+	CVector3 pos = m_target + m_toCameraPos;
+
 	MainCamera().SetTarget(m_target);
-	MainCamera().Update();*/
+	MainCamera().SetPosition(pos);
+	MainCamera().Update();
 }
