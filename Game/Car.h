@@ -11,6 +11,13 @@ public:
 	virtual void stepSimulation();
 	virtual void buttonUpdate();
 	void ResetCar();
+
+	void SetChassisPositionFix(CVector3 vec) {
+		m_chassisPositionFix = vec;
+	}
+	void SetChassisCollisionShapeSize(CVector3 size) {
+		m_chassisShapeSize = size;
+	}
 private:
 	void init();
 	class btDiscreteDynamicsWorld* m_dynamicsWorld;
@@ -30,13 +37,15 @@ private:
 
 	class btTriangleIndexVertexArray* m_indexVertexArrays = 0;
 
-	btVector3* m_vertices = 0;
+	float testParam = 0.f;
 
+	btVector3* m_vertices = 0;
+	CVector3 m_chassisShapeSize = { 0.7,0.3,1.5 };
 	btRaycastVehicle::btVehicleTuning m_tuning;
 	btVehicleRaycaster* m_vehicleRayCaster;
 	btRaycastVehicle* m_vehicle = 0;
 	btCollisionShape* m_wheelShape = 0;
-
+	CVector3 m_chassisPositionFix = CVector3::Zero();
 	SkinModelRender* m_chassiModel = nullptr;
 	SkinModelRender* m_frontLeftWheel = nullptr; 
 	SkinModelRender* m_frontRightWheel = nullptr;

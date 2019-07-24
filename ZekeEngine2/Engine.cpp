@@ -221,6 +221,7 @@ bool CEngine::InitWindow(const EngineParam& engineParam) {
 		FALSE
 	);
 
+	
 	m_hWnd = CreateWindow(TEXT("Game"), TEXT("Game"),
 		WS_OVERLAPPEDWINDOW, 0, 0, rc.right - rc.left, rc.bottom - rc.top,
 		nullptr, nullptr, wc.hInstance, nullptr);

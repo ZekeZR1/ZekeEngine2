@@ -1,9 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.136
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28917.181
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Game", "Game\Game.vcxproj", "{627A8110-3B0D-44BC-AA68-99343E84F391}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0C1144EA-7630-4C28-ABD6-F4D40B79B1C7} = {0C1144EA-7630-4C28-ABD6-F4D40B79B1C7}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZekeEngine2", "ZekeEngine2\ZekeEngine2.vcxproj", "{0C1144EA-7630-4C28-ABD6-F4D40B79B1C7}"
 EndProject

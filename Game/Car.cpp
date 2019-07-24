@@ -137,10 +137,6 @@ void Car::init() {
 		m_rearLeftWheel->Init(L"Assets/modelData/rearWheel.cmo");
 	}
 
-	btVector3 groundExtents(50, 50, 50);
-	groundExtents[upAxis] = 3;
-	btCollisionShape* groundShape = new btBoxShape(groundExtents);
-	m_collisionShapes.push_back(groundShape);
 	m_collisionConfiguration = new btDefaultCollisionConfiguration();
 	m_dispatcher = new btCollisionDispatcher(m_collisionConfiguration);
 	btVector3 worldMin(-1000, -1000, -1000);
@@ -175,9 +171,9 @@ void Car::init() {
 	//either use heightfield or triangle mesh
 
 	//create ground object
-	localCreateRigidBody(0, tr, groundShape);
 
-	btCollisionShape* chassisShape = new btBoxShape(btVector3(1.f, 0.5f, 2.f));
+	//btCollisionShape* chassisShape = new btBoxShape(btVector3(1.f, 0.5f, 2.f));
+	btCollisionShape* chassisShape = new btBoxShape(btVector3(m_chassisShapeSize.x, m_chassisShapeSize.y, m_chassisShapeSize.z));
 	m_collisionShapes.push_back(chassisShape);
 
 	btCompoundShape* compound = new btCompoundShape();
@@ -190,12 +186,12 @@ void Car::init() {
 	compound->addChildShape(localTrans, chassisShape);
 
 	{
-		btCollisionShape* suppShape = new btBoxShape(btVector3(0.5f, 0.1f, 0.5f));
-		btTransform suppLocalTrans;
-		suppLocalTrans.setIdentity();
-		//localTrans effectively shifts the center of mass with respect to the chassis
-		suppLocalTrans.setOrigin(btVector3(0, 1.0, 2.5));
-		compound->addChildShape(suppLocalTrans, suppShape);
+		//btCollisionShape* suppShape = new btBoxShape(btVector3(0.5f, 0.1f, 0.5f));
+		//btTransform suppLocalTrans;
+		//suppLocalTrans.setIdentity();
+		////localTrans effectively shifts the center of mass with respect to the chassis
+		//suppLocalTrans.setOrigin(btVector3(0, 1.0, 2.5));
+		//compound->addChildShape(suppLocalTrans, suppShape);
 	}
 
 	tr.setOrigin(btVector3(0, 0.f, 0));
@@ -234,16 +230,17 @@ void Car::init() {
 		//choose coordinate system
 		m_vehicle->setCoordinateSystem(rightIndex, upIndex, forwardIndex);
 
-		btVector3 connectionPointCS0(CUBE_HALF_EXTENTS - (0.3 * wheelWidth), connectionHeight, 2 * CUBE_HALF_EXTENTS - wheelRadius);
+		//static const float wheelposz
+		btVector3 connectionPointCS0(CUBE_HALF_EXTENTS - (0.3 * wheelWidth), connectionHeight, 2 * CUBE_HALF_EXTENTS - wheelRadius -0.3);
 
 		m_vehicle->addWheel(connectionPointCS0, wheelDirectionCS0, wheelAxleCS, suspensionRestLength, wheelRadius, m_tuning, isFrontWheel);
-		connectionPointCS0 = btVector3(-CUBE_HALF_EXTENTS + (0.3 * wheelWidth), connectionHeight, 2 * CUBE_HALF_EXTENTS - wheelRadius);
+		connectionPointCS0 = btVector3(-CUBE_HALF_EXTENTS + (0.3 * wheelWidth), connectionHeight, 2 * CUBE_HALF_EXTENTS - wheelRadius - 0.3);
 
 		m_vehicle->addWheel(connectionPointCS0, wheelDirectionCS0, wheelAxleCS, suspensionRestLength, wheelRadius, m_tuning, isFrontWheel);
-		connectionPointCS0 = btVector3(-CUBE_HALF_EXTENTS + (0.3 * wheelWidth), connectionHeight, -2 * CUBE_HALF_EXTENTS + wheelRadius);
+		connectionPointCS0 = btVector3(-CUBE_HALF_EXTENTS + (0.3 * wheelWidth), connectionHeight, -2 * CUBE_HALF_EXTENTS + wheelRadius + 0.5);
 		isFrontWheel = false;
 		m_vehicle->addWheel(connectionPointCS0, wheelDirectionCS0, wheelAxleCS, suspensionRestLength, wheelRadius, m_tuning, isFrontWheel);
-		connectionPointCS0 = btVector3(CUBE_HALF_EXTENTS - (0.3 * wheelWidth), connectionHeight, -2 * CUBE_HALF_EXTENTS + wheelRadius);
+		connectionPointCS0 = btVector3(CUBE_HALF_EXTENTS - (0.3 * wheelWidth), connectionHeight, -2 * CUBE_HALF_EXTENTS + wheelRadius + 0.5);
 		m_vehicle->addWheel(connectionPointCS0, wheelDirectionCS0, wheelAxleCS, suspensionRestLength, wheelRadius, m_tuning, isFrontWheel);
 
 		for (int i = 0; i < m_vehicle->getNumWheels(); i++)
@@ -264,7 +261,6 @@ void Car::stepSimulation() {
 	{
 		int wheelIndex = 2;
 		m_vehicle->applyEngineForce(gEngineForce, wheelIndex);
-		printf("breaking force ... %f\n", gBreakingForce);
 		m_vehicle->setBrake(gBreakingForce, wheelIndex);
 		wheelIndex = 3;
 		m_vehicle->applyEngineForce(gEngineForce, wheelIndex);
@@ -275,14 +271,19 @@ void Car::stepSimulation() {
 		m_vehicle->setSteeringValue(gVehicleSteering, wheelIndex);
 	}
 	{
+		if (Pad(0).IsPress(enButtonB)) {
+			testParam += 0.1f;
+		}
 		//シャーシーのワールド行列ををモデルにセット
 		{
 			auto chassisTransform = m_vehicle->getChassisWorldTransform();
 			auto origin = chassisTransform.getOrigin();
 			auto chassisRotation = chassisTransform.getRotation();
-			m_chassiModel->SetPosition(origin);
+			CVector3 chassisPosition = origin;
+			chassisPosition += m_chassisPositionFix;
+			m_chassiModel->SetPosition(chassisPosition);
 			m_chassiModel->SetRotation(chassisRotation);
-
+			printf("param ... %f\n", testParam);
 			MainCamera().SetTarget({ origin.getX(),origin.getY(),origin.getZ() });
 			MainCamera().Update();
 		}

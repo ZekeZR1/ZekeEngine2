@@ -22,7 +22,7 @@ void CGraphicsEngine::BegineRender() {
 }
 
 void CGraphicsEngine::EndRender() {
-	m_pSwapChain->Present(2, 0);
+	m_pSwapChain->Present(1, 0);
 }
 
 void CGraphicsEngine::Release()

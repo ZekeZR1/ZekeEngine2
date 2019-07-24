@@ -13,7 +13,6 @@ public:
 	void OnDestroy() override;
 	void Update() override;
 private:
-	//Vehicle m_vehicle;
 	Car m_car;
 	Stage* m_stage = nullptr;
 	GameCamera* m_gameCamera = nullptr;

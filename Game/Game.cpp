@@ -5,8 +5,8 @@
 #include "GameCamera.h"
 
 bool Game::Start() {
-	//m_vehicle.init();
-	//NewGO<Stage>(0);
+	NewGO<Stage>(0);
+	m_car.SetChassisPositionFix(CVector3(-0.f,0.8f,-0.2f ));
 	m_gameCamera = NewGO<GameCamera>(0);
 	return true;
 }
