@@ -150,6 +150,9 @@
     <ClInclude Include="Vehicle.h" />
   </ItemGroup>
   <ItemGroup>
+    <MeshContentTask Include="Assets\modelData\ball.FBX">
+      <FileType>Document</FileType>
+    </MeshContentTask>
     <MeshContentTask Include="Assets\modelData\Box.FBX">
       <FileType>Document</FileType>
     </MeshContentTask>
