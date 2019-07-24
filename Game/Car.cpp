@@ -61,7 +61,7 @@ float maxBreakingForce = 100.f;
 
 float gVehicleSteering = 0.f;
 float steeringIncrement = 0.04f;
-float steeringClamp = 0.3f;
+float steeringClamp = 0.4f;
 
 float suspensionStiffness = 20.f;
 float suspensionDamping = 2.3f;
@@ -253,6 +253,7 @@ void Car::stepSimulation() {
 		m_vehicle->setSteeringValue(gVehicleSteering, wheelIndex);
 		wheelIndex = 1;
 		m_vehicle->setSteeringValue(gVehicleSteering, wheelIndex);
+
 	}
 
 	modelUpdate();
@@ -355,11 +356,11 @@ void  Car::buttonUpdate() {
 	//ステアリング
 	{
 		gVehicleSteering = LStick;
-	/*	if (gVehicleSteering > steeringClamp)
+		if (gVehicleSteering > steeringClamp)
 			gVehicleSteering = steeringClamp;
-		if(gVehicleSteering < -steeringClamp)
+		else if(gVehicleSteering < -steeringClamp)
 			gVehicleSteering = -steeringClamp;
-*/
+
 	}
 
 	//エンジンパワー
@@ -380,9 +381,29 @@ void  Car::buttonUpdate() {
 			gBreakingForce = defaultBreakingForce;
 		}
 	}
-
-	//リセット
+	
+	//ブースト
+	if (Pad(0).IsPress(enButtonB)) {
+		static const int boostParam = 5000;
+		auto rigidbody = m_vehicle->getRigidBody();
+		auto forward = m_vehicle->getForwardVector();
+		rigidbody->applyCentralForce(forward * boostParam);
+	}
+	//ジャンプ
 	if (Pad(0).IsTrigger(enButtonA)) {
+		static const int jumpParam = 5000;
+		auto rigidbody = m_vehicle->getRigidBody();
+		auto forward = m_vehicle->getForwardVector();
+		rigidbody->applyCentralImpulse(btVector3(0,1,0) * jumpParam);
+	}
+	//回転
+	{
+		//auto rigidbody = m_vehicle->getRigidBody();
+		////auto forward = m_vehicle->getForwardVector();
+		//rigidbody->
+	}
+	//リセット
+	if (Pad(0).IsTrigger(enButtonStart)) {
 		ResetCar();
 	}
 }

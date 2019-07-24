@@ -15,6 +15,9 @@ public:
 	void SetChassisPositionFix(CVector3 vec) {
 		m_chassisPositionFix = vec;
 	}
+	void SetWheelModelPositionFix(CVector3 vec) {
+		m_wheelPositionFix = vec;
+	}
 	void SetChassisCollisionShapeSize(CVector3 size) {
 		m_chassisShapeSize = size;
 	}
@@ -33,6 +36,7 @@ private:
 	//model
 	CVector3 m_chassisPositionFix = CVector3::Zero();
 	CVector3 m_chassisModelScale = CVector3::One();
+	CVector3 m_wheelPositionFix = CVector3::Zero();
 	CVector3 m_wheelModelScale = CVector3::One();
 
 

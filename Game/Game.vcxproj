@@ -129,6 +129,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Ball.cpp" />
     <ClCompile Include="Car.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameCamera.cpp" />
@@ -140,6 +141,7 @@
     <ClCompile Include="Vehicle.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Ball.h" />
     <ClInclude Include="Car.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameCamera.h" />
@@ -148,9 +150,9 @@
     <ClInclude Include="Vehicle.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\modelData\Box.FBX">
+    <MeshContentTask Include="Assets\modelData\Box.FBX">
       <FileType>Document</FileType>
-    </None>
+    </MeshContentTask>
     <None Include="Assets\modelData\car.FBX">
       <FileType>Document</FileType>
     </None>

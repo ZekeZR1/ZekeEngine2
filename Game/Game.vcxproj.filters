@@ -36,6 +36,7 @@
     <ClCompile Include="Car.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="Ball.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -56,11 +57,9 @@
     <ClInclude Include="Car.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="Ball.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\modelData\Box.FBX">
-      <Filter>Assets\model</Filter>
-    </None>
     <None Include="Assets\modelData\Stage.FBX">
       <Filter>Assets\model</Filter>
     </None>
@@ -79,5 +78,10 @@
     <None Include="Assets\modelData\car.FBX">
       <Filter>Assets\model\car</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <MeshContentTask Include="Assets\modelData\Box.FBX">
+      <Filter>Assets\model</Filter>
+    </MeshContentTask>
   </ItemGroup>
 </Project>
