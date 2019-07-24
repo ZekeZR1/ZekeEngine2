@@ -270,62 +270,9 @@ void Car::stepSimulation() {
 		wheelIndex = 1;
 		m_vehicle->setSteeringValue(gVehicleSteering, wheelIndex);
 	}
-	{
-		if (Pad(0).IsPress(enButtonB)) {
-			testParam += 0.1f;
-		}
-		//シャーシーのワールド行列ををモデルにセット
-		{
-			auto chassisTransform = m_vehicle->getChassisWorldTransform();
-			auto origin = chassisTransform.getOrigin();
-			auto chassisRotation = chassisTransform.getRotation();
-			CVector3 chassisPosition = origin;
-			chassisPosition += m_chassisPositionFix;
-			m_chassiModel->SetPosition(chassisPosition);
-			m_chassiModel->SetRotation(chassisRotation);
-			printf("param ... %f\n", testParam);
-			MainCamera().SetTarget({ origin.getX(),origin.getY(),origin.getZ() });
-			MainCamera().Update();
-		}
-		//ホイールのワールド行列も同じ
-		
-		{
-			{
-				//左前輪
-				auto wheelTransform = m_vehicle->getWheelTransformWS(0);
-				auto origin = wheelTransform.getOrigin();
-				auto rot = wheelTransform.getRotation();
-				m_frontLeftWheel->SetPosition(origin);
-				m_frontLeftWheel->SetRotation(rot);
-			}
-			{
-				//右前輪
-				auto wheelTransform = m_vehicle->getWheelTransformWS(1);
-				auto origin = wheelTransform.getOrigin();
-				auto rot = wheelTransform.getRotation();
-				m_frontRightWheel->SetPosition(origin);
-				m_frontRightWheel->SetRotation(rot);
-			}
-			{
-				//左後輪
-				auto wheelTransform = m_vehicle->getWheelTransformWS(2);
-				auto origin = wheelTransform.getOrigin();
-				auto rot = wheelTransform.getRotation();
-				m_rearLeftWheel->SetPosition(origin);
-				m_rearLeftWheel->SetRotation(rot);
-			}
 
-			{
-				//右後輪
-				auto wheelTransform = m_vehicle->getWheelTransformWS(3);
-				auto origin = wheelTransform.getOrigin();
-				auto rot = wheelTransform.getRotation();
-				m_rearRightWheel->SetPosition(origin);
-				m_rearRightWheel->SetRotation(rot);
-			}
-		}
-		
-	}
+	modelUpdate();
+	
 	float dt = IGameTime().GetFrameDeltaTime();
 
 	if (m_dynamicsWorld)
@@ -347,6 +294,70 @@ void Car::stepSimulation() {
 				printf("MLCP solver failed %d times, falling back to btSequentialImpulseSolver (SI)\n", totalFailures);
 			}
 			sol->setNumFallbacks(0);
+		}
+	}
+}
+
+void Car::modelUpdate() {
+	{
+		if (Pad(0).IsPress(enButtonB)) {
+			testParam += 0.1f;
+		}
+		//シャーシーのワールド行列ををモデルにセット
+		{
+			auto chassisTransform = m_vehicle->getChassisWorldTransform();
+			auto origin = chassisTransform.getOrigin();
+			auto chassisRotation = chassisTransform.getRotation();
+			CVector3 chassisPosition = origin;
+			chassisPosition += m_chassisPositionFix;
+			m_chassiModel->SetPosition(chassisPosition);
+			m_chassiModel->SetRotation(chassisRotation);
+			printf("param ... %f\n", testParam);
+			MainCamera().SetTarget({ origin.getX(),origin.getY(),origin.getZ() });
+			MainCamera().Update();
+		}
+		//ホイールのワールド行列も同じ
+
+		{
+			{
+				//左前輪
+				auto wheelTransform = m_vehicle->getWheelTransformWS(1);
+				auto origin = wheelTransform.getOrigin();
+				auto rot = wheelTransform.getRotation();
+				CQuaternion rfixed = CQuaternion::Identity();
+				rfixed.SetRotationDeg(CVector3::AxisY(), 180.f);
+				rfixed.Multiply(rot);
+				m_frontLeftWheel->SetPosition(origin);
+				m_frontLeftWheel->SetRotation(rfixed);
+			}
+			{
+				//右前輪
+				auto wheelTransform = m_vehicle->getWheelTransformWS(0);
+				auto origin = wheelTransform.getOrigin();
+				auto rot = wheelTransform.getRotation();
+				m_frontRightWheel->SetPosition(origin);
+				m_frontRightWheel->SetRotation(rot);
+			}
+			{
+				//左後輪
+				auto wheelTransform = m_vehicle->getWheelTransformWS(2);
+				auto origin = wheelTransform.getOrigin();
+				auto rot = wheelTransform.getRotation();
+				m_rearLeftWheel->SetPosition(origin);
+				m_rearLeftWheel->SetRotation(rot);
+			}
+
+			{
+				//右後輪
+				auto wheelTransform = m_vehicle->getWheelTransformWS(3);
+				auto origin = wheelTransform.getOrigin();
+				auto rot = wheelTransform.getRotation();
+				CQuaternion rfixed = CQuaternion::Identity();
+				rfixed.SetRotationDeg(CVector3::AxisY(), 180.f);
+				rfixed.Multiply(rot);
+				m_rearRightWheel->SetPosition(origin);
+				m_rearRightWheel->SetRotation(rfixed);
+			}
 		}
 	}
 }

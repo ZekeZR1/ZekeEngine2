@@ -20,6 +20,7 @@ public:
 	}
 private:
 	void init();
+	void modelUpdate();
 	class btDiscreteDynamicsWorld* m_dynamicsWorld;
 	btRigidBody* m_carChassis = 0;
 	btRigidBody* localCreateRigidBody(btScalar mass, const btTransform& worldTransform, btCollisionShape* colSape);
