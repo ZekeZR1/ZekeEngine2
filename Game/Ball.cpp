@@ -14,7 +14,7 @@ bool Ball::Start() {
 	btTransform startTransform;
 	startTransform.setIdentity();
 
-	btScalar mass(0.1f);
+	btScalar mass(1.1f);
 
 	//rigidbody is dynamic if and only if mass is non zero, otherwise static
 	bool isDynamic = (mass != 0.f);
@@ -45,5 +45,6 @@ void Ball::OnDestroy() {
 
 void Ball::Update() {
 	m_ballModel->SetPosition(m_rigidBody->getWorldTransform().getOrigin());
+	m_ballModel->SetRotation(m_rigidBody->getWorldTransform().getRotation());
 }
 

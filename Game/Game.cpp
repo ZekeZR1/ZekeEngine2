@@ -32,7 +32,10 @@ void Game::Update() {
 	auto carToBallVec = m_ball->GetPosition() - m_car.GetPosition();
 	carToBallVec.Normalize();
 	cameraPos = m_car.GetPosition() - (carToBallVec * 8);
-	cameraPos.y = 3.f;
+	if (cameraPos.y < 3.f)
+		cameraPos.y = 3.f;
+	else
+		cameraPos.y = m_car.GetPosition().y + 3.f;
 	m_gameCamera->SetCameraPosition(cameraPos);
 	m_car.stepSimulation();
 	m_car.buttonUpdate();

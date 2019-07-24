@@ -218,16 +218,16 @@ void Car::init() {
 		m_vehicle->setCoordinateSystem(rightIndex, upIndex, forwardIndex);
 
 		//static const float wheelposz
-		btVector3 connectionPointCS0(CUBE_HALF_EXTENTS - (0.3 * wheelWidth), connectionHeight, 2 * CUBE_HALF_EXTENTS - wheelRadius -0.3);
+		btVector3 connectionPointCS0(CUBE_HALF_EXTENTS - (0.3 * wheelWidth), connectionHeight, 2 * CUBE_HALF_EXTENTS - wheelRadius);
 
 		m_vehicle->addWheel(connectionPointCS0, wheelDirectionCS0, wheelAxleCS, suspensionRestLength, wheelRadius, m_tuning, isFrontWheel);
-		connectionPointCS0 = btVector3(-CUBE_HALF_EXTENTS + (0.3 * wheelWidth), connectionHeight, 2 * CUBE_HALF_EXTENTS - wheelRadius - 0.3);
+		connectionPointCS0 = btVector3(-CUBE_HALF_EXTENTS + (0.3 * wheelWidth), connectionHeight, 2 * CUBE_HALF_EXTENTS - wheelRadius);
 
 		m_vehicle->addWheel(connectionPointCS0, wheelDirectionCS0, wheelAxleCS, suspensionRestLength, wheelRadius, m_tuning, isFrontWheel);
-		connectionPointCS0 = btVector3(-CUBE_HALF_EXTENTS + (0.3 * wheelWidth), connectionHeight, -2 * CUBE_HALF_EXTENTS + wheelRadius + 0.5);
+		connectionPointCS0 = btVector3(-CUBE_HALF_EXTENTS + (0.3 * wheelWidth), connectionHeight, -2 * CUBE_HALF_EXTENTS + wheelRadius);
 		isFrontWheel = false;
 		m_vehicle->addWheel(connectionPointCS0, wheelDirectionCS0, wheelAxleCS, suspensionRestLength, wheelRadius, m_tuning, isFrontWheel);
-		connectionPointCS0 = btVector3(CUBE_HALF_EXTENTS - (0.3 * wheelWidth), connectionHeight, -2 * CUBE_HALF_EXTENTS + wheelRadius + 0.5);
+		connectionPointCS0 = btVector3(CUBE_HALF_EXTENTS - (0.3 * wheelWidth), connectionHeight, -2 * CUBE_HALF_EXTENTS + wheelRadius);
 		m_vehicle->addWheel(connectionPointCS0, wheelDirectionCS0, wheelAxleCS, suspensionRestLength, wheelRadius, m_tuning, isFrontWheel);
 
 		for (int i = 0; i < m_vehicle->getNumWheels(); i++)
@@ -351,11 +351,21 @@ void  Car::buttonUpdate() {
 
 	//ステアリング
 	{
+		const float defaultSteerringClamp = 0.3;
 		gVehicleSteering = LStick;
+		float speed = m_vehicle->getCurrentSpeedKmHour();
+		auto sr = gVehicleSteering;
+		static float clampParam = 9.5f;
+		if (speed > 0) {
+			steeringClamp = clampParam / speed;
+		}
+		if (steeringClamp > defaultSteerringClamp)
+			steeringClamp = defaultSteerringClamp;
 		if (gVehicleSteering > steeringClamp)
 			gVehicleSteering = steeringClamp;
-		if(gVehicleSteering < -steeringClamp)
+		if (gVehicleSteering < -steeringClamp)
 			gVehicleSteering = -steeringClamp;
+
 	}
 
 	//エンジンパワー
