@@ -62,9 +62,7 @@ float maxBreakingForce = 100.f;
 float gVehicleSteering = 0.f;
 float steeringIncrement = 0.04f;
 float steeringClamp = 0.3f;
-float wheelRadius = 0.5f;
-float wheelWidth = 0.4f;
-float wheelFriction = 1000;  //BT_LARGE_FLOAT;
+
 float suspensionStiffness = 20.f;
 float suspensionDamping = 2.3f;
 float suspensionCompression = 4.4f;
@@ -121,47 +119,35 @@ Car::~Car() {
 void Car::init() {
 	int upAxis = 1;
 
-	//モデル
-	{
-		m_chassiModel = NewGO<SkinModelRender>(0);
-		m_chassiModel->Init(L"Assets/modelData/chassis.cmo");
-		//前輪ホイール
-		m_frontLeftWheel = NewGO<SkinModelRender>(0);
-		m_frontLeftWheel->Init(L"Assets/modelData/frontWheel.cmo");
-		m_frontRightWheel = NewGO<SkinModelRender>(0);
-		m_frontRightWheel->Init(L"Assets/modelData/frontWheel.cmo");
-		//後輪ホイール
-		m_rearRightWheel = NewGO<SkinModelRender>(0);
-		m_rearRightWheel->Init(L"Assets/modelData/rearWheel.cmo");
-		m_rearLeftWheel = NewGO<SkinModelRender>(0);
-		m_rearLeftWheel->Init(L"Assets/modelData/rearWheel.cmo");
-	}
+	modelInit();
 
-	m_collisionConfiguration = new btDefaultCollisionConfiguration();
-	m_dispatcher = new btCollisionDispatcher(m_collisionConfiguration);
-	btVector3 worldMin(-1000, -1000, -1000);
-	btVector3 worldMax(1000, 1000, 1000);
-	m_overlappingPairCache = new btAxisSweep3(worldMin, worldMax);
-	if (useMCLPSolver)
 	{
-		btDantzigSolver* mlcp = new btDantzigSolver();
-		//btSolveProjectedGaussSeidel* mlcp = new btSolveProjectedGaussSeidel;
-		btMLCPSolver* sol = new btMLCPSolver(mlcp);
-		m_constraintSolver = sol;
+		m_collisionConfiguration = new btDefaultCollisionConfiguration();
+		m_dispatcher = new btCollisionDispatcher(m_collisionConfiguration);
+		btVector3 worldMin(-1000, -1000, -1000);
+		btVector3 worldMax(1000, 1000, 1000);
+		m_overlappingPairCache = new btAxisSweep3(worldMin, worldMax);
+		if (useMCLPSolver)
+		{
+			btDantzigSolver* mlcp = new btDantzigSolver();
+			//btSolveProjectedGaussSeidel* mlcp = new btSolveProjectedGaussSeidel;
+			btMLCPSolver* sol = new btMLCPSolver(mlcp);
+			m_constraintSolver = sol;
+		}
+		else
+		{
+			m_constraintSolver = new btSequentialImpulseConstraintSolver();
+		}
+		if (useMCLPSolver)
+		{
+			m_dynamicsWorld->getSolverInfo().m_minimumSolverBatchSize = 1;  //for direct solver it is better to have a small A matrix
+		}
+		else
+		{
+			m_dynamicsWorld->getSolverInfo().m_minimumSolverBatchSize = 128;  //for direct solver, it is better to solve multiple objects together, small batches have high overhead
+		}
+		m_dynamicsWorld->getSolverInfo().m_globalCfm = 0.00001;
 	}
-	else
-	{
-		m_constraintSolver = new btSequentialImpulseConstraintSolver();
-	}
-	if (useMCLPSolver)
-	{
-		m_dynamicsWorld->getSolverInfo().m_minimumSolverBatchSize = 1;  //for direct solver it is better to have a small A matrix
-	}
-	else
-	{
-		m_dynamicsWorld->getSolverInfo().m_minimumSolverBatchSize = 128;  //for direct solver, it is better to solve multiple objects together, small batches have high overhead
-	}
-	m_dynamicsWorld->getSolverInfo().m_globalCfm = 0.00001;
 
 	//m_dynamicsWorld->setGravity(btVector3(0,0,0));
 	btTransform tr;
@@ -170,9 +156,7 @@ void Car::init() {
 
 	//either use heightfield or triangle mesh
 
-	//create ground object
-
-	//btCollisionShape* chassisShape = new btBoxShape(btVector3(1.f, 0.5f, 2.f));
+	//シャーシー
 	btCollisionShape* chassisShape = new btBoxShape(btVector3(m_chassisShapeSize.x, m_chassisShapeSize.y, m_chassisShapeSize.z));
 	m_collisionShapes.push_back(chassisShape);
 
@@ -371,11 +355,11 @@ void  Car::buttonUpdate() {
 	//ステアリング
 	{
 		gVehicleSteering = LStick;
-		if (gVehicleSteering > steeringClamp)
+	/*	if (gVehicleSteering > steeringClamp)
 			gVehicleSteering = steeringClamp;
 		if(gVehicleSteering < -steeringClamp)
 			gVehicleSteering = -steeringClamp;
-
+*/
 	}
 
 	//エンジンパワー
@@ -401,27 +385,6 @@ void  Car::buttonUpdate() {
 	if (Pad(0).IsTrigger(enButtonA)) {
 		ResetCar();
 	}
-
-	//if (Pad(0).IsTrigger(enButtonLeft)) {
-	//	gVehicleSteering += steeringIncrement;
-	//	
-	//}
-
-	//if (Pad(0).IsTrigger(enButtonRight)) {
-	//	gVehicleSteering -= steeringIncrement;
-	//	if (gVehicleSteering < -steeringClamp)
-	//		gVehicleSteering = -steeringClamp;
-	//}
-
-	//if (Pad(0).IsTrigger(enButtonDown)) {
-	//	gEngineForce = maxEngineForce;
-	//	gBreakingForce = 0.f;
-	//}
-
-	//if (Pad(0).IsTrigger(enButtonUp)) {
-	//	gEngineForce = -maxEngineForce;
-	//	gBreakingForce = 0.f;
-	//}
 }
 
  void Car::ResetCar() {
@@ -473,4 +436,30 @@ btRigidBody* Car::localCreateRigidBody(btScalar mass, const btTransform& startTr
 
 	m_dynamicsWorld->addRigidBody(body);
 	return body;
+}
+
+
+void Car::modelInit() {
+	{
+		//シャーシー
+		m_chassiModel = NewGO<SkinModelRender>(0);
+		m_chassiModel->Init(L"Assets/modelData/chassis.cmo");
+		m_chassiModel->SetScale(m_chassisModelScale);
+
+		//前輪ホイール
+		m_frontLeftWheel = NewGO<SkinModelRender>(0);
+		m_frontLeftWheel->Init(L"Assets/modelData/frontWheel.cmo");
+		m_frontLeftWheel->SetScale(m_wheelModelScale);
+		m_frontRightWheel = NewGO<SkinModelRender>(0);
+		m_frontRightWheel->Init(L"Assets/modelData/frontWheel.cmo");
+		m_frontRightWheel->SetScale(m_wheelModelScale);
+
+		//後輪ホイール
+		m_rearRightWheel = NewGO<SkinModelRender>(0);
+		m_rearRightWheel->Init(L"Assets/modelData/rearWheel.cmo");
+		m_rearRightWheel->SetScale(m_wheelModelScale);
+		m_rearLeftWheel = NewGO<SkinModelRender>(0);
+		m_rearLeftWheel->Init(L"Assets/modelData/rearWheel.cmo");
+		m_rearLeftWheel->SetScale(m_wheelModelScale);
+	}
 }

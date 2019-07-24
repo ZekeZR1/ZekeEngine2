@@ -18,9 +18,24 @@ public:
 	void SetChassisCollisionShapeSize(CVector3 size) {
 		m_chassisShapeSize = size;
 	}
+
 private:
 	void init();
+	void modelInit();
 	void modelUpdate();
+
+	//í≤êÆóp
+	//collider
+	CVector3 m_chassisShapeSize = { 0.7,0.3,1.5 };
+	float wheelRadius = 0.5f;
+	float wheelWidth = 0.4f;
+	float wheelFriction = 1000;  //BT_LARGE_FLOAT;
+	//model
+	CVector3 m_chassisPositionFix = CVector3::Zero();
+	CVector3 m_chassisModelScale = CVector3::One();
+	CVector3 m_wheelModelScale = CVector3::One();
+
+
 	class btDiscreteDynamicsWorld* m_dynamicsWorld;
 	btRigidBody* m_carChassis = 0;
 	btRigidBody* localCreateRigidBody(btScalar mass, const btTransform& worldTransform, btCollisionShape* colSape);
@@ -41,12 +56,12 @@ private:
 	float testParam = 0.f;
 
 	btVector3* m_vertices = 0;
-	CVector3 m_chassisShapeSize = { 0.7,0.3,1.5 };
+
+
 	btRaycastVehicle::btVehicleTuning m_tuning;
 	btVehicleRaycaster* m_vehicleRayCaster;
 	btRaycastVehicle* m_vehicle = 0;
 	btCollisionShape* m_wheelShape = 0;
-	CVector3 m_chassisPositionFix = CVector3::Zero();
 	SkinModelRender* m_chassiModel = nullptr;
 	SkinModelRender* m_frontLeftWheel = nullptr; 
 	SkinModelRender* m_frontRightWheel = nullptr;
