@@ -43,6 +43,7 @@ private:
 		return body;
 	}
 	SkinModelRender* m_ballModel = nullptr;
+	btSphereShape* colShape;
 	float m_radius = 3.f;
 };
 

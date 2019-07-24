@@ -10,7 +10,7 @@ void Ball::Awake() {
 bool Ball::Start() {
 	
 	//btSphereShape* colShape  = new btSphereShape(m_radius);
-	btSphereShape* colShape = new btSphereShape(m_radius);
+	colShape = new btSphereShape(m_radius);
 	btTransform startTransform;
 	startTransform.setIdentity();
 
@@ -28,12 +28,19 @@ bool Ball::Start() {
 		btScalar(20),
 		btScalar(0)));
 	 m_rigidBody = createRigidBody(mass, startTransform, colShape);
-	 m_rigidBody->applyDamping(-2.f);
+	 m_rigidBody->applyDamping(1.f);
+	 m_rigidBody->setRestitution(1.f);
+	 auto wtr = m_rigidBody->getWorldTransform();
+	 wtr.setOrigin({ 0,10,10 });
+	 m_rigidBody->setWorldTransform(wtr);
 	return true;
 }
 
 void Ball::OnDestroy() {
-
+	PhysicsWorld().GetDynamicWorld()->removeRigidBody(m_rigidBody);
+	delete m_rigidBody->getMotionState();
+	delete colShape;
+	DeleteGO(m_ballModel);
 }
 
 void Ball::Update() {

@@ -21,9 +21,19 @@ void Game::OnDestroy() {
 }
 
 void Game::Update() {
-	//auto pos = m_ball->GetPosition();
-	m_gameCamera->SetTarget(m_car.GetPosition());
-	//m_gameCamera->SetTarget(pos);
+	if (Pad(0).IsTrigger(enButtonStart)) {
+		DeleteGO(m_ball);
+		m_ball = NewGO<Ball>(0);
+	}
+	auto pos = m_ball->GetPosition();
+	//m_gameCamera->SetTarget(m_car.GetPosition());
+	m_gameCamera->SetTarget(pos);
+	CVector3 cameraPos = CVector3::Zero();
+	auto carToBallVec = m_ball->GetPosition() - m_car.GetPosition();
+	carToBallVec.Normalize();
+	cameraPos = m_car.GetPosition() - (carToBallVec * 8);
+	cameraPos.y = 3.f;
+	m_gameCamera->SetCameraPosition(cameraPos);
 	m_car.stepSimulation();
 	m_car.buttonUpdate();
 	//m_vehicle.stepSimulation();

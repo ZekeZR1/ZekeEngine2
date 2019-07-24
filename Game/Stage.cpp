@@ -9,7 +9,8 @@ bool Stage::Start() {
 	m_floorModel->SetPosition(CVector3::Zero());
 	m_floorModel->SetRotation(CQuaternion::Identity());
 
-	m_physicsStaticObject.CreateMeshObject(m_floorModel->GetSkinModel(), CVector3::Zero(),CQuaternion::Identity());
+	m_physicsStaticObject.CreateMeshObject(m_floorModel->GetSkinModel(), CVector3::Zero(),CQuaternion::Identity(),0.5f);
+
 	return true;
 }
 

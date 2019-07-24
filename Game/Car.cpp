@@ -181,6 +181,9 @@ void Car::init() {
 	tr.setOrigin(btVector3(0, 0.f, 0));
 
 	m_carChassis = localCreateRigidBody(800, tr, compound);  //chassisShape);
+
+	m_carChassis->setRestitution(0.5f);
+
 	//m_carChassis->setDamping(0.2,0.2);
 
 	m_wheelShape = new btCylinderShapeX(btVector3(wheelWidth, wheelRadius, wheelRadius));
@@ -276,7 +279,6 @@ void Car::stepSimulation() {
 			{
 				static int totalFailures = 0;
 				totalFailures += numFallbacks;
-				printf("MLCP solver failed %d times, falling back to btSequentialImpulseSolver (SI)\n", totalFailures);
 			}
 			sol->setNumFallbacks(0);
 		}
@@ -479,7 +481,6 @@ void Car::Aerial() {
 	//エアリアル
 	//auto force = m_vehicle->getRigidBody()->getTotalForce();
 	auto wtr = m_vehicle->getWheelTransformWS(0);
-	printf("wtr... %f", wtr.getOrigin().getY());
 	//TODO : とりあえず床走ってるときしか考えてない
 	if (wtr.getOrigin().getY() < 0.6f) return;
 

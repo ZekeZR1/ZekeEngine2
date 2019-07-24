@@ -30,6 +30,10 @@ public:
 		return m_vehicle->getCurrentSpeedKmHour();
 	}
 
+	CVector3 GetForwardVector() const {
+		return m_vehicle->getForwardVector();
+	}
+
 private:
 	void init();
 	void modelInit();
