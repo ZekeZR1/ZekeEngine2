@@ -348,6 +348,7 @@ void  Car::buttonUpdate() {
 	auto LStick = Pad(0).GetLStickXF();
 	auto R2Trigger = Pad(0).GetRTrigger();
 	auto L2Trigger = Pad(0).GetLTrigger();
+	auto speed = m_vehicle->getCurrentSpeedKmHour();
 
 	//ステアリング
 	{
@@ -374,6 +375,9 @@ void  Car::buttonUpdate() {
 		float engineForce = 0.f;
 		//前進
 		auto frontForce = R2Trigger * engineParam;
+		if (m_vehicle->getCurrentSpeedKmHour() > 90)
+			frontForce = 0;
+		//printf("speed %f ... font force %f\n", speed,frontForce);
 		//後退
 		auto backForce = L2Trigger * engineParam;
 
@@ -392,7 +396,8 @@ void  Car::buttonUpdate() {
 		static const int boostParam = 20000;
 		auto rigidbody = m_vehicle->getRigidBody();
 		auto forward = m_vehicle->getForwardVector();
-		rigidbody->applyCentralForce(forward * boostParam);
+		if(speed < 100.f)
+			rigidbody->applyCentralForce(forward * boostParam);
 	}
 	//ジャンプ
 	if (Pad(0).IsTrigger(enButtonA)) {
