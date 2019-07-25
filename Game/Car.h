@@ -23,7 +23,7 @@ public:
 	}
 
 	CVector3 GetPosition() const{
-		return m_chassiModel->GetPosition();
+		return m_vehicle->getChassisWorldTransform().getOrigin();
 	}
 
 	float GetSpeedKmHour() const{
@@ -85,5 +85,7 @@ private:
 	SkinModelRender* m_rearRightWheel = nullptr;
 	SkinModelRender* m_rearLeftWheel = nullptr;
 
+	const float normalMaxSpeed = 90.f;
+	const float boostMaxSpeed = 100.f;
 };
 

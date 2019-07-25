@@ -165,7 +165,7 @@ void Car::init() {
 	btTransform localTrans;
 	localTrans.setIdentity();
 	//localTrans effectively shifts the center of mass with respect to the chassis
-	localTrans.setOrigin(btVector3(0, 1, 0));
+	localTrans.setOrigin(btVector3(0, 0, 0));
 
 	compound->addChildShape(localTrans, chassisShape);
 
@@ -178,6 +178,7 @@ void Car::init() {
 		//compound->addChildShape(suppLocalTrans, suppShape);
 	}
 
+	//シャーシーの位置を中心にする
 	tr.setOrigin(btVector3(0, 0.f, 0));
 
 	m_carChassis = localCreateRigidBody(800, tr, compound);  //chassisShape);
@@ -210,7 +211,7 @@ void Car::init() {
 
 		m_dynamicsWorld->addVehicle(m_vehicle);
 
-		float connectionHeight = 1.2f;
+		float connectionHeight = 0.2f;
 
 		bool isFrontWheel = true;
 
@@ -375,7 +376,7 @@ void  Car::buttonUpdate() {
 		float engineForce = 0.f;
 		//前進
 		auto frontForce = R2Trigger * engineParam;
-		if (m_vehicle->getCurrentSpeedKmHour() > 90)
+		if (m_vehicle->getCurrentSpeedKmHour() > normalMaxSpeed)
 			frontForce = 0;
 		//printf("speed %f ... font force %f\n", speed,frontForce);
 		//後退
@@ -396,7 +397,7 @@ void  Car::buttonUpdate() {
 		static const int boostParam = 20000;
 		auto rigidbody = m_vehicle->getRigidBody();
 		auto forward = m_vehicle->getForwardVector();
-		if(speed < 100.f)
+		if(speed < boostMaxSpeed)
 			rigidbody->applyCentralForce(forward * boostParam);
 	}
 	//ジャンプ
@@ -420,7 +421,10 @@ void  Car::buttonUpdate() {
 	 gBreakingForce = defaultBreakingForce;
 	 gEngineForce = 0.f;
 
-	 m_carChassis->setCenterOfMassTransform(btTransform::getIdentity());
+	 //ちょっと上に生成
+	 auto wtr = m_vehicle->getRigidBody()->getWorldTransform();
+	 wtr.setOrigin(btVector3(0, 1, 0));
+	 m_carChassis->setCenterOfMassTransform(wtr);
 	 m_carChassis->setLinearVelocity(btVector3(0, 0, 0));
 	 m_carChassis->setAngularVelocity(btVector3(0, 0, 0));
 	 m_dynamicsWorld->getBroadphase()->getOverlappingPairCache()->cleanProxyFromPairs(m_carChassis->getBroadphaseHandle(), getDynamicsWorld()->getDispatcher());
@@ -505,13 +509,14 @@ void Car::Aerial() {
 		auto rigidbody = m_vehicle->getRigidBody();
 		auto rdtr = rigidbody->getWorldTransform();
 		auto rdrot = rdtr.getRotation();
-		float rotationSpeed = 3.f;
+		float rotationSpeed = 4.f;
 		auto forward = m_vehicle->getForwardVector();
 		//printf("forward x : %f y : %f z : %f", forward.getX(), forward.getY(), forward.getZ());
 		if (Pad(0).IsPress(enButtonRB1)) {
 			//前軸回転
 			CQuaternion rot = CQuaternion::Identity();
 			rot.SetRotationDeg({ 0,0,1 }, LStickX * -rotationSpeed);
+			//rigidbody->applyTorque({ 0,0,1000 * LStickX });
 			rdrot *= btQuaternion(rot);
 		}
 		else {
