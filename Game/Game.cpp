@@ -8,7 +8,7 @@
 bool Game::Start() {
 	m_stage = NewGO<Stage>(0);
 	m_ball = NewGO<Ball>(0);
-	//m_car.SetChassisPositionFix(CVector3(0.f,0.8f,-0.f ));
+	m_car.SetChassisPositionFix(CVector3(0.f,-0.3f,0.f ));
 	m_gameCamera = NewGO<GameCamera>(0);
 
 	return true;
