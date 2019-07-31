@@ -28,7 +28,7 @@ bool Ball::Start() {
 		btScalar(20),
 		btScalar(0)));
 	 m_rigidBody = createRigidBody(mass, startTransform, colShape);
-	 m_rigidBody->applyDamping(1.f);
+	 m_rigidBody->applyDamping(3.f);
 	 m_rigidBody->setRestitution(1.f);
 	 auto wtr = m_rigidBody->getWorldTransform();
 	 wtr.setOrigin({ 0,10,10 });

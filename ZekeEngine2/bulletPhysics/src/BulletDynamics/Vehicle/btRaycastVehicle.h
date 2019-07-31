@@ -56,6 +56,7 @@ public:
 			btScalar	m_maxSuspensionForce;
 
 		};
+	int numWheelsOnGround = 0;
 private:
 
 	btVehicleRaycaster*	m_vehicleRaycaster;

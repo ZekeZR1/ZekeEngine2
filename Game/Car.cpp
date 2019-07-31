@@ -63,7 +63,7 @@ float gVehicleSteering = 0.f;
 float steeringIncrement = 0.04f;
 float steeringClamp = 0.2f;
 
-float suspensionStiffness = 10.f; //20
+float suspensionStiffness = 10.f; //10
 float suspensionDamping = 2.13f; //2.3
 float suspensionCompression = 14.4f; //4.4
 float rollInfluence = 0.0f;  //0.1f;
@@ -263,33 +263,54 @@ void Car::stepSimulation() {
 		m_vehicle->setSteeringValue(gVehicleSteering, wheelIndex);
 	}
 
+	//auto av = m_carChassis->getAngularVelocity();
+	//printf("x : %f , y : %f , z %f\n", av.getX(), av.getY(), av.getZ());
+
+		//if (abs(av.getX()) > 2.f) 
+			//	nav.setX(0);
+			//else
+			//	nav.setX(av.getX());
+			//if (abs(av.getY()) > 2.f) 
+			//	nav.setY(0);
+			//else
+			//	nav.setY(av.getY());
+			//if (abs(av.getZ()) > 2.f) 
+			//	nav.setZ(0);
+			//else
+			//	nav.setZ(av.getZ());
+
+	if (m_vehicle->numWheelsOnGround == 0) {
+		static btVector3 nav(0, 0, 0);
+		m_carChassis->setAngularVelocity(nav);
+	}
+
 	modelUpdate();
 
 	//auto tfc = m_vehicle->getRigidBody()->getTotalTorque();
 	//printf("total force x  : %f , y : %f , z : %f\n", tfc.getX(),tfc.getY(),tfc.getZ());
 	
-	float dt = IGameTime().GetFrameDeltaTime();
+	//float dt = IGameTime().GetFrameDeltaTime();
 
-	if (m_dynamicsWorld)
-	{
-		//during idle mode, just run 1 simulation step maximum
-		int maxSimSubSteps = 2;
+	//if (m_dynamicsWorld)
+	//{
+	//	//during idle mode, just run 1 simulation step maximum
+	//	int maxSimSubSteps = 2;
 
-		int numSimSteps;
-		numSimSteps = m_dynamicsWorld->stepSimulation(dt, maxSimSubSteps);
+	//	int numSimSteps;
+	//	numSimSteps = m_dynamicsWorld->stepSimulation(dt, maxSimSubSteps);
 
-		if (m_dynamicsWorld->getConstraintSolver()->getSolverType() == BT_MLCP_SOLVER)
-		{
-			btMLCPSolver* sol = (btMLCPSolver*)m_dynamicsWorld->getConstraintSolver();
-			int numFallbacks = sol->getNumFallbacks();
-			if (numFallbacks)
-			{
-				static int totalFailures = 0;
-				totalFailures += numFallbacks;
-			}
-			sol->setNumFallbacks(0);
-		}
-	}
+	//	if (m_dynamicsWorld->getConstraintSolver()->getSolverType() == BT_MLCP_SOLVER)
+	//	{
+	//		btMLCPSolver* sol = (btMLCPSolver*)m_dynamicsWorld->getConstraintSolver();
+	//		int numFallbacks = sol->getNumFallbacks();
+	//		if (numFallbacks)
+	//		{
+	//			static int totalFailures = 0;
+	//			totalFailures += numFallbacks;
+	//		}
+	//		sol->setNumFallbacks(0);
+	//	}
+	//}
 }
 
 void Car::modelUpdate() {
@@ -364,7 +385,7 @@ void  Car::buttonUpdate() {
 		auto sr = gVehicleSteering;
 		//値を小さく設定するほど高速で曲がりにくくなります。
 		//static float clampParam = 9.5f;
-		static float clampParam = 6.5f;
+		static float clampParam = 7.f;
 		if (speed > 0) {
 			steeringClamp = clampParam / speed;
 		}
@@ -415,7 +436,7 @@ void  Car::buttonUpdate() {
 		//TODO : 車の上方向に力を加える
 		rigidbody->applyCentralImpulse(btVector3(0,1,0) * jumpParam);
 	}
-	//エアリアル制御
+	//エアリアル
 	Aerial();
 	//リセット
 	if (Pad(0).IsTrigger(enButtonStart)) {
@@ -505,12 +526,14 @@ void Car::modelInit() {
 
 void Car::Aerial() {
 	//エアリアル
+
 	//auto force = m_vehicle->getRigidBody()->getTotalForce();
 	auto wtr = m_vehicle->getWheelTransformWS(0);
-	//TODO : とりあえず床走ってるときしか考えてない
-	if (wtr.getOrigin().getY() < 0.6f) return;
 
-	m_carChassis->setAngularVelocity(btVector3(0, 0, 0));
+	//if (wtr.getOrigin().getY() <= 0.6f) return;
+	if (m_vehicle->numWheelsOnGround != 0) return;
+
+	//m_carChassis->setAngularVelocity(btVector3(0, 0, 0));
 
 	{
 		auto LStickX = Pad(0).GetLStickXF();
