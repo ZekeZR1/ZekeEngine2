@@ -1,4 +1,6 @@
 #pragma once
+#include "MyVehicle.h"
+
 class Car
 {
 public:
@@ -79,6 +81,7 @@ private:
 	btRaycastVehicle::btVehicleTuning m_tuning;
 	btVehicleRaycaster* m_vehicleRayCaster;
 	btRaycastVehicle* m_vehicle = 0;
+	//MyVehicle* m_vehicle = 0;
 	btCollisionShape* m_wheelShape = 0;
 	SkinModelRender* m_chassiModel = nullptr;
 	SkinModelRender* m_frontLeftWheel = nullptr; 

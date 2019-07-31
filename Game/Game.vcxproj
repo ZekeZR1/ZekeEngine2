@@ -134,6 +134,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameCamera.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MyVehicle.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -145,33 +146,42 @@
     <ClInclude Include="Car.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameCamera.h" />
+    <ClInclude Include="MyVehicle.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Vehicle.h" />
   </ItemGroup>
   <ItemGroup>
-    <MeshContentTask Include="Assets\modelData\ball.FBX">
+    <None Include="Assets\modelData\ball.FBX">
       <FileType>Document</FileType>
-    </MeshContentTask>
-    <MeshContentTask Include="Assets\modelData\Box.FBX">
+    </None>
+    <None Include="Assets\modelData\Box.FBX">
       <FileType>Document</FileType>
-    </MeshContentTask>
-    <MeshContentTask Include="Assets\modelData\chassis.FBX">
+    </None>
+    <None Include="Assets\modelData\chassis.FBX">
       <FileType>Document</FileType>
-    </MeshContentTask>
-    <MeshContentTask Include="Assets\modelData\frontLeftWheel.FBX" />
-    <MeshContentTask Include="Assets\modelData\frontRightWheel.FBX" />
-    <MeshContentTask Include="Assets\modelData\frontWheel.FBX">
+    </None>
+    <None Include="Assets\modelData\frontLeftWheel.FBX">
       <FileType>Document</FileType>
-    </MeshContentTask>
-    <MeshContentTask Include="Assets\modelData\rearLeftWheel.FBX" />
-    <MeshContentTask Include="Assets\modelData\rearRightWheel.FBX" />
-    <MeshContentTask Include="Assets\modelData\Stage.FBX">
+    </None>
+    <None Include="Assets\modelData\frontRightWheel.FBX">
       <FileType>Document</FileType>
-    </MeshContentTask>
-    <MeshContentTask Include="Assets\modelData\wheel.FBX">
+    </None>
+    <None Include="Assets\modelData\frontWheel.FBX">
       <FileType>Document</FileType>
-    </MeshContentTask>
+    </None>
+    <None Include="Assets\modelData\rearLeftWheel.FBX">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="Assets\modelData\rearRightWheel.FBX">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="Assets\modelData\Stage.FBX">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="Assets\modelData\wheel.FBX">
+      <FileType>Document</FileType>
+    </None>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

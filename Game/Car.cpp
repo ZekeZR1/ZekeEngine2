@@ -205,7 +205,9 @@ void Car::init() {
 	/// create vehicle
 	{
 		m_vehicleRayCaster = new btDefaultVehicleRaycaster(m_dynamicsWorld);
+		//m_vehicle = new btRaycastVehicle(m_tuning, m_carChassis, m_vehicleRayCaster);
 		m_vehicle = new btRaycastVehicle(m_tuning, m_carChassis, m_vehicleRayCaster);
+		//m_vehicle = new MyVehicle(m_tuning, m_carChassis, m_vehicleRayCaster);
 
 		///never deactivate the vehicle
 		m_carChassis->setActivationState(DISABLE_DEACTIVATION);
@@ -259,10 +261,12 @@ void Car::stepSimulation() {
 		m_vehicle->setSteeringValue(gVehicleSteering, wheelIndex);
 		wheelIndex = 1;
 		m_vehicle->setSteeringValue(gVehicleSteering, wheelIndex);
-		printf("%f\n", gVehicleSteering);
 	}
 
 	modelUpdate();
+
+	//auto tfc = m_vehicle->getRigidBody()->getTotalTorque();
+	//printf("total force x  : %f , y : %f , z : %f\n", tfc.getX(),tfc.getY(),tfc.getZ());
 	
 	float dt = IGameTime().GetFrameDeltaTime();
 
@@ -346,6 +350,7 @@ void Car::modelUpdate() {
 
 void  Car::buttonUpdate() {
 
+
 	auto LStick = Pad(0).GetLStickXF();
 	auto R2Trigger = Pad(0).GetRTrigger();
 	auto L2Trigger = Pad(0).GetLTrigger();
@@ -357,9 +362,9 @@ void  Car::buttonUpdate() {
 		gVehicleSteering = LStick;
 		float speed = m_vehicle->getCurrentSpeedKmHour();
 		auto sr = gVehicleSteering;
-		//値を大きく設定するほど高速で曲がりにくくなります。
+		//値を小さく設定するほど高速で曲がりにくくなります。
 		//static float clampParam = 9.5f;
-		static float clampParam = 5.5f;
+		static float clampParam = 6.5f;
 		if (speed > 0) {
 			steeringClamp = clampParam / speed;
 		}
@@ -425,7 +430,7 @@ void  Car::buttonUpdate() {
 
 	 //ちょっと上に生成
 	 auto wtr = m_vehicle->getRigidBody()->getWorldTransform();
-	 wtr.setOrigin(btVector3(0, 1, 0));
+	 wtr.setOrigin(btVector3(0, 2, 0));
 	 m_carChassis->setCenterOfMassTransform(wtr);
 	 m_carChassis->setLinearVelocity(btVector3(0, 0, 0));
 	 m_carChassis->setAngularVelocity(btVector3(0, 0, 0));
@@ -505,6 +510,8 @@ void Car::Aerial() {
 	//TODO : とりあえず床走ってるときしか考えてない
 	if (wtr.getOrigin().getY() < 0.6f) return;
 
+	m_carChassis->setAngularVelocity(btVector3(0, 0, 0));
+
 	{
 		auto LStickX = Pad(0).GetLStickXF();
 		auto LStickY = Pad(0).GetLStickYF();
@@ -516,9 +523,11 @@ void Car::Aerial() {
 		//printf("forward x : %f y : %f z : %f", forward.getX(), forward.getY(), forward.getZ());
 		if (Pad(0).IsPress(enButtonRB1)) {
 			//前軸回転
+			//auto rel = btVector3(10, 0, 0);
+			//rigidbody->applyImpulse(btVector3(0, LStickX,0),rel);
 			CQuaternion rot = CQuaternion::Identity();
 			rot.SetRotationDeg({ 0,0,1 }, LStickX * -rotationSpeed);
-			//rigidbody->applyTorque({ 0,0,1000 * LStickX });
+			//rigidbody->applyTorque({ 0,0,10 * LStickX });
 			rdrot *= btQuaternion(rot);
 		}
 		else {

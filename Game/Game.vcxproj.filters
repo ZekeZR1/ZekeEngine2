@@ -39,6 +39,9 @@
     <ClCompile Include="Ball.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="MyVehicle.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -62,37 +65,40 @@
     <ClInclude Include="Ball.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="MyVehicle.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <MeshContentTask Include="Assets\modelData\chassis.FBX">
+    <None Include="Assets\modelData\chassis.FBX">
       <Filter>Assets\model\car</Filter>
-    </MeshContentTask>
-    <MeshContentTask Include="Assets\modelData\frontWheel.FBX">
+    </None>
+    <None Include="Assets\modelData\frontLeftWheel.FBX">
       <Filter>Assets\model\car</Filter>
-    </MeshContentTask>
-    <MeshContentTask Include="Assets\modelData\wheel.FBX">
+    </None>
+    <None Include="Assets\modelData\frontRightWheel.FBX">
       <Filter>Assets\model\car</Filter>
-    </MeshContentTask>
-    <MeshContentTask Include="Assets\modelData\ball.FBX">
+    </None>
+    <None Include="Assets\modelData\frontWheel.FBX">
+      <Filter>Assets\model\car</Filter>
+    </None>
+    <None Include="Assets\modelData\rearLeftWheel.FBX">
+      <Filter>Assets\model\car</Filter>
+    </None>
+    <None Include="Assets\modelData\rearRightWheel.FBX">
+      <Filter>Assets\model\car</Filter>
+    </None>
+    <None Include="Assets\modelData\wheel.FBX">
+      <Filter>Assets\model\car</Filter>
+    </None>
+    <None Include="Assets\modelData\ball.FBX">
       <Filter>Assets\model</Filter>
-    </MeshContentTask>
-    <MeshContentTask Include="Assets\modelData\Box.FBX">
+    </None>
+    <None Include="Assets\modelData\Box.FBX">
       <Filter>Assets\model</Filter>
-    </MeshContentTask>
-    <MeshContentTask Include="Assets\modelData\Stage.FBX">
+    </None>
+    <None Include="Assets\modelData\Stage.FBX">
       <Filter>Assets\model</Filter>
-    </MeshContentTask>
-    <MeshContentTask Include="Assets\modelData\frontRightWheel.FBX">
-      <Filter>Assets\model\car</Filter>
-    </MeshContentTask>
-    <MeshContentTask Include="Assets\modelData\rearLeftWheel.FBX">
-      <Filter>Assets\model\car</Filter>
-    </MeshContentTask>
-    <MeshContentTask Include="Assets\modelData\rearRightWheel.FBX">
-      <Filter>Assets\model\car</Filter>
-    </MeshContentTask>
-    <MeshContentTask Include="Assets\modelData\frontLeftWheel.FBX">
-      <Filter>Assets\model\car</Filter>
-    </MeshContentTask>
+    </None>
   </ItemGroup>
 </Project>
