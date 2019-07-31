@@ -44,7 +44,8 @@ private:
 	CVector3 m_chassisShapeSize = { 0.7,0.3,1.5 };
 	float wheelRadius = 0.5f;
 	float wheelWidth = 0.4f;
-	float wheelFriction = 1000;  //BT_LARGE_FLOAT;
+	//float wheelFriction = 1000;  //BT_LARGE_FLOAT;
+	float wheelFriction = 10;  //BT_LARGE_FLOAT;
 	//model
 	CVector3 m_chassisPositionFix = CVector3::Zero();
 	CVector3 m_chassisModelScale = CVector3::One();
@@ -84,7 +85,7 @@ private:
 	SkinModelRender* m_frontRightWheel = nullptr;
 	SkinModelRender* m_rearRightWheel = nullptr;
 	SkinModelRender* m_rearLeftWheel = nullptr;
-
+	const float m_chassisMass = 800.f; //シャーシーの重さ
 	const float normalMaxSpeed = 90.f;
 	const float boostMaxSpeed = 100.f;
 };

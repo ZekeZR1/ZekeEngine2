@@ -63,12 +63,12 @@ float gVehicleSteering = 0.f;
 float steeringIncrement = 0.04f;
 float steeringClamp = 0.2f;
 
-float suspensionStiffness = 20.f;
-float suspensionDamping = 2.3f;
-float suspensionCompression = 4.4f;
-float rollInfluence = 0.1f;  //1.0f;
+float suspensionStiffness = 10.f; //20
+float suspensionDamping = 2.13f; //2.3
+float suspensionCompression = 14.4f; //4.4
+float rollInfluence = 0.0f;  //0.1f;
 
-btScalar suspensionRestLength(0.6);
+btScalar suspensionRestLength(0.7);
 
 #define CUBE_HALF_EXTENTS 1
 
@@ -181,9 +181,10 @@ void Car::init() {
 	//シャーシーの位置を中心にする
 	tr.setOrigin(btVector3(0, 0.f, 0));
 
-	m_carChassis = localCreateRigidBody(800, tr, compound);  //chassisShape);
+	//m_carChassis = localCreateRigidBody(800, tr, compound);  //chassisShape);
+	m_carChassis = localCreateRigidBody(m_chassisMass, tr, compound);  //chassisShape);
 
-	m_carChassis->setRestitution(0.5f);
+	//m_carChassis->setRestitution(0.5f);
 
 	//m_carChassis->setDamping(0.2,0.2);
 
@@ -211,24 +212,25 @@ void Car::init() {
 
 		m_dynamicsWorld->addVehicle(m_vehicle);
 
-		float connectionHeight = 0.2f;
-
-		bool isFrontWheel = true;
-
 		//choose coordinate system
 		m_vehicle->setCoordinateSystem(rightIndex, upIndex, forwardIndex);
 
-		//static const float wheelposz
-		btVector3 connectionPointCS0(CUBE_HALF_EXTENTS - (0.3 * wheelWidth), connectionHeight, 2 * CUBE_HALF_EXTENTS - wheelRadius);
-
+		//ホイール作成登録
+		float connectionHeight = 0.2f;
+		bool isFrontWheel = true;
+		static const float WheelXDistanceFix = 0.2f;
+		//前輪
+		static const float frontWheelZfix = -0.2f;
+		btVector3 connectionPointCS0(CUBE_HALF_EXTENTS - (0.3 * wheelWidth) - WheelXDistanceFix, connectionHeight, 2 * CUBE_HALF_EXTENTS - wheelRadius + frontWheelZfix);
 		m_vehicle->addWheel(connectionPointCS0, wheelDirectionCS0, wheelAxleCS, suspensionRestLength, wheelRadius, m_tuning, isFrontWheel);
-		connectionPointCS0 = btVector3(-CUBE_HALF_EXTENTS + (0.3 * wheelWidth), connectionHeight, 2 * CUBE_HALF_EXTENTS - wheelRadius);
-
+		connectionPointCS0 = btVector3(-CUBE_HALF_EXTENTS + (0.3 * wheelWidth) + WheelXDistanceFix, connectionHeight, 2 * CUBE_HALF_EXTENTS - wheelRadius + frontWheelZfix);
 		m_vehicle->addWheel(connectionPointCS0, wheelDirectionCS0, wheelAxleCS, suspensionRestLength, wheelRadius, m_tuning, isFrontWheel);
-		connectionPointCS0 = btVector3(-CUBE_HALF_EXTENTS + (0.3 * wheelWidth), connectionHeight, -2 * CUBE_HALF_EXTENTS + wheelRadius);
+		//後輪
 		isFrontWheel = false;
+		static const float rearWheelZfix = -0.6f;
+		connectionPointCS0 = btVector3(-CUBE_HALF_EXTENTS + (0.3 * wheelWidth) + WheelXDistanceFix, connectionHeight, -2 * CUBE_HALF_EXTENTS + wheelRadius - rearWheelZfix);
 		m_vehicle->addWheel(connectionPointCS0, wheelDirectionCS0, wheelAxleCS, suspensionRestLength, wheelRadius, m_tuning, isFrontWheel);
-		connectionPointCS0 = btVector3(CUBE_HALF_EXTENTS - (0.3 * wheelWidth), connectionHeight, -2 * CUBE_HALF_EXTENTS + wheelRadius);
+		connectionPointCS0 = btVector3(CUBE_HALF_EXTENTS - (0.3 * wheelWidth) - WheelXDistanceFix, connectionHeight, -2 * CUBE_HALF_EXTENTS + wheelRadius - rearWheelZfix);
 		m_vehicle->addWheel(connectionPointCS0, wheelDirectionCS0, wheelAxleCS, suspensionRestLength, wheelRadius, m_tuning, isFrontWheel);
 
 		for (int i = 0; i < m_vehicle->getNumWheels(); i++)
@@ -257,7 +259,7 @@ void Car::stepSimulation() {
 		m_vehicle->setSteeringValue(gVehicleSteering, wheelIndex);
 		wheelIndex = 1;
 		m_vehicle->setSteeringValue(gVehicleSteering, wheelIndex);
-
+		printf("%f\n", gVehicleSteering);
 	}
 
 	modelUpdate();
@@ -355,7 +357,9 @@ void  Car::buttonUpdate() {
 		gVehicleSteering = LStick;
 		float speed = m_vehicle->getCurrentSpeedKmHour();
 		auto sr = gVehicleSteering;
-		static float clampParam = 9.5f;
+		//値を大きく設定するほど高速で曲がりにくくなります。
+		//static float clampParam = 9.5f;
+		static float clampParam = 5.5f;
 		if (speed > 0) {
 			steeringClamp = clampParam / speed;
 		}
