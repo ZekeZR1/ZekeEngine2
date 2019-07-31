@@ -156,18 +156,16 @@
     <MeshContentTask Include="Assets\modelData\Box.FBX">
       <FileType>Document</FileType>
     </MeshContentTask>
-    <MeshContentTask Include="Assets\modelData\car.FBX">
-      <FileType>Document</FileType>
-    </MeshContentTask>
     <MeshContentTask Include="Assets\modelData\chassis.FBX">
       <FileType>Document</FileType>
     </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\frontLeftWheel.FBX" />
+    <MeshContentTask Include="Assets\modelData\frontRightWheel.FBX" />
     <MeshContentTask Include="Assets\modelData\frontWheel.FBX">
       <FileType>Document</FileType>
     </MeshContentTask>
-    <MeshContentTask Include="Assets\modelData\rearWheel.FBX">
-      <FileType>Document</FileType>
-    </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\rearLeftWheel.FBX" />
+    <MeshContentTask Include="Assets\modelData\rearRightWheel.FBX" />
     <MeshContentTask Include="Assets\modelData\Stage.FBX">
       <FileType>Document</FileType>
     </MeshContentTask>

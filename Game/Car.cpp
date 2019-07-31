@@ -310,7 +310,8 @@ void Car::modelUpdate() {
 				rfixed.SetRotationDeg(CVector3::AxisY(), 180.f);
 				rfixed.Multiply(rot);
 				m_frontLeftWheel->SetPosition(origin);
-				m_frontLeftWheel->SetRotation(rfixed);
+				//m_frontLeftWheel->SetRotation(rfixed);
+				m_frontLeftWheel->SetRotation(rot);
 			}
 			{
 				//右前輪
@@ -334,11 +335,8 @@ void Car::modelUpdate() {
 				auto wheelTransform = m_vehicle->getWheelTransformWS(3);
 				auto origin = wheelTransform.getOrigin();
 				auto rot = wheelTransform.getRotation();
-				CQuaternion rfixed = CQuaternion::Identity();
-				rfixed.SetRotationDeg(CVector3::AxisY(), 180.f);
-				rfixed.Multiply(rot);
 				m_rearRightWheel->SetPosition(origin);
-				m_rearRightWheel->SetRotation(rfixed);
+				m_rearRightWheel->SetRotation(rot);
 			}
 		}
 	}
@@ -480,18 +478,18 @@ void Car::modelInit() {
 
 		//前輪ホイール
 		m_frontLeftWheel = NewGO<SkinModelRender>(0);
-		m_frontLeftWheel->Init(L"Assets/modelData/frontWheel.cmo");
+		m_frontLeftWheel->Init(L"Assets/modelData/frontLeftWheel.cmo");
 		m_frontLeftWheel->SetScale(m_wheelModelScale);
 		m_frontRightWheel = NewGO<SkinModelRender>(0);
-		m_frontRightWheel->Init(L"Assets/modelData/frontWheel.cmo");
+		m_frontRightWheel->Init(L"Assets/modelData/frontRightWheel.cmo");
 		m_frontRightWheel->SetScale(m_wheelModelScale);
 
 		//後輪ホイール
 		m_rearRightWheel = NewGO<SkinModelRender>(0);
-		m_rearRightWheel->Init(L"Assets/modelData/rearWheel.cmo");
+		m_rearRightWheel->Init(L"Assets/modelData/rearRightWheel.cmo");
 		m_rearRightWheel->SetScale(m_wheelModelScale);
 		m_rearLeftWheel = NewGO<SkinModelRender>(0);
-		m_rearLeftWheel->Init(L"Assets/modelData/rearWheel.cmo");
+		m_rearLeftWheel->Init(L"Assets/modelData/rearLeftWheel.cmo");
 		m_rearLeftWheel->SetScale(m_wheelModelScale);
 	}
 }
