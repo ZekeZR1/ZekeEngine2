@@ -245,7 +245,7 @@ void Car::init() {
 			wheel.m_rollInfluence = rollInfluence;
 		}
 	}
-
+	//m_vehicle->getRigidBody()->setGravity(btVector3(0, -10, 0));
 	ResetCar();
 }
 
