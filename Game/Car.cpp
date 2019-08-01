@@ -424,6 +424,7 @@ void  Car::buttonUpdate() {
 		auto rigidbody = m_vehicle->getRigidBody();
 		//TODO : ŽÔ‚Ìã•ûŒü‚É—Í‚ð‰Á‚¦‚é
 		rigidbody->applyCentralImpulse(m_upVec * jumpParam);
+		//rigidbody->applyCentralImpulse(btVector3(0,1,0) * jumpParam);
 	}
 	//ƒGƒAƒŠƒAƒ‹
 	Aerial();
@@ -516,13 +517,7 @@ void Car::modelInit() {
 void Car::Aerial() {
 	//ƒGƒAƒŠƒAƒ‹
 
-	//auto force = m_vehicle->getRigidBody()->getTotalForce();
-	auto wtr = m_vehicle->getWheelTransformWS(0);
-
-	//if (wtr.getOrigin().getY() <= 0.6f) return;
 	if (m_vehicle->numWheelsOnGround != 0) return;
-
-	//m_carChassis->setAngularVelocity(btVector3(0, 0, 0));
 
 	{
 		auto LStickX = Pad(0).GetLStickXF();
@@ -532,34 +527,26 @@ void Car::Aerial() {
 		auto rdpos = rdtr.getOrigin();
 		auto rdrot = rdtr.getRotation();
 		float rotationSpeed = 40.f;
-		auto forward = m_vehicle->getForwardVector();
-		const btTransform& chassisTrans = m_vehicle->getChassisWorldTransform();
-		btVector3 rightVec(
-			chassisTrans.getBasis()[0][0],
-			chassisTrans.getBasis()[1][0],
-			chassisTrans.getBasis()[2][0]);
-		rightVec.normalize();
 
-		btVector3 upVec(
-			chassisTrans.getBasis()[0][1],
-			chassisTrans.getBasis()[1][1],
-			chassisTrans.getBasis()[2][1]);
-		upVec.normalize();
-
+		btVector3 totalAngularVelocity = rigidbody->getAngularVelocity();
 		//printf("forward x : %f y : %f z : %f", forward.getX(), forward.getY(), forward.getZ());
 		if (Pad(0).IsPress(enButtonRB1)) {
 			//‘OŽ²‰ñ“]
+
+			//totalAngularVelocity += m_forwardVec*  -LStickX* rotationSpeed;
+			
+			//rigidbody->setAngularVelocity(m_forwardVec * LStickY * rotationSpeed);
+
+			//rigidbody->setAngularVelocity(m_rightVec);
 
 			//auto cav = m_carChassis->getAngularVelocity();
 			//cav.setZ(cav.getZ() + rotationSpeed * LStickX);
 			//m_carChassis->setAngularVelocity(cav);
 			//auto rel = btVector3(-50, 0, 0);
 
-			//auto rel = rdpos + rightVec * -10;
-			//rigidbody->applyCentralForce(upVec * 100000);
+			auto rel =  m_rightVec * -50;
+			rigidbody->applyImpulse(m_upVec * rotationSpeed/2 * LStickX,rel);
 
-			//rigidbody->applyImpulse(upVec * rotationSpeed * 100, rel);
-			//rigidbody->applyImpulse(upVec * rotationSpeed * LStickX,rel);
 			//CQuaternion rot = CQuaternion::Identity();
 			//rot.SetRotationDeg({ 0,0,1 }, LStickX * -rotationSpeed);
 			//rigidbody->applyTorque({ 0,0,10 * LStickX });
@@ -567,18 +554,43 @@ void Car::Aerial() {
 		}
 		else {
 			//ãŽ²‰ñ“]
-			auto rel = rdpos + forward * 10;
-			rigidbody->applyImpulse(rightVec * rotationSpeed * LStickX, rel);
-			/*auto rel = btVector3(0, 0, 50);
-			rigidbody->applyImpulse(rightVec * LStickX * rotationSpeed, rel);*/
+
+			auto rel = m_forwardVec * 50;
+			rigidbody->applyImpulse(m_rightVec * rotationSpeed * LStickX, rel);
+
+			//totalAngularVelocity += m_rightVec * -LStickX * rotationSpeed;
+
+			//auto rel = rdpos + m_forwardVec * 10;
+			//rigidbody->applyImpulse(m_rightVec * rotationSpeed * LStickX, rel);
+
+			//totalAngularVelocity += m_rightVec * LStickX * rotationSpeed;
+			//rigidbody->applyTorque(m_rightVec * LStickX);
+
+			//rigidbody->setAngularVelocity(m_rightVec * LStickX * rotationSpeed);
+
+			//rigidbody->setAngularVelocity(m_rightVec);
+
+	/*		auto rel = btVector3(0, 0, 50);
+			rigidbody->applyImpulse(m_rightVec * LStickX * rotationSpeed, rel);*/
+
 			//CQuaternion rot = CQuaternion::Identity();
 			//rot.SetRotationDeg({ 0,1,0 }, LStickX * rotationSpeed);
 			//rdrot *= btQuaternion(rot);
 		}
 
 		//‰¡Ž²‰ñ“]
-		auto rel = rdpos + forward * -10;
-		rigidbody->applyImpulse(upVec * rotationSpeed * LStickX, rel);
+		//rigidbody->setAngularVelocity(m_rightVec * LStickY * rotationSpeed);
+		{
+			////‚±‚Á‚¿‚Å‰ñ“]‚ðŒvŽZ‚·‚éê‡
+			//totalAngularVelocity += m_rightVec * LStickY * rotationSpeed;
+			//rigidbody->setAngularVelocity(totalAngularVelocity);
+		}
+		{
+			auto rel = m_forwardVec * -50;
+			rigidbody->applyImpulse(m_upVec * rotationSpeed * LStickY, rel);
+		}
+		//auto rel = rdpos + m_forwardVec * -10;
+		//rigidbody->applyImpulse(m_upVec * rotationSpeed * LStickY, rel);
 		//auto rel = btVector3(0, 0, -50);
 
 		//rigidbody->applyImpulse(btVector3(0, LStickY * rotationSpeed, 0), forward * 50);
