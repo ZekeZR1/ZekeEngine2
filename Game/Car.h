@@ -54,6 +54,9 @@ private:
 	CVector3 m_wheelPositionFix = CVector3::Zero();
 	CVector3 m_wheelModelScale = CVector3::One();
 
+	btVector3 m_upVec;
+	btVector3 m_forwardVec;
+	btVector3 m_rightVec;
 
 
 	class btDiscreteDynamicsWorld* m_dynamicsWorld;

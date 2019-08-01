@@ -286,31 +286,21 @@ void Car::stepSimulation() {
 
 	modelUpdate();
 
-	//auto tfc = m_vehicle->getRigidBody()->getTotalTorque();
-	//printf("total force x  : %f , y : %f , z : %f\n", tfc.getX(),tfc.getY(),tfc.getZ());
-	
-	//float dt = IGameTime().GetFrameDeltaTime();
 
-	//if (m_dynamicsWorld)
-	//{
-	//	//during idle mode, just run 1 simulation step maximum
-	//	int maxSimSubSteps = 2;
+	 m_forwardVec = m_vehicle->getForwardVector();
 
-	//	int numSimSteps;
-	//	numSimSteps = m_dynamicsWorld->stepSimulation(dt, maxSimSubSteps);
+	const btTransform& chassisTrans = m_vehicle->getChassisWorldTransform();
+	m_rightVec = btVector3(
+		chassisTrans.getBasis()[0][0],
+		chassisTrans.getBasis()[1][0],
+		chassisTrans.getBasis()[2][0]);
+	m_rightVec.normalize();
 
-	//	if (m_dynamicsWorld->getConstraintSolver()->getSolverType() == BT_MLCP_SOLVER)
-	//	{
-	//		btMLCPSolver* sol = (btMLCPSolver*)m_dynamicsWorld->getConstraintSolver();
-	//		int numFallbacks = sol->getNumFallbacks();
-	//		if (numFallbacks)
-	//		{
-	//			static int totalFailures = 0;
-	//			totalFailures += numFallbacks;
-	//		}
-	//		sol->setNumFallbacks(0);
-	//	}
-	//}
+	m_upVec = btVector3(
+		chassisTrans.getBasis()[0][1],
+		chassisTrans.getBasis()[1][1],
+		chassisTrans.getBasis()[2][1]);
+	m_upVec.normalize();
 }
 
 void Car::modelUpdate() {
@@ -432,9 +422,8 @@ void  Car::buttonUpdate() {
 	if (Pad(0).IsTrigger(enButtonA)) {
 		static const int jumpParam = 5000;
 		auto rigidbody = m_vehicle->getRigidBody();
-		auto forward = m_vehicle->getForwardVector();
 		//TODO : ŽÔ‚Ìã•ûŒü‚É—Í‚ð‰Á‚¦‚é
-		rigidbody->applyCentralImpulse(btVector3(0,1,0) * jumpParam);
+		rigidbody->applyCentralImpulse(m_upVec * jumpParam);
 	}
 	//ƒGƒAƒŠƒAƒ‹
 	Aerial();
@@ -540,32 +529,65 @@ void Car::Aerial() {
 		auto LStickY = Pad(0).GetLStickYF();
 		auto rigidbody = m_vehicle->getRigidBody();
 		auto rdtr = rigidbody->getWorldTransform();
+		auto rdpos = rdtr.getOrigin();
 		auto rdrot = rdtr.getRotation();
-		float rotationSpeed = 4.f;
+		float rotationSpeed = 40.f;
 		auto forward = m_vehicle->getForwardVector();
+		const btTransform& chassisTrans = m_vehicle->getChassisWorldTransform();
+		btVector3 rightVec(
+			chassisTrans.getBasis()[0][0],
+			chassisTrans.getBasis()[1][0],
+			chassisTrans.getBasis()[2][0]);
+		rightVec.normalize();
+
+		btVector3 upVec(
+			chassisTrans.getBasis()[0][1],
+			chassisTrans.getBasis()[1][1],
+			chassisTrans.getBasis()[2][1]);
+		upVec.normalize();
+
 		//printf("forward x : %f y : %f z : %f", forward.getX(), forward.getY(), forward.getZ());
 		if (Pad(0).IsPress(enButtonRB1)) {
 			//‘OŽ²‰ñ“]
-			//auto rel = btVector3(10, 0, 0);
-			//rigidbody->applyImpulse(btVector3(0, LStickX,0),rel);
-			CQuaternion rot = CQuaternion::Identity();
-			rot.SetRotationDeg({ 0,0,1 }, LStickX * -rotationSpeed);
+
+			//auto cav = m_carChassis->getAngularVelocity();
+			//cav.setZ(cav.getZ() + rotationSpeed * LStickX);
+			//m_carChassis->setAngularVelocity(cav);
+			//auto rel = btVector3(-50, 0, 0);
+
+			//auto rel = rdpos + rightVec * -10;
+			//rigidbody->applyCentralForce(upVec * 100000);
+
+			//rigidbody->applyImpulse(upVec * rotationSpeed * 100, rel);
+			//rigidbody->applyImpulse(upVec * rotationSpeed * LStickX,rel);
+			//CQuaternion rot = CQuaternion::Identity();
+			//rot.SetRotationDeg({ 0,0,1 }, LStickX * -rotationSpeed);
 			//rigidbody->applyTorque({ 0,0,10 * LStickX });
-			rdrot *= btQuaternion(rot);
+			//rdrot *= btQuaternion(rot);
 		}
 		else {
 			//ãŽ²‰ñ“]
-			CQuaternion rot = CQuaternion::Identity();
-			rot.SetRotationDeg({ 0,1,0 }, LStickX * rotationSpeed);
-			rdrot *= btQuaternion(rot);
+			auto rel = rdpos + forward * 10;
+			rigidbody->applyImpulse(rightVec * rotationSpeed * LStickX, rel);
+			/*auto rel = btVector3(0, 0, 50);
+			rigidbody->applyImpulse(rightVec * LStickX * rotationSpeed, rel);*/
+			//CQuaternion rot = CQuaternion::Identity();
+			//rot.SetRotationDeg({ 0,1,0 }, LStickX * rotationSpeed);
+			//rdrot *= btQuaternion(rot);
 		}
 
 		//‰¡Ž²‰ñ“]
-		CQuaternion rot = CQuaternion::Identity();
-		rot.SetRotationDeg({ 1,0,0 }, LStickY * rotationSpeed);
-		rdrot *= btQuaternion(rot);
+		auto rel = rdpos + forward * -10;
+		rigidbody->applyImpulse(upVec * rotationSpeed * LStickX, rel);
+		//auto rel = btVector3(0, 0, -50);
 
-		rdtr.setRotation(rdrot);
-		rigidbody->setWorldTransform(rdtr);
+		//rigidbody->applyImpulse(btVector3(0, LStickY * rotationSpeed, 0), forward * 50);
+
+		/*CQuaternion rot = CQuaternion::Identity();
+		rot.SetRotationDeg({ 1,0,0 }, LStickY * rotationSpeed);
+		rdrot *= btQuaternion(rot);*/
+
+		/*rdtr.setRotation(rdrot);
+		rigidbody->setWorldTransform(rdtr);*/
 	}
 }
