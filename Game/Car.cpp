@@ -283,7 +283,12 @@ void Car::stepSimulation() {
 		static btVector3 nav(0, 0, 0);
 		m_carChassis->setAngularVelocity(nav);
 	}
-
+	if (m_vehicle->numWheelsOnGround == 4) {
+		m_isOnGround = true;
+	}
+	else {
+		m_isOnGround = false;
+	}
 	modelUpdate();
 
 
@@ -361,7 +366,6 @@ void Car::modelUpdate() {
 
 void  Car::buttonUpdate() {
 
-
 	auto LStick = Pad(0).GetLStickXF();
 	auto R2Trigger = Pad(0).GetRTrigger();
 	auto L2Trigger = Pad(0).GetLTrigger();
@@ -401,7 +405,7 @@ void  Car::buttonUpdate() {
 		auto backForce = L2Trigger * engineParam;
 
 		gEngineForce = frontForce - backForce;
-		
+
 		if (R2Trigger > 0.f or L2Trigger > 0.f) {
 			gBreakingForce = 0.f;
 		}
@@ -409,22 +413,54 @@ void  Car::buttonUpdate() {
 			gBreakingForce = defaultBreakingForce;
 		}
 	}
-	
+
 	//ブースト
 	if (Pad(0).IsPress(enButtonB)) {
 		static const int boostParam = 20000;
 		auto rigidbody = m_vehicle->getRigidBody();
 		auto forward = m_vehicle->getForwardVector();
-		if(speed < boostMaxSpeed)
+		if (speed < boostMaxSpeed)
 			rigidbody->applyCentralForce(forward * boostParam);
 	}
 	//ジャンプ
-	if (Pad(0).IsTrigger(enButtonA)) {
-		static const int jumpParam = 5000;
-		auto rigidbody = m_vehicle->getRigidBody();
-		//TODO : 車の上方向に力を加える
-		rigidbody->applyCentralImpulse(m_upVec * jumpParam);
-		//rigidbody->applyCentralImpulse(btVector3(0,1,0) * jumpParam);
+	if (isOnGround()) {
+		if (Pad(0).IsTrigger(enButtonA)) {
+			static const int jumpParam = 5000;
+			auto rigidbody = m_vehicle->getRigidBody();
+			rigidbody->applyCentralImpulse(m_upVec * jumpParam);
+			//rigidbody->applyCentralImpulse(btVector3(0,1,0) * jumpParam);
+		}
+	}
+	//フリップ
+	if (!m_isOnGround) {
+		if (Pad(0).IsTrigger(enButtonA)) {
+			m_isfripped = true;
+			auto LStickX = Pad(0).GetLStickXF();
+			auto LStickY = Pad(0).GetLStickYF();
+			auto rigidbody = m_vehicle->getRigidBody();
+			//rigidbody->applyCentralImpulse(m_upVec * 2000);
+			//横フリップ
+			if (LStickX > 0) {
+				rigidbody->applyCentralImpulse(m_rightVec * 5000);
+				//rigidbody->applyImpulse(m_upVec * 1000, -m_forwardVec);
+			}
+			else if(LStickX <0){
+				rigidbody->applyCentralImpulse(-m_rightVec * 5000);
+			}
+			//前後フリップ
+			if (LStickY > 0) {
+				rigidbody->applyCentralImpulse(m_forwardVec * 4000);
+				//rigidbody->applyImpulse(m_upVec * 8000, -m_forwardVec);
+			}
+			else if(LStickY < 0){
+				rigidbody->applyCentralImpulse(-m_forwardVec * 4000);
+			}
+			//最速ジャンプ
+			//rigidbody->applyCentralImpulse(m_upVec * 2000);
+		}
+	}
+	if (m_isfripped) {
+		m_cooltimer += IGameTime().GetFrameDeltaTime();
 	}
 	//エアリアル
 	Aerial();
@@ -518,88 +554,26 @@ void Car::Aerial() {
 	//エアリアル
 
 	if (m_vehicle->numWheelsOnGround != 0) return;
+	auto LStickX = Pad(0).GetLStickXF();
+	auto LStickY = Pad(0).GetLStickYF();
+	auto rigidbody = m_vehicle->getRigidBody();
+	auto rdtr = rigidbody->getWorldTransform();
+	auto rdpos = rdtr.getOrigin();
+	auto rdrot = rdtr.getRotation();
+	float rotationSpeed = 40.f;
 
-	{
-		auto LStickX = Pad(0).GetLStickXF();
-		auto LStickY = Pad(0).GetLStickYF();
-		auto rigidbody = m_vehicle->getRigidBody();
-		auto rdtr = rigidbody->getWorldTransform();
-		auto rdpos = rdtr.getOrigin();
-		auto rdrot = rdtr.getRotation();
-		float rotationSpeed = 40.f;
-
-		btVector3 totalAngularVelocity = rigidbody->getAngularVelocity();
-		//printf("forward x : %f y : %f z : %f", forward.getX(), forward.getY(), forward.getZ());
-		if (Pad(0).IsPress(enButtonRB1)) {
-			//前軸回転
-
-			//totalAngularVelocity += m_forwardVec*  -LStickX* rotationSpeed;
-			
-			//rigidbody->setAngularVelocity(m_forwardVec * LStickY * rotationSpeed);
-
-			//rigidbody->setAngularVelocity(m_rightVec);
-
-			//auto cav = m_carChassis->getAngularVelocity();
-			//cav.setZ(cav.getZ() + rotationSpeed * LStickX);
-			//m_carChassis->setAngularVelocity(cav);
-			//auto rel = btVector3(-50, 0, 0);
-
-			auto rel =  m_rightVec * -50;
-			rigidbody->applyImpulse(m_upVec * rotationSpeed/2 * LStickX,rel);
-
-			//CQuaternion rot = CQuaternion::Identity();
-			//rot.SetRotationDeg({ 0,0,1 }, LStickX * -rotationSpeed);
-			//rigidbody->applyTorque({ 0,0,10 * LStickX });
-			//rdrot *= btQuaternion(rot);
-		}
-		else {
-			//上軸回転
-
-			auto rel = m_forwardVec * 50;
-			rigidbody->applyImpulse(m_rightVec * rotationSpeed * LStickX, rel);
-
-			//totalAngularVelocity += m_rightVec * -LStickX * rotationSpeed;
-
-			//auto rel = rdpos + m_forwardVec * 10;
-			//rigidbody->applyImpulse(m_rightVec * rotationSpeed * LStickX, rel);
-
-			//totalAngularVelocity += m_rightVec * LStickX * rotationSpeed;
-			//rigidbody->applyTorque(m_rightVec * LStickX);
-
-			//rigidbody->setAngularVelocity(m_rightVec * LStickX * rotationSpeed);
-
-			//rigidbody->setAngularVelocity(m_rightVec);
-
-	/*		auto rel = btVector3(0, 0, 50);
-			rigidbody->applyImpulse(m_rightVec * LStickX * rotationSpeed, rel);*/
-
-			//CQuaternion rot = CQuaternion::Identity();
-			//rot.SetRotationDeg({ 0,1,0 }, LStickX * rotationSpeed);
-			//rdrot *= btQuaternion(rot);
-		}
-
-		//横軸回転
-		//rigidbody->setAngularVelocity(m_rightVec * LStickY * rotationSpeed);
-		{
-			////こっちで回転を計算する場合
-			//totalAngularVelocity += m_rightVec * LStickY * rotationSpeed;
-			//rigidbody->setAngularVelocity(totalAngularVelocity);
-		}
-		{
-			auto rel = m_forwardVec * -50;
-			rigidbody->applyImpulse(m_upVec * rotationSpeed * LStickY, rel);
-		}
-		//auto rel = rdpos + m_forwardVec * -10;
-		//rigidbody->applyImpulse(m_upVec * rotationSpeed * LStickY, rel);
-		//auto rel = btVector3(0, 0, -50);
-
-		//rigidbody->applyImpulse(btVector3(0, LStickY * rotationSpeed, 0), forward * 50);
-
-		/*CQuaternion rot = CQuaternion::Identity();
-		rot.SetRotationDeg({ 1,0,0 }, LStickY * rotationSpeed);
-		rdrot *= btQuaternion(rot);*/
-
-		/*rdtr.setRotation(rdrot);
-		rigidbody->setWorldTransform(rdtr);*/
+	btVector3 totalAngularVelocity = rigidbody->getAngularVelocity();
+	if (Pad(0).IsPress(enButtonRB1)) {
+		//前軸回転
+		auto rel = m_rightVec * -50;
+		rigidbody->applyImpulse(m_upVec * rotationSpeed / 2 * LStickX, rel);
 	}
+	else {
+		//上軸回転
+		auto rel = m_forwardVec * 50;
+		rigidbody->applyImpulse(m_rightVec * rotationSpeed * LStickX, rel);
+	}
+	//横軸回転
+	auto rel = m_forwardVec * -50;
+	rigidbody->applyImpulse(m_upVec * rotationSpeed * LStickY, rel);
 }

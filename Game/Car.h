@@ -36,6 +36,10 @@ public:
 		return m_vehicle->getForwardVector();
 	}
 
+	bool isOnGround() {
+		return m_isOnGround;
+	}
+
 private:
 	void init();
 	void modelInit();
@@ -94,5 +98,10 @@ private:
 	const float m_chassisMass = 800.f; //シャーシーの重さ
 	const float normalMaxSpeed = 90.f;
 	const float boostMaxSpeed = 100.f;
+	bool m_isOnGround = true;
+	bool m_isfripped = false;
+	float m_cooltimer = 0.f;
+	float m_flipCoolTime = 1.f; //フリップをすることで制御を失う時間(秒)
+
 };
 
