@@ -63,12 +63,12 @@ float gVehicleSteering = 0.f;
 float steeringIncrement = 0.04f;
 float steeringClamp = 0.2f;
 
-float suspensionStiffness = 20.f;
-float suspensionDamping = 2.3f;
-float suspensionCompression = 4.4f;
-float rollInfluence = 0.1f;  //1.0f;
+float suspensionStiffness = 10.f; //10
+float suspensionDamping = 2.13f; //2.3
+float suspensionCompression = 14.4f; //4.4
+float rollInfluence = 0.0f;  //0.1f;
 
-btScalar suspensionRestLength(0.6);
+btScalar suspensionRestLength(0.7);
 
 #define CUBE_HALF_EXTENTS 1
 
@@ -165,7 +165,7 @@ void Car::init() {
 	btTransform localTrans;
 	localTrans.setIdentity();
 	//localTrans effectively shifts the center of mass with respect to the chassis
-	localTrans.setOrigin(btVector3(0, 1, 0));
+	localTrans.setOrigin(btVector3(0, 0, 0));
 
 	compound->addChildShape(localTrans, chassisShape);
 
@@ -178,9 +178,14 @@ void Car::init() {
 		//compound->addChildShape(suppLocalTrans, suppShape);
 	}
 
+	//シャーシーの位置を中心にする
 	tr.setOrigin(btVector3(0, 0.f, 0));
 
-	m_carChassis = localCreateRigidBody(800, tr, compound);  //chassisShape);
+	//m_carChassis = localCreateRigidBody(800, tr, compound);  //chassisShape);
+	m_carChassis = localCreateRigidBody(m_chassisMass, tr, compound);  //chassisShape);
+
+	//m_carChassis->setRestitution(0.5f);
+
 	//m_carChassis->setDamping(0.2,0.2);
 
 	m_wheelShape = new btCylinderShapeX(btVector3(wheelWidth, wheelRadius, wheelRadius));
@@ -200,31 +205,34 @@ void Car::init() {
 	/// create vehicle
 	{
 		m_vehicleRayCaster = new btDefaultVehicleRaycaster(m_dynamicsWorld);
+		//m_vehicle = new btRaycastVehicle(m_tuning, m_carChassis, m_vehicleRayCaster);
 		m_vehicle = new btRaycastVehicle(m_tuning, m_carChassis, m_vehicleRayCaster);
+		//m_vehicle = new MyVehicle(m_tuning, m_carChassis, m_vehicleRayCaster);
 
 		///never deactivate the vehicle
 		m_carChassis->setActivationState(DISABLE_DEACTIVATION);
 
 		m_dynamicsWorld->addVehicle(m_vehicle);
 
-		float connectionHeight = 1.2f;
-
-		bool isFrontWheel = true;
-
 		//choose coordinate system
 		m_vehicle->setCoordinateSystem(rightIndex, upIndex, forwardIndex);
 
-		//static const float wheelposz
-		btVector3 connectionPointCS0(CUBE_HALF_EXTENTS - (0.3 * wheelWidth), connectionHeight, 2 * CUBE_HALF_EXTENTS - wheelRadius -0.3);
-
+		//ホイール作成登録
+		float connectionHeight = 0.2f;
+		bool isFrontWheel = true;
+		static const float WheelXDistanceFix = 0.2f;
+		//前輪
+		static const float frontWheelZfix = -0.2f;
+		btVector3 connectionPointCS0(CUBE_HALF_EXTENTS - (0.3 * wheelWidth) - WheelXDistanceFix, connectionHeight, 2 * CUBE_HALF_EXTENTS - wheelRadius + frontWheelZfix);
 		m_vehicle->addWheel(connectionPointCS0, wheelDirectionCS0, wheelAxleCS, suspensionRestLength, wheelRadius, m_tuning, isFrontWheel);
-		connectionPointCS0 = btVector3(-CUBE_HALF_EXTENTS + (0.3 * wheelWidth), connectionHeight, 2 * CUBE_HALF_EXTENTS - wheelRadius - 0.3);
-
+		connectionPointCS0 = btVector3(-CUBE_HALF_EXTENTS + (0.3 * wheelWidth) + WheelXDistanceFix, connectionHeight, 2 * CUBE_HALF_EXTENTS - wheelRadius + frontWheelZfix);
 		m_vehicle->addWheel(connectionPointCS0, wheelDirectionCS0, wheelAxleCS, suspensionRestLength, wheelRadius, m_tuning, isFrontWheel);
-		connectionPointCS0 = btVector3(-CUBE_HALF_EXTENTS + (0.3 * wheelWidth), connectionHeight, -2 * CUBE_HALF_EXTENTS + wheelRadius + 0.5);
+		//後輪
 		isFrontWheel = false;
+		static const float rearWheelZfix = -0.6f;
+		connectionPointCS0 = btVector3(-CUBE_HALF_EXTENTS + (0.3 * wheelWidth) + WheelXDistanceFix, connectionHeight, -2 * CUBE_HALF_EXTENTS + wheelRadius - rearWheelZfix);
 		m_vehicle->addWheel(connectionPointCS0, wheelDirectionCS0, wheelAxleCS, suspensionRestLength, wheelRadius, m_tuning, isFrontWheel);
-		connectionPointCS0 = btVector3(CUBE_HALF_EXTENTS - (0.3 * wheelWidth), connectionHeight, -2 * CUBE_HALF_EXTENTS + wheelRadius + 0.5);
+		connectionPointCS0 = btVector3(CUBE_HALF_EXTENTS - (0.3 * wheelWidth) - WheelXDistanceFix, connectionHeight, -2 * CUBE_HALF_EXTENTS + wheelRadius - rearWheelZfix);
 		m_vehicle->addWheel(connectionPointCS0, wheelDirectionCS0, wheelAxleCS, suspensionRestLength, wheelRadius, m_tuning, isFrontWheel);
 
 		for (int i = 0; i < m_vehicle->getNumWheels(); i++)
@@ -253,34 +261,56 @@ void Car::stepSimulation() {
 		m_vehicle->setSteeringValue(gVehicleSteering, wheelIndex);
 		wheelIndex = 1;
 		m_vehicle->setSteeringValue(gVehicleSteering, wheelIndex);
+	}
 
+	//auto av = m_carChassis->getAngularVelocity();
+	//printf("x : %f , y : %f , z %f\n", av.getX(), av.getY(), av.getZ());
+
+		//if (abs(av.getX()) > 2.f) 
+			//	nav.setX(0);
+			//else
+			//	nav.setX(av.getX());
+			//if (abs(av.getY()) > 2.f) 
+			//	nav.setY(0);
+			//else
+			//	nav.setY(av.getY());
+			//if (abs(av.getZ()) > 2.f) 
+			//	nav.setZ(0);
+			//else
+			//	nav.setZ(av.getZ());
+
+	if (m_vehicle->numWheelsOnGround == 0) {
+		static btVector3 nav(0, 0, 0);
+		m_carChassis->setAngularVelocity(nav);
 	}
 
 	modelUpdate();
+
+	//auto tfc = m_vehicle->getRigidBody()->getTotalTorque();
+	//printf("total force x  : %f , y : %f , z : %f\n", tfc.getX(),tfc.getY(),tfc.getZ());
 	
-	float dt = IGameTime().GetFrameDeltaTime();
+	//float dt = IGameTime().GetFrameDeltaTime();
 
-	if (m_dynamicsWorld)
-	{
-		//during idle mode, just run 1 simulation step maximum
-		int maxSimSubSteps = 2;
+	//if (m_dynamicsWorld)
+	//{
+	//	//during idle mode, just run 1 simulation step maximum
+	//	int maxSimSubSteps = 2;
 
-		int numSimSteps;
-		numSimSteps = m_dynamicsWorld->stepSimulation(dt, maxSimSubSteps);
+	//	int numSimSteps;
+	//	numSimSteps = m_dynamicsWorld->stepSimulation(dt, maxSimSubSteps);
 
-		if (m_dynamicsWorld->getConstraintSolver()->getSolverType() == BT_MLCP_SOLVER)
-		{
-			btMLCPSolver* sol = (btMLCPSolver*)m_dynamicsWorld->getConstraintSolver();
-			int numFallbacks = sol->getNumFallbacks();
-			if (numFallbacks)
-			{
-				static int totalFailures = 0;
-				totalFailures += numFallbacks;
-				printf("MLCP solver failed %d times, falling back to btSequentialImpulseSolver (SI)\n", totalFailures);
-			}
-			sol->setNumFallbacks(0);
-		}
-	}
+	//	if (m_dynamicsWorld->getConstraintSolver()->getSolverType() == BT_MLCP_SOLVER)
+	//	{
+	//		btMLCPSolver* sol = (btMLCPSolver*)m_dynamicsWorld->getConstraintSolver();
+	//		int numFallbacks = sol->getNumFallbacks();
+	//		if (numFallbacks)
+	//		{
+	//			static int totalFailures = 0;
+	//			totalFailures += numFallbacks;
+	//		}
+	//		sol->setNumFallbacks(0);
+	//	}
+	//}
 }
 
 void Car::modelUpdate() {
@@ -307,7 +337,8 @@ void Car::modelUpdate() {
 				rfixed.SetRotationDeg(CVector3::AxisY(), 180.f);
 				rfixed.Multiply(rot);
 				m_frontLeftWheel->SetPosition(origin);
-				m_frontLeftWheel->SetRotation(rfixed);
+				//m_frontLeftWheel->SetRotation(rfixed);
+				m_frontLeftWheel->SetRotation(rot);
 			}
 			{
 				//右前輪
@@ -331,11 +362,8 @@ void Car::modelUpdate() {
 				auto wheelTransform = m_vehicle->getWheelTransformWS(3);
 				auto origin = wheelTransform.getOrigin();
 				auto rot = wheelTransform.getRotation();
-				CQuaternion rfixed = CQuaternion::Identity();
-				rfixed.SetRotationDeg(CVector3::AxisY(), 180.f);
-				rfixed.Multiply(rot);
 				m_rearRightWheel->SetPosition(origin);
-				m_rearRightWheel->SetRotation(rfixed);
+				m_rearRightWheel->SetRotation(rot);
 			}
 		}
 	}
@@ -343,17 +371,31 @@ void Car::modelUpdate() {
 
 void  Car::buttonUpdate() {
 
+
 	auto LStick = Pad(0).GetLStickXF();
 	auto R2Trigger = Pad(0).GetRTrigger();
 	auto L2Trigger = Pad(0).GetLTrigger();
+	auto speed = m_vehicle->getCurrentSpeedKmHour();
 
 	//ステアリング
 	{
+		const float defaultSteerringClamp = 0.3;
 		gVehicleSteering = LStick;
+		float speed = m_vehicle->getCurrentSpeedKmHour();
+		auto sr = gVehicleSteering;
+		//値を小さく設定するほど高速で曲がりにくくなります。
+		//static float clampParam = 9.5f;
+		static float clampParam = 7.f;
+		if (speed > 0) {
+			steeringClamp = clampParam / speed;
+		}
+		if (steeringClamp > defaultSteerringClamp)
+			steeringClamp = defaultSteerringClamp;
 		if (gVehicleSteering > steeringClamp)
 			gVehicleSteering = steeringClamp;
-		if(gVehicleSteering < -steeringClamp)
+		if (gVehicleSteering < -steeringClamp)
 			gVehicleSteering = -steeringClamp;
+
 	}
 
 	//エンジンパワー
@@ -362,6 +404,9 @@ void  Car::buttonUpdate() {
 		float engineForce = 0.f;
 		//前進
 		auto frontForce = R2Trigger * engineParam;
+		if (m_vehicle->getCurrentSpeedKmHour() > normalMaxSpeed)
+			frontForce = 0;
+		//printf("speed %f ... font force %f\n", speed,frontForce);
 		//後退
 		auto backForce = L2Trigger * engineParam;
 
@@ -380,7 +425,8 @@ void  Car::buttonUpdate() {
 		static const int boostParam = 20000;
 		auto rigidbody = m_vehicle->getRigidBody();
 		auto forward = m_vehicle->getForwardVector();
-		rigidbody->applyCentralForce(forward * boostParam);
+		if(speed < boostMaxSpeed)
+			rigidbody->applyCentralForce(forward * boostParam);
 	}
 	//ジャンプ
 	if (Pad(0).IsTrigger(enButtonA)) {
@@ -390,7 +436,7 @@ void  Car::buttonUpdate() {
 		//TODO : 車の上方向に力を加える
 		rigidbody->applyCentralImpulse(btVector3(0,1,0) * jumpParam);
 	}
-	//エアリアル制御
+	//エアリアル
 	Aerial();
 	//リセット
 	if (Pad(0).IsTrigger(enButtonStart)) {
@@ -403,7 +449,10 @@ void  Car::buttonUpdate() {
 	 gBreakingForce = defaultBreakingForce;
 	 gEngineForce = 0.f;
 
-	 m_carChassis->setCenterOfMassTransform(btTransform::getIdentity());
+	 //ちょっと上に生成
+	 auto wtr = m_vehicle->getRigidBody()->getWorldTransform();
+	 wtr.setOrigin(btVector3(0, 2, 0));
+	 m_carChassis->setCenterOfMassTransform(wtr);
 	 m_carChassis->setLinearVelocity(btVector3(0, 0, 0));
 	 m_carChassis->setAngularVelocity(btVector3(0, 0, 0));
 	 m_dynamicsWorld->getBroadphase()->getOverlappingPairCache()->cleanProxyFromPairs(m_carChassis->getBroadphaseHandle(), getDynamicsWorld()->getDispatcher());
@@ -459,29 +508,32 @@ void Car::modelInit() {
 
 		//前輪ホイール
 		m_frontLeftWheel = NewGO<SkinModelRender>(0);
-		m_frontLeftWheel->Init(L"Assets/modelData/frontWheel.cmo");
+		m_frontLeftWheel->Init(L"Assets/modelData/frontLeftWheel.cmo");
 		m_frontLeftWheel->SetScale(m_wheelModelScale);
 		m_frontRightWheel = NewGO<SkinModelRender>(0);
-		m_frontRightWheel->Init(L"Assets/modelData/frontWheel.cmo");
+		m_frontRightWheel->Init(L"Assets/modelData/frontRightWheel.cmo");
 		m_frontRightWheel->SetScale(m_wheelModelScale);
 
 		//後輪ホイール
 		m_rearRightWheel = NewGO<SkinModelRender>(0);
-		m_rearRightWheel->Init(L"Assets/modelData/rearWheel.cmo");
+		m_rearRightWheel->Init(L"Assets/modelData/rearRightWheel.cmo");
 		m_rearRightWheel->SetScale(m_wheelModelScale);
 		m_rearLeftWheel = NewGO<SkinModelRender>(0);
-		m_rearLeftWheel->Init(L"Assets/modelData/rearWheel.cmo");
+		m_rearLeftWheel->Init(L"Assets/modelData/rearLeftWheel.cmo");
 		m_rearLeftWheel->SetScale(m_wheelModelScale);
 	}
 }
 
 void Car::Aerial() {
 	//エアリアル
+
 	//auto force = m_vehicle->getRigidBody()->getTotalForce();
 	auto wtr = m_vehicle->getWheelTransformWS(0);
-	printf("wtr... %f", wtr.getOrigin().getY());
-	//TODO : とりあえず床走ってるときしか考えてない
-	if (wtr.getOrigin().getY() < 0.6f) return;
+
+	//if (wtr.getOrigin().getY() <= 0.6f) return;
+	if (m_vehicle->numWheelsOnGround != 0) return;
+
+	//m_carChassis->setAngularVelocity(btVector3(0, 0, 0));
 
 	{
 		auto LStickX = Pad(0).GetLStickXF();
@@ -489,13 +541,16 @@ void Car::Aerial() {
 		auto rigidbody = m_vehicle->getRigidBody();
 		auto rdtr = rigidbody->getWorldTransform();
 		auto rdrot = rdtr.getRotation();
-		float rotationSpeed = 3.f;
+		float rotationSpeed = 4.f;
 		auto forward = m_vehicle->getForwardVector();
 		//printf("forward x : %f y : %f z : %f", forward.getX(), forward.getY(), forward.getZ());
 		if (Pad(0).IsPress(enButtonRB1)) {
 			//前軸回転
+			//auto rel = btVector3(10, 0, 0);
+			//rigidbody->applyImpulse(btVector3(0, LStickX,0),rel);
 			CQuaternion rot = CQuaternion::Identity();
 			rot.SetRotationDeg({ 0,0,1 }, LStickX * -rotationSpeed);
+			//rigidbody->applyTorque({ 0,0,10 * LStickX });
 			rdrot *= btQuaternion(rot);
 		}
 		else {

@@ -3,6 +3,8 @@
 #include "RigitBody.h"
 #include "PhysicsDebugDraw.h"
 
+#include "BulletDynamics/MLCPSolvers/btMLCPSolver.h"
+
 CPhysicsWorld::CPhysicsWorld() {
 
 }
@@ -52,14 +54,30 @@ void CPhysicsWorld::Init()
 	m_debugDraw = new PhysicsDebugDraw;
 	m_debugDraw->Init();
 	debugDrawer = m_debugDraw;
-	dynamicWorld->setGravity(btVector3(0, -10, 0));
+	dynamicWorld->setGravity(btVector3(0, -5, 0));
 	dynamicWorld->setDebugDrawer(debugDrawer);
 	debugDrawer->setDebugMode(1);
 }
 
 void CPhysicsWorld::Update()
 {
-	dynamicWorld->stepSimulation(1.0f / 60.0f);
+	//dynamicWorld->stepSimulation(1.0f / 60.0f);
+	int maxSimSubSteps = 2;
+
+	int numSimSteps;
+	numSimSteps = dynamicWorld->stepSimulation(IGameTime().GetFrameDeltaTime(), maxSimSubSteps);
+
+	if (dynamicWorld->getConstraintSolver()->getSolverType() == BT_MLCP_SOLVER)
+	{
+		btMLCPSolver* sol = (btMLCPSolver*)dynamicWorld->getConstraintSolver();
+		int numFallbacks = sol->getNumFallbacks();
+		if (numFallbacks)
+		{
+			static int totalFailures = 0;
+			totalFailures += numFallbacks;
+		}
+		sol->setNumFallbacks(0);
+	}
 }
 void CPhysicsWorld::AddRigidBody(RigidBody& rb)
 {

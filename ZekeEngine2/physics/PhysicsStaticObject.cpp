@@ -14,7 +14,7 @@ PhysicsStaticObject::~PhysicsStaticObject()
 	PhysicsWorld().RemoveRigidBody(m_rigidBody);
 }
 
-void PhysicsStaticObject::CreateMeshObject(SkinModel& skinModel, CVector3 pos, CQuaternion rot)
+void PhysicsStaticObject::CreateMeshObject(SkinModel& skinModel, CVector3 pos, CQuaternion rot, float restitution)
 {
 	//メッシュコライダーを作成。
 	m_meshCollider.CreateFromSkinModel(skinModel, nullptr);
@@ -25,6 +25,7 @@ void PhysicsStaticObject::CreateMeshObject(SkinModel& skinModel, CVector3 pos, C
 	rbInfo.pos = pos;
 	rbInfo.rot = rot;
 	m_rigidBody.Create(rbInfo);
+	m_rigidBody.GetBody()->setRestitution(restitution);
 	//剛体を物理ワールドに追加する。
 	PhysicsWorld().AddRigidBody(m_rigidBody);
 }

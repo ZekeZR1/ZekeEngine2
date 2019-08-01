@@ -537,8 +537,7 @@ void	btRaycastVehicle::updateFriction(btScalar	timeStep)
 		m_forwardImpulse.resize(numWheel);
 		m_sideImpulse.resize(numWheel);
 		
-		int numWheelsOnGround = 0;
-	
+		numWheelsOnGround = 0;
 
 		//collapse all those loops into one!
 		for (int i=0;i<getNumWheels();i++)

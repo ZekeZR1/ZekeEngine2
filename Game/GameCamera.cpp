@@ -45,6 +45,6 @@ void GameCamera::Update() {
 	CVector3 pos = m_target + m_toCameraPos;
 
 	MainCamera().SetTarget(m_target);
-	MainCamera().SetPosition(pos);
+	MainCamera().SetPosition(m_pos);
 	MainCamera().Update();
 }
