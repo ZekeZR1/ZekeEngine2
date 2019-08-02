@@ -1,15 +1,30 @@
 #pragma once
 #include "MyVehicle.h"
 
+class CarState;
+
 class Car
 {
 public:
 	Car();
 	~Car();
-	btDiscreteDynamicsWorld* getDynamicsWorld()
-	{
-		return m_dynamicsWorld;
+
+	enum eState {
+		enOnGround,
+		enInAir,
+		enFlip,
+		enNumState
+	};
+
+	/// <summary>
+	/// 車のステート返す
+	/// </summary>
+	/// <param name="state">インスタンスを取得したい状態</param>
+	/// <returns>新しいステートのインスタンス</returns>
+	CarState* GetCarState(eState state) {
+		return m_StatePool.at(state);
 	}
+
 	void stepSimulation();
 	void buttonUpdate();
 	void ResetCar();
@@ -40,6 +55,54 @@ public:
 		return m_isOnGround;
 	}
 
+	btRaycastVehicle* GetRayCastVehicle() {
+		return m_vehicle;
+	}
+
+	/// <summary>
+	/// エンジンの出力をセットする
+	/// </summary>
+	/// <param name="force"></param>
+	void SetEngineForce(float force) {
+		m_engineForce = force;
+	}
+
+	/// <summary>
+	/// ブレーキ
+	/// </summary>
+	/// <param name="force">ブレーキ力</param>
+	void SetBreakingForce(float force) {
+		m_breakingForce = force;
+	}
+
+	/// <summary>
+	/// ハンドルを切る
+	/// </summary>
+	/// <param name="steering">ステアリングパラメータ</param>
+	void SetSteering(float steering) {
+		m_vehicleSteering = steering;
+	}
+	/// <summary>
+	/// 車の前方向を取得
+	/// </summary>
+	/// <returns>正規化された前方向のベクトルを返す</returns>
+	CVector3 GetCarForward() {
+		return m_forwardVec;
+	}
+	/// <summary>
+	/// 車の右方向を取得
+	/// </summary>
+	/// <returns>正規化された右方向のベクトルを返す</returns>
+	CVector3 GetCarRight() {
+		return m_rightVec;
+	}
+	/// <summary>
+	/// 車の上方向を取得
+	/// </summary>
+	/// <returns>正規化された上方向のベクトルを返す</returns>
+	btVector3 GetCarUp() {
+		return m_upVec;
+	}
 private:
 	void init();
 	void modelInit();
@@ -96,12 +159,18 @@ private:
 	SkinModelRender* m_rearRightWheel = nullptr;
 	SkinModelRender* m_rearLeftWheel = nullptr;
 	const float m_chassisMass = 800.f; //シャーシーの重さ
-	const float normalMaxSpeed = 90.f;
-	const float boostMaxSpeed = 100.f;
+	//const float normalMaxSpeed = 90.f;
+	//const float boostMaxSpeed = 100.f;
 	bool m_isOnGround = true;
 	bool m_isfripped = false;
 	float m_cooltimer = 0.f;
 	float m_flipCoolTime = 1.f; //フリップをすることで制御を失う時間(秒)
 
+	float m_engineForce = 0.f; //エンジンの出力
+	float m_vehicleSteering = 0.f; //ステアリング
+	float m_breakingForce = 100.f; //ブレーキ
+
+	CarState* m_state = nullptr;
+	std::vector<CarState*> m_StatePool;
 };
 

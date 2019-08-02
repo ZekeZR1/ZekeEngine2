@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Car.h"
+#include "CarState.h"
 
 #include "btBulletDynamicsCommon.h"
 #include "BulletCollision/CollisionShapes/btHeightfieldTerrainShape.h"
@@ -31,11 +32,10 @@ class btCollisionShape;
 #define M_PI_4 0.785398163397448309616
 #endif
 
-
-btScalar maxMotorImpulse = 4000.f;
+//btScalar maxMotorImpulse = 4000.f;
 
 //the sequential impulse solver has difficulties dealing with large mass ratios (differences), between loadMass and the fork parts
-btScalar loadMass = 350.f;  //
+//btScalar loadMass = 350.f;  //
 //btScalar loadMass = 10.f;//this should work fine for the SI solver
 
 int rightIndex = 0;
@@ -50,18 +50,11 @@ btVector3 wheelAxleCS(-1.f, 0.f, 0.f);
 bool useMCLPSolver = true;
 
 
-//
-float gEngineForce = 0.f;
-
-float defaultBreakingForce = 10.f;
-float gBreakingForce = 100.f;
 
 float maxEngineForce = 1000.f;  //this should be engine/velocity dependent
 float maxBreakingForce = 100.f;
 
-float gVehicleSteering = 0.f;
 float steeringIncrement = 0.04f;
-float steeringClamp = 0.2f;
 
 float suspensionStiffness = 10.f; //10
 float suspensionDamping = 2.13f; //2.3
@@ -114,10 +107,18 @@ Car::~Car() {
 
 	delete m_collisionConfiguration;
 	m_collisionConfiguration = 0;
+
+	for (auto s : m_StatePool)
+		delete s;
 }
 
 void Car::init() {
 	int upAxis = 1;
+	//状態クラスを生成しておく
+	m_StatePool.push_back(new OnGroundState);
+	m_StatePool.push_back(new InAirState);
+	//地上状態からスタート
+	m_state = GetCarState(enOnGround);
 
 	modelInit();
 
@@ -250,17 +251,26 @@ void Car::init() {
 }
 
 void Car::stepSimulation() {
+	//現在の状態を更新
+	auto nextState = m_state->Update(this);
+	//状態が変化したら状態初期化
+	if (nextState != m_state) {
+		m_state->Exit(this);
+		nextState->Enter(this);
+		m_state = nextState;
+	}
+
 	{
 		int wheelIndex = 2;
-		m_vehicle->applyEngineForce(gEngineForce, wheelIndex);
-		m_vehicle->setBrake(gBreakingForce, wheelIndex);
+		m_vehicle->applyEngineForce(m_engineForce, wheelIndex);
+		m_vehicle->setBrake(m_breakingForce, wheelIndex);
 		wheelIndex = 3;
-		m_vehicle->applyEngineForce(gEngineForce, wheelIndex);
-		m_vehicle->setBrake(gBreakingForce, wheelIndex);
+		m_vehicle->applyEngineForce(m_engineForce, wheelIndex);
+		m_vehicle->setBrake(m_breakingForce, wheelIndex);
 		wheelIndex = 0;
-		m_vehicle->setSteeringValue(gVehicleSteering, wheelIndex);
+		m_vehicle->setSteeringValue(m_vehicleSteering, wheelIndex);
 		wheelIndex = 1;
-		m_vehicle->setSteeringValue(gVehicleSteering, wheelIndex);
+		m_vehicle->setSteeringValue(m_vehicleSteering, wheelIndex);
 	}
 
 	//auto av = m_carChassis->getAngularVelocity();
@@ -366,71 +376,73 @@ void Car::modelUpdate() {
 
 void  Car::buttonUpdate() {
 
-	auto LStick = Pad(0).GetLStickXF();
-	auto R2Trigger = Pad(0).GetRTrigger();
-	auto L2Trigger = Pad(0).GetLTrigger();
-	auto speed = m_vehicle->getCurrentSpeedKmHour();
+	//auto LStick = Pad(0).GetLStickXF();
+	//auto R2Trigger = Pad(0).GetRTrigger();
+	//auto L2Trigger = Pad(0).GetLTrigger();
+	//auto speed = m_vehicle->getCurrentSpeedKmHour();
 
-	//ステアリング
-	{
-		const float defaultSteerringClamp = 0.3;
-		gVehicleSteering = LStick;
-		float speed = m_vehicle->getCurrentSpeedKmHour();
-		auto sr = gVehicleSteering;
-		//値を小さく設定するほど高速で曲がりにくくなります。
-		//static float clampParam = 9.5f;
-		static float clampParam = 7.f;
-		if (speed > 0) {
-			steeringClamp = clampParam / speed;
-		}
-		if (steeringClamp > defaultSteerringClamp)
-			steeringClamp = defaultSteerringClamp;
-		if (gVehicleSteering > steeringClamp)
-			gVehicleSteering = steeringClamp;
-		if (gVehicleSteering < -steeringClamp)
-			gVehicleSteering = -steeringClamp;
+	m_state->Update(this);
 
-	}
+	////ステアリング
+	//{
+	//	const float defaultSteerringClamp = 0.3;
+	//	gVehicleSteering = LStick;
+	//	float speed = m_vehicle->getCurrentSpeedKmHour();
+	//	auto sr = gVehicleSteering;
+	//	//値を小さく設定するほど高速で曲がりにくくなります。
+	//	//static float clampParam = 9.5f;
+	//	static float clampParam = 7.f;
+	//	if (speed > 0) {
+	//		steeringClamp = clampParam / speed;
+	//	}
+	//	if (steeringClamp > defaultSteerringClamp)
+	//		steeringClamp = defaultSteerringClamp;
+	//	if (gVehicleSteering > steeringClamp)
+	//		gVehicleSteering = steeringClamp;
+	//	if (gVehicleSteering < -steeringClamp)
+	//		gVehicleSteering = -steeringClamp;
 
-	//エンジンパワー
-	{
-		static const int engineParam = 1000;
-		float engineForce = 0.f;
-		//前進
-		auto frontForce = R2Trigger * engineParam;
-		if (m_vehicle->getCurrentSpeedKmHour() > normalMaxSpeed)
-			frontForce = 0;
-		//printf("speed %f ... font force %f\n", speed,frontForce);
-		//後退
-		auto backForce = L2Trigger * engineParam;
+	//}
 
-		gEngineForce = frontForce - backForce;
+	////エンジンパワー
+	//{
+	//	static const int engineParam = 1000;
+	//	float engineForce = 0.f;
+	//	//前進
+	//	auto frontForce = R2Trigger * engineParam;
+	//	if (m_vehicle->getCurrentSpeedKmHour() > normalMaxSpeed)
+	//		frontForce = 0;
+	//	//printf("speed %f ... font force %f\n", speed,frontForce);
+	//	//後退
+	//	auto backForce = L2Trigger * engineParam;
 
-		if (R2Trigger > 0.f or L2Trigger > 0.f) {
-			gBreakingForce = 0.f;
-		}
-		else {
-			gBreakingForce = defaultBreakingForce;
-		}
-	}
+	//	gEngineForce = frontForce - backForce;
 
-	//ブースト
-	if (Pad(0).IsPress(enButtonB)) {
-		static const int boostParam = 20000;
-		auto rigidbody = m_vehicle->getRigidBody();
-		auto forward = m_vehicle->getForwardVector();
-		if (speed < boostMaxSpeed)
-			rigidbody->applyCentralForce(forward * boostParam);
-	}
-	//ジャンプ
-	if (isOnGround()) {
-		if (Pad(0).IsTrigger(enButtonA)) {
-			static const int jumpParam = 5000;
-			auto rigidbody = m_vehicle->getRigidBody();
-			rigidbody->applyCentralImpulse(m_upVec * jumpParam);
-			//rigidbody->applyCentralImpulse(btVector3(0,1,0) * jumpParam);
-		}
-	}
+	//	if (R2Trigger > 0.f or L2Trigger > 0.f) {
+	//		gBreakingForce = 0.f;
+	//	}
+	//	else {
+	//		gBreakingForce = defaultBreakingForce;
+	//	}
+	//}
+
+	////ブースト
+	//if (Pad(0).IsPress(enButtonB)) {
+	//	static const int boostParam = 20000;
+	//	auto rigidbody = m_vehicle->getRigidBody();
+	//	auto forward = m_vehicle->getForwardVector();
+	//	if (speed < boostMaxSpeed)
+	//		rigidbody->applyCentralForce(forward * boostParam);
+	//}
+	////ジャンプ
+	//if (isOnGround()) {
+	//	if (Pad(0).IsTrigger(enButtonA)) {
+	//		static const int jumpParam = 5000;
+	//		auto rigidbody = m_vehicle->getRigidBody();
+	//		rigidbody->applyCentralImpulse(m_upVec * jumpParam);
+	//		//rigidbody->applyCentralImpulse(btVector3(0,1,0) * jumpParam);
+	//	}
+	//}
 	//フリップ
 	if (!m_isOnGround) {
 		if (Pad(0).IsTrigger(enButtonA)) {
@@ -471,17 +483,17 @@ void  Car::buttonUpdate() {
 }
 
  void Car::ResetCar() {
-	 gVehicleSteering = 0.f;
-	 gBreakingForce = defaultBreakingForce;
-	 gEngineForce = 0.f;
-
+	 m_vehicleSteering = 0.f;
+	 m_engineForce = 0.f;
+	 m_breakingForce = 100.f;
 	 //ちょっと上に生成
 	 auto wtr = m_vehicle->getRigidBody()->getWorldTransform();
 	 wtr.setOrigin(btVector3(0, 2, 0));
+	 wtr.setRotation(btQuaternion::getIdentity());
 	 m_carChassis->setCenterOfMassTransform(wtr);
 	 m_carChassis->setLinearVelocity(btVector3(0, 0, 0));
 	 m_carChassis->setAngularVelocity(btVector3(0, 0, 0));
-	 m_dynamicsWorld->getBroadphase()->getOverlappingPairCache()->cleanProxyFromPairs(m_carChassis->getBroadphaseHandle(), getDynamicsWorld()->getDispatcher());
+	 m_dynamicsWorld->getBroadphase()->getOverlappingPairCache()->cleanProxyFromPairs(m_carChassis->getBroadphaseHandle(), m_dynamicsWorld->getDispatcher());
 	 if (m_vehicle)
 	 {
 		 m_vehicle->resetSuspension();
@@ -551,29 +563,29 @@ void Car::modelInit() {
 }
 
 void Car::Aerial() {
-	//エアリアル
+	////エアリアル
 
-	if (m_vehicle->numWheelsOnGround != 0) return;
-	auto LStickX = Pad(0).GetLStickXF();
-	auto LStickY = Pad(0).GetLStickYF();
-	auto rigidbody = m_vehicle->getRigidBody();
-	auto rdtr = rigidbody->getWorldTransform();
-	auto rdpos = rdtr.getOrigin();
-	auto rdrot = rdtr.getRotation();
-	float rotationSpeed = 40.f;
+	//if (m_vehicle->numWheelsOnGround != 0) return;
+	//auto LStickX = Pad(0).GetLStickXF();
+	//auto LStickY = Pad(0).GetLStickYF();
+	//auto rigidbody = m_vehicle->getRigidBody();
+	//auto rdtr = rigidbody->getWorldTransform();
+	//auto rdpos = rdtr.getOrigin();
+	//auto rdrot = rdtr.getRotation();
+	//float rotationSpeed = 40.f;
 
-	btVector3 totalAngularVelocity = rigidbody->getAngularVelocity();
-	if (Pad(0).IsPress(enButtonRB1)) {
-		//前軸回転
-		auto rel = m_rightVec * -50;
-		rigidbody->applyImpulse(m_upVec * rotationSpeed / 2 * LStickX, rel);
-	}
-	else {
-		//上軸回転
-		auto rel = m_forwardVec * 50;
-		rigidbody->applyImpulse(m_rightVec * rotationSpeed * LStickX, rel);
-	}
-	//横軸回転
-	auto rel = m_forwardVec * -50;
-	rigidbody->applyImpulse(m_upVec * rotationSpeed * LStickY, rel);
+	//btVector3 totalAngularVelocity = rigidbody->getAngularVelocity();
+	//if (Pad(0).IsPress(enButtonRB1)) {
+	//	//前軸回転
+	//	auto rel = m_rightVec * -50;
+	//	rigidbody->applyImpulse(m_upVec * rotationSpeed / 2 * LStickX, rel);
+	//}
+	//else {
+	//	//上軸回転
+	//	auto rel = m_forwardVec * 50;
+	//	rigidbody->applyImpulse(m_rightVec * rotationSpeed * LStickX, rel);
+	//}
+	////横軸回転
+	//auto rel = m_forwardVec * -50;
+	//rigidbody->applyImpulse(m_upVec * rotationSpeed * LStickY, rel);
 }

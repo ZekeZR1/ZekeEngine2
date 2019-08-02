@@ -13,6 +13,12 @@
     <Filter Include="Assets\model\car">
       <UniqueIdentifier>{5a9799c1-cbdc-4f86-b5ac-6104fe78c435}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\car">
+      <UniqueIdentifier>{37668dc8-d2b6-41a8-a517-0b5f9f043634}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Scene">
+      <UniqueIdentifier>{52bfe2d0-49e8-44e8-a67d-e684f0fa0eb6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -21,36 +27,33 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="Vehicle.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="Stage.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="GameCamera.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="Car.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="Ball.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="CarState.cpp">
+      <Filter>src\car</Filter>
+    </ClCompile>
+    <ClCompile Include="Car.cpp">
+      <Filter>src\car</Filter>
+    </ClCompile>
     <ClCompile Include="MyVehicle.cpp">
-      <Filter>src</Filter>
+      <Filter>src\car</Filter>
+    </ClCompile>
+    <ClCompile Include="Vehicle.cpp">
+      <Filter>src\car</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>src\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="Game.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="Vehicle.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="Stage.h">
@@ -59,14 +62,23 @@
     <ClInclude Include="GameCamera.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="Car.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="Ball.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="CarState.h">
+      <Filter>src\car</Filter>
+    </ClInclude>
+    <ClInclude Include="Car.h">
+      <Filter>src\car</Filter>
+    </ClInclude>
     <ClInclude Include="MyVehicle.h">
-      <Filter>src</Filter>
+      <Filter>src\car</Filter>
+    </ClInclude>
+    <ClInclude Include="Vehicle.h">
+      <Filter>src\car</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>src\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
