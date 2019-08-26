@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "GameCamera.h"
 
+#define _USE_DEBUG_CAMERA
+
 bool GameCamera::Start() {
 	return true;
 }
@@ -10,8 +12,21 @@ void GameCamera::OnDestroy() {
 }
 
 void GameCamera::Update() {
-	MainCamera2D().Update();
 
+#ifdef _USE_DEBUG_CAMERA
+	if (Pad(0).IsPress(enButtonUp)) {
+		m_pos.y += 5.f;
+	}
+	if (Pad(0).IsPress(enButtonDown)) {
+		m_pos.y -= 5.f;
+	}
+	if (Pad(0).IsPress(enButtonRight)) {
+		m_pos.x += 5.f;
+	}
+	if (Pad(0).IsPress(enButtonLeft)) {
+		m_pos.x -= 5.f;
+	}
+#else
 	m_target.y += m_raiseViewPoint;
 
 	float x = Pad(0).GetRStickXF();
@@ -41,9 +56,9 @@ void GameCamera::Update() {
 		//ÉJÉÅÉââ∫å¸Ç´Ç∑Ç¨ÅB
 		m_toCameraPos = toCameraPosOld;
 	}
-
 	CVector3 pos = m_target + m_toCameraPos;
-
+#endif
+	MainCamera2D().Update();
 	MainCamera().SetTarget(m_target);
 	MainCamera().SetPosition(m_pos);
 	MainCamera().Update();

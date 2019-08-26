@@ -443,37 +443,7 @@ void  Car::buttonUpdate() {
 	//		//rigidbody->applyCentralImpulse(btVector3(0,1,0) * jumpParam);
 	//	}
 	//}
-	//フリップ
-	if (!m_isOnGround) {
-		if (Pad(0).IsTrigger(enButtonA)) {
-			m_isfripped = true;
-			auto LStickX = Pad(0).GetLStickXF();
-			auto LStickY = Pad(0).GetLStickYF();
-			auto rigidbody = m_vehicle->getRigidBody();
-			//rigidbody->applyCentralImpulse(m_upVec * 2000);
-			//横フリップ
-			if (LStickX > 0) {
-				rigidbody->applyCentralImpulse(m_rightVec * 5000);
-				//rigidbody->applyImpulse(m_upVec * 1000, -m_forwardVec);
-			}
-			else if(LStickX <0){
-				rigidbody->applyCentralImpulse(-m_rightVec * 5000);
-			}
-			//前後フリップ
-			if (LStickY > 0) {
-				rigidbody->applyCentralImpulse(m_forwardVec * 4000);
-				//rigidbody->applyImpulse(m_upVec * 8000, -m_forwardVec);
-			}
-			else if(LStickY < 0){
-				rigidbody->applyCentralImpulse(-m_forwardVec * 4000);
-			}
-			//最速ジャンプ
-			//rigidbody->applyCentralImpulse(m_upVec * 2000);
-		}
-	}
-	if (m_isfripped) {
-		m_cooltimer += IGameTime().GetFrameDeltaTime();
-	}
+	
 	//エアリアル
 	Aerial();
 	//リセット

@@ -162,9 +162,6 @@ private:
 	//const float normalMaxSpeed = 90.f;
 	//const float boostMaxSpeed = 100.f;
 	bool m_isOnGround = true;
-	bool m_isfripped = false;
-	float m_cooltimer = 0.f;
-	float m_flipCoolTime = 1.f; //フリップをすることで制御を失う時間(秒)
 
 	float m_engineForce = 0.f; //エンジンの出力
 	float m_vehicleSteering = 0.f; //ステアリング

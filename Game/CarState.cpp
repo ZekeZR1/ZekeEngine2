@@ -32,7 +32,7 @@ CarState* OnGroundState::Update(Car* car) {
 			steering = steeringClamp;
 		if (steering < -steeringClamp)
 			steering = -steeringClamp;
-		
+
 		car->SetSteering(steering);
 	}
 
@@ -75,6 +75,11 @@ CarState* OnGroundState::Update(Car* car) {
 			//rigidbody->applyCentralImpulse(btVector3(0,1,0) * jumpParam);
 		}
 	}
+
+	if (!car->isOnGround()) {
+		return car->GetCarState(Car::enInAir);
+	}
+
 	return this;
 }
 
@@ -89,10 +94,42 @@ void InAirState::Enter(Car* car) {
 }
 
 CarState* InAirState::Update(Car* car) {
+	//地面についたら地上ステートを返す
 	if (car->isOnGround()) return car->GetCarState(Car::enOnGround);
+
+	//フリップ
+	if (Pad(0).IsTrigger(enButtonA)) {
+		m_isfripped = true;
+		auto LStickX = Pad(0).GetLStickXF();
+		auto LStickY = Pad(0).GetLStickYF();
+		auto rigidbody = car->GetRayCastVehicle()->getRigidBody();
+		//rigidbody->applyCentralImpulse(m_upVec * 2000);
+		//横フリップ
+		auto Vright = car->GetCarRight();
+		if (LStickX > 0) {
+			rigidbody->applyCentralImpulse(Vright * 5000);
+			//rigidbody->applyImpulse(m_upVec * 1000, -m_forwardVec);
+		}
+		else if (LStickX < 0) {
+			rigidbody->applyCentralImpulse(-Vright * 5000);
+		}
+		//前後フリップ
+		if (LStickY > 0) {
+			rigidbody->applyCentralImpulse(car->GetRayCastVehicle()->getForwardVector() * 4000);
+			//rigidbody->applyImpulse(m_upVec * 8000, -m_forwardVec);
+		}
+		else if (LStickY < 0) {
+			rigidbody->applyCentralImpulse(car->GetRayCastVehicle()->getForwardVector() * -4000);
+		}
+		//最速ジャンプ
+		//rigidbody->applyCentralImpulse(m_upVec * 2000);
+	}
+	if (m_isfripped) {
+		m_cooltimer += IGameTime().GetFrameDeltaTime();
+	}
 	return this;
 }
 
 void InAirState::Exit(Car* car) {
-
+	m_isfripped = false;
 }

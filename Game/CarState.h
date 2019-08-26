@@ -34,4 +34,8 @@ public:
 	void Enter(Car* car) override;
 	void Exit(Car* car) override;
 	CarState* Update(Car* car) override;
+private:
+	bool m_isfripped = false;
+	float m_cooltimer = 0.f;
+	float m_flipCoolTime = 1.f; //ƒtƒŠƒbƒv‚ğ‚·‚é‚±‚Æ‚Å§Œä‚ğ¸‚¤ŠÔ(•b)
 };

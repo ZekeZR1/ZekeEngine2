@@ -38,7 +38,7 @@ signed WINAPI wWinMain(
 		MainCamera2D().SetFar(3000.0f);
 		MainCamera2D().Update();
 		//bullet physics debug drawing flag
-		PhysicsWorld().SetDebugDraw(true);
+		PhysicsWorld().SetDebugDraw(false);
 
 		NewGO<Game>(0, "Game");
 		Engine().GameRoop();

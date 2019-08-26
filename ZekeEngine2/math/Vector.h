@@ -287,6 +287,17 @@ public:
 		Div(s);
 		return *this;
 	}
+
+	operator btVector3() const
+	{
+		btVector3 vec;
+		vec.setX(x);
+		vec.setY(y);
+		vec.setZ(z);
+		return vec;
+	}
+
+
 public:
 	static CVector3 Zero()
 	{

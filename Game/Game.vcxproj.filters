@@ -109,8 +109,13 @@
     <None Include="Assets\modelData\Box.FBX">
       <Filter>Assets\model</Filter>
     </None>
-    <None Include="Assets\modelData\Stage.FBX">
+  </ItemGroup>
+  <ItemGroup>
+    <MeshContentTask Include="Assets\modelData\Stage.FBX">
       <Filter>Assets\model</Filter>
-    </None>
+    </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\RLStage.fbx">
+      <Filter>Assets\model</Filter>
+    </MeshContentTask>
   </ItemGroup>
 </Project>
