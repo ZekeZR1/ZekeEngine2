@@ -73,7 +73,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <TargetName>$(ProjectName).$(Configuration)</TargetName>
-    <OutDir>..\..\..\exlib\x64</OutDir>
+    <OutDir>$(SolutionDir)ZekeEngine2\exlib</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>..\lib\x86\</OutDir>

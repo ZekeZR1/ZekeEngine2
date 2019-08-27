@@ -82,6 +82,9 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\modelData\Stage.FBX">
+      <Filter>Assets\model</Filter>
+    </None>
     <None Include="Assets\modelData\chassis.FBX">
       <Filter>Assets\model\car</Filter>
     </None>
@@ -109,13 +112,8 @@
     <None Include="Assets\modelData\Box.FBX">
       <Filter>Assets\model</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <MeshContentTask Include="Assets\modelData\Stage.FBX">
+    <None Include="Assets\modelData\RLStage.fbx">
       <Filter>Assets\model</Filter>
-    </MeshContentTask>
-    <MeshContentTask Include="Assets\modelData\RLStage.fbx">
-      <Filter>Assets\model</Filter>
-    </MeshContentTask>
+    </None>
   </ItemGroup>
 </Project>

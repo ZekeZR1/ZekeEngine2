@@ -432,7 +432,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>..\exlib\x64</OutDir>
+    <OutDir>$(SolutionDir)ZekeEngine2\exlib</OutDir>
     <IntDir>Bin\Desktop_2015_Win10\$(Platform)\$(Configuration)\</IntDir>
     <TargetName>DirectXTK</TargetName>
   </PropertyGroup>

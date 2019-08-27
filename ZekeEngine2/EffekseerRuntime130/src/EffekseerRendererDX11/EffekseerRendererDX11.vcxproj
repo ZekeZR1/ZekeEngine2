@@ -76,7 +76,7 @@
     <TargetName>$(ProjectName).$(Configuration)</TargetName>
     <IncludePath>$(IncludePath)</IncludePath>
     <LibraryPath>$(LibraryPath)</LibraryPath>
-    <OutDir>..\..\..\exlib\x64</OutDir>
+    <OutDir>$(SolutionDir)ZekeEngine2\exlib</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>..\lib\x86\</OutDir>

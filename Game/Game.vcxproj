@@ -185,10 +185,12 @@
     <None Include="Assets\modelData\rearRightWheel.FBX">
       <FileType>Document</FileType>
     </None>
-    <MeshContentTask Include="Assets\modelData\RLStage.fbx" />
-    <MeshContentTask Include="Assets\modelData\Stage.FBX">
+    <None Include="Assets\modelData\RLStage.fbx">
       <FileType>Document</FileType>
-    </MeshContentTask>
+    </None>
+    <None Include="Assets\modelData\Stage.FBX">
+      <FileType>Document</FileType>
+    </None>
     <None Include="Assets\modelData\wheel.FBX">
       <FileType>Document</FileType>
     </None>

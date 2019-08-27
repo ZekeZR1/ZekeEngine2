@@ -75,6 +75,7 @@
     <ReferencePath>$(ProjectDir)/DirectXTK/Bin/Desktop_2015_Win10/x64/Debug;$(ProjectDir)/exlib/x64;$(ReferencePath)</ReferencePath>
     <LibraryPath>$(ProjectDir)/exlib/x64;$(ProjectDir)/DirectXTK/Bin/Desktop_2015_Win10/x64/Debug;$(LibraryPath)</LibraryPath>
     <IncludePath>$(ProjectDir)/bulletPhysics/src;$(ProjectDir)/../;$(ProjectDir)/EffekseerRuntime130/src/include;$(ProjectDir);$(IncludePath)</IncludePath>
+    <OutDir>$(SolutionDir)$(platform)\Debug</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
