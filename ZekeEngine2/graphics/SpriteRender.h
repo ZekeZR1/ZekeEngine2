@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Sprite/Sprite.h"
-#include "Camera.h"
-
+#include "../graphics/Sprite/Sprite.h"
+#include "../graphics/Camera.h"
+class FontRender;
 class SpriteRender : public GameObject
 {
 public:
@@ -10,21 +10,24 @@ public:
 	~SpriteRender();
 	bool Start() override;
 	void Update() override;
+	void Render() override;
 	void PostRender() override;
 	void ChangeCameraProjMatrix(Camera::EnUpdateProjMatrixFunc cameraMode) {
 		m_sprite.ChangeCameraProjMatrix(cameraMode);
+		m_projMatrixFunc = cameraMode;
 	}
 
 	void SetMulCol(const CVector4& col) {
 		m_sprite.SetMulColor(col);
 	}
 
-	void Init(const wchar_t* texFilePath, float w, float h,bool collisionFlag = false);
+
+	void Init(const wchar_t* texFilePath, float w, float h, bool collisionFlag = true, bool PosChangeByMouse = false);
 
 	void SetPosition(const CVector3& pos)
 	{
 		m_pos = pos;
-		m_collider.Init(m_h, m_w, pos,m_pivot);
+		m_collider.Init(m_h, m_w, pos, m_pivot);
 	}
 
 	const CVector3& GetPosition() const
@@ -45,6 +48,7 @@ public:
 	void SetPivot(const CVector2& pivot)
 	{
 		m_pivot = pivot;
+		m_collider.Init(m_h, m_w, m_pos, m_pivot);
 	}
 
 	//毎フレーム呼び出してターゲット座標を更新する 
@@ -60,11 +64,22 @@ public:
 		m_scale = scale;
 	}
 private:
+	//初期化時にマウスによる調整フラグをtrueにすると以下の操作ができる.
+	//ドラッグ : ポジション移動.
+	//マウスホイール  : Z座標移動.
+	//右クリックを押しながらマウスホイール : スケール変更.
+	//※ゲーム内のみで変更が適応されるので調整が完了した場合プログラムを変更する必要があります.
+	//※この機能を使用するにはスプライトの当たり判定フラグをtrueにする必要があります.
+	void MouseActionUpdate();
+
+	Camera::EnUpdateProjMatrixFunc m_projMatrixFunc = Camera::enUpdateProjMatrixFunc_Ortho;
 	CVector3 m_pos = CVector3::Zero();
 	CQuaternion m_rotation = CQuaternion::Identity();
 	CVector3 m_scale = CVector3::One();
 	CVector2 m_pivot = Sprite::DEFAULT_PIVOT;
 	bool m_isNeedExecuteCollision = false;
+	bool m_isPosChangeByMouse = false;
+	FontRender* m_PosDataText = nullptr;
 	SpriteBoxCollider m_collider;
 	CVector3 m_target = CVector3::Zero();
 	float m_w;

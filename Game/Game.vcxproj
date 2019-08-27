@@ -103,6 +103,9 @@
     <MeshContentTask>
       <ContentOutput>$(ProjectDirr)Assets/modelData/%(Filename).cmo</ContentOutput>
     </MeshContentTask>
+    <ImageContentTask>
+      <ContentOutput>$(SolutionDir)Game\Assets\sprite\%(Filename).dds</ContentOutput>
+    </ImageContentTask>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -198,6 +201,11 @@
     <None Include="Assets\modelData\wheel.FBX">
       <FileType>Document</FileType>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ImageContentTask Include="Assets\sprite\inGame\BlueTeamScoreBack.png" />
+    <ImageContentTask Include="Assets\sprite\inGame\OrangeTeamScoreBack.png" />
+    <ImageContentTask Include="Assets\sprite\inGame\TimerBack.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

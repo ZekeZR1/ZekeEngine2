@@ -2,6 +2,7 @@
 #include "Goal.h"
 #include "Ball.h"
 #include "Car.h"
+#include "ScoreManager.h"
 
 bool Goal::Start() {
 	//TODO : ゴースト使ってゴール判定する
@@ -29,6 +30,12 @@ void Goal::Update() {
 	else {
 		auto pos = mp_ball->GetPosition();
 		if (pos.z <= -175 or pos.z >= 175) {
+			auto manager = FindGO<ScoreManager>("ScoreManager");
+			if (pos.z < 0)
+				manager->Goal(ScoreManager::enOrangeTeam);
+			if (pos.z > 0)
+				manager->Goal(ScoreManager::enBlueTeam);
+
 			printf("Goal");
 			auto car = FindGO<Car>("Car");
 			car->ResetCar();

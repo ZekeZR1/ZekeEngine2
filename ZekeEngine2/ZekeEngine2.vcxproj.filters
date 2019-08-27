@@ -156,9 +156,6 @@
     <ClInclude Include="graphics\SpringCamera.h">
       <Filter>src\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="graphics\SpriteRender.h">
-      <Filter>src\graphics</Filter>
-    </ClInclude>
     <ClInclude Include="graphics\StructedBuffer.h">
       <Filter>src\graphics</Filter>
     </ClInclude>
@@ -300,6 +297,9 @@
     <ClInclude Include="physics\CylinderCollider.h">
       <Filter>src\physics</Filter>
     </ClInclude>
+    <ClInclude Include="graphics\SpriteRender.h">
+      <Filter>src\graphics\Sprite</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -393,9 +393,6 @@
       <Filter>src\graphics</Filter>
     </ClCompile>
     <ClCompile Include="graphics\SpringCamera.cpp">
-      <Filter>src\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="graphics\SpriteRender.cpp">
       <Filter>src\graphics</Filter>
     </ClCompile>
     <ClCompile Include="graphics\StructedBuffer.cpp">
@@ -526,6 +523,9 @@
     </ClCompile>
     <ClCompile Include="physics\CylinderCollider.cpp">
       <Filter>src\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="graphics\SpriteRender.cpp">
+      <Filter>src\graphics\Sprite</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

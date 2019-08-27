@@ -1,8 +1,10 @@
 #pragma once
+
 class Stage;
 class Ball;
 class GameCamera;
 class Car;
+class ScoreManager;
 
 class Game : public GameObject
 {
@@ -15,5 +17,6 @@ private:
 	Ball* m_ball = nullptr;
 	Stage* m_stage = nullptr;
 	GameCamera* m_gameCamera = nullptr;
+	ScoreManager* m_scoreManager;
 };
 

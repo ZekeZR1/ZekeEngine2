@@ -19,6 +19,9 @@
     <Filter Include="src\Scene">
       <UniqueIdentifier>{52bfe2d0-49e8-44e8-a67d-e684f0fa0eb6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Assets\sprite">
+      <UniqueIdentifier>{32668533-c92e-4d46-810b-ed843b2c4aba}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -54,7 +57,9 @@
     <ClCompile Include="Goal.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="ScoreManager.cpp" />
+    <ClCompile Include="ScoreManager.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -125,5 +130,16 @@
     <None Include="Assets\modelData\RLStage.fbx">
       <Filter>Assets\model</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ImageContentTask Include="Assets\sprite\inGame\BlueTeamScoreBack.png">
+      <Filter>Assets\sprite</Filter>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\sprite\inGame\OrangeTeamScoreBack.png">
+      <Filter>Assets\sprite</Filter>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\sprite\inGame\TimerBack.png">
+      <Filter>Assets\sprite</Filter>
+    </ImageContentTask>
   </ItemGroup>
 </Project>

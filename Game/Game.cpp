@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Game.h"
+#include "ScoreManager.h"
 #include "Vehicle.h"
 #include "Ball.h";
 #include "Stage.h"
@@ -13,7 +14,7 @@ bool Game::Start() {
 	m_car->ResetCar();
 	//m_car->SetChassisPositionFix(CVector3(0.f,-0.3f,0.f ));
 	m_gameCamera = NewGO<GameCamera>(0);
-
+	m_scoreManager = NewGO < ScoreManager>(0,"ScoreManager");
 	return true;
 }
 
@@ -22,14 +23,12 @@ void Game::OnDestroy() {
 	DeleteGO(m_ball);
 	DeleteGO(m_gameCamera);
 	DeleteGO(m_car);
+	DeleteGO(m_scoreManager);
 }
 
 void Game::Update() {
 	if (Pad(0).IsTrigger(enButtonStart)) {
-		//DeleteGO(m_ball);
-		//m_ball = NewGO<Ball>(0);
 		m_ball->ResetBall();
-
 	}
 	auto pos = m_ball->GetPosition();
 	//m_gameCamera->SetTarget(m_car.GetPosition());
