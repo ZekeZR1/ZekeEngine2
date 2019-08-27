@@ -51,6 +51,10 @@
     <ClCompile Include="Game.cpp">
       <Filter>src\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="Goal.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -79,6 +83,12 @@
     </ClInclude>
     <ClInclude Include="Game.h">
       <Filter>src\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Goal.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreManager.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

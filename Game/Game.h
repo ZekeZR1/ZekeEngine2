@@ -1,11 +1,8 @@
 #pragma once
-//#include "GameCamera.h"
-#include "Vehicle.h"
-#include "Car.h"
 class Stage;
 class Ball;
-class Vehicle;
 class GameCamera;
+class Car;
 
 class Game : public GameObject
 {
@@ -14,7 +11,7 @@ public:
 	void OnDestroy() override;
 	void Update() override;
 private:
-	Car m_car;
+	Car* m_car = nullptr;
 	Ball* m_ball = nullptr;
 	Stage* m_stage = nullptr;
 	GameCamera* m_gameCamera = nullptr;

@@ -112,6 +112,19 @@ Car::~Car() {
 		delete s;
 }
 
+bool Car::Start() {
+	return true;
+}
+
+void Car::OnDestroy() {
+
+}
+
+void Car::Update() {
+	stepSimulation();
+	buttonUpdate();
+}
+
 void Car::init() {
 	int upAxis = 1;
 	//ó‘ÔƒNƒ‰ƒX‚ð¶¬‚µ‚Ä‚¨‚­
@@ -458,7 +471,7 @@ void  Car::buttonUpdate() {
 	 m_breakingForce = 100.f;
 	 //‚¿‚å‚Á‚Æã‚É¶¬
 	 auto wtr = m_vehicle->getRigidBody()->getWorldTransform();
-	 wtr.setOrigin(btVector3(0, 2, 0));
+	 wtr.setOrigin(btVector3(0, 2, -10));
 	 wtr.setRotation(btQuaternion::getIdentity());
 	 m_carChassis->setCenterOfMassTransform(wtr);
 	 m_carChassis->setLinearVelocity(btVector3(0, 0, 0));

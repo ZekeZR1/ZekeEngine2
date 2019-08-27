@@ -1,4 +1,5 @@
 #pragma once
+class Goal;
 class Stage : public GameObject
 {
 public:
@@ -10,5 +11,6 @@ private:
 	CVector3 m_floorPos = CVector3::Zero();
 	CQuaternion m_rot = CQuaternion::Identity();
 	PhysicsStaticObject m_physicsStaticObject;
+	Goal* m_goal = nullptr;
 };
 

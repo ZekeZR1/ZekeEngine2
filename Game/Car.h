@@ -3,11 +3,15 @@
 
 class CarState;
 
-class Car
+class Car : public GameObject
 {
 public:
 	Car();
 	~Car();
+
+	bool Start() override;
+	void OnDestroy() override;
+	void Update() override;
 
 	enum eState {
 		enOnGround,

@@ -3,7 +3,7 @@
 #include "..//ZekeEngine2/physics/CSphereCollider.h"
 
 void Ball::Awake() {
-	m_ballModel = NewGO<SkinModelRender>(0);
+	m_ballModel = NewGO<SkinModelRender>(0,"Ball");
 	m_ballModel->Init(L"Assets/modelData/ball.cmo");
 }
 
@@ -46,5 +46,14 @@ void Ball::OnDestroy() {
 void Ball::Update() {
 	m_ballModel->SetPosition(m_rigidBody->getWorldTransform().getOrigin());
 	m_ballModel->SetRotation(m_rigidBody->getWorldTransform().getRotation());
+}
+
+void Ball::ResetBall() {
+	btTransform wtr;
+	wtr.setOrigin(btVector3(0, 5, 0));
+	wtr.setRotation(btQuaternion::getIdentity());
+	m_rigidBody->setCenterOfMassTransform(wtr);
+	m_rigidBody->setLinearVelocity(btVector3(0, 0, 0));
+	m_rigidBody->setAngularVelocity(btVector3(0, 0, 0));
 }
 

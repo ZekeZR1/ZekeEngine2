@@ -6,6 +6,8 @@ public:
 	bool Start() override;
 	void OnDestroy() override;
 	void Update() override;
+	void ResetBall();
+
 	CVector3 GetPosition() {
 		return m_ballModel->GetPosition();
 	}
