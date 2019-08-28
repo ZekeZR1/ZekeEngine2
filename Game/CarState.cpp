@@ -66,7 +66,7 @@ CarState* OnGroundState::Update(Car* car) {
 	//ƒWƒƒƒ“ƒv
 	if (car->isOnGround()) {
 		if (Pad(0).IsTrigger(enButtonA)) {
-			static const int jumpParam = 5000;
+			static const int jumpParam = 7000;
 			auto rigidbody = car->GetRayCastVehicle()->getRigidBody();
 			rigidbody->applyCentralImpulse(car->GetCarUp() * jumpParam);
 			return car->GetCarState(Car::enInAir);
@@ -114,13 +114,13 @@ CarState* InAirState::Update(Car* car) {
 	auto rdtr = rigidbody->getWorldTransform();
 	auto rdpos = rdtr.getOrigin();
 	auto rdrot = rdtr.getRotation();
-	float rotationSpeed = 40.f;
+	float rotationSpeed = 50.f;
 
 	btVector3 totalAngularVelocity = rigidbody->getAngularVelocity();
 	if (Pad(0).IsPress(enButtonRB1)) {
 		//‘OŽ²‰ñ“]
 		auto rel = car->GetCarRight() * -50;
-		rigidbody->applyImpulse(car->GetCarUp() * rotationSpeed / 2 * LStickX, rel);
+		rigidbody->applyImpulse(car->GetCarUp() * rotationSpeed / 4 * LStickX, rel);
 	}
 	else {
 		//ãŽ²‰ñ“]
@@ -129,7 +129,7 @@ CarState* InAirState::Update(Car* car) {
 	}
 	//‰¡Ž²‰ñ“]
 	auto rel = car->GetCarForward() * -50;
-	rigidbody->applyImpulse(car->GetCarUp() * rotationSpeed * LStickY, rel);
+	rigidbody->applyImpulse(car->GetCarUp() * rotationSpeed * 0.85 * LStickY, rel);
 
 	return this;
 }
@@ -201,7 +201,7 @@ static void Boost(Car* car) {
 	if (Pad(0).IsPress(enButtonB)) {
 		auto speed = car->GetRayCastVehicle()->getCurrentSpeedKmHour();
 		const float boostMaxSpeed = 100.f;
-		static const int boostParam = 20000;
+		static const int boostParam = 10000;
 		auto rigidbody = car->GetRayCastVehicle()->getRigidBody();
 		auto forward = car->GetRayCastVehicle()->getForwardVector();
 		if (speed < boostMaxSpeed)
