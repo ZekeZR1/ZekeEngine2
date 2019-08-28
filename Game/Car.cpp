@@ -309,10 +309,24 @@ void Car::stepSimulation() {
 		m_carChassis->setAngularVelocity(nav);
 	}
 
+	//4輪が地面についてるときは地面方向に引力を発生させる
+	{
+		if (isOnGround()) {
+			static const float attr = 6000.f;
+			auto force = GetCarUp();
+			force *= attr;
+			m_vehicle->getRigidBody()->applyCentralForce(-force);
+		}
+	}
+
 	//地上に居そうなときは車が地面と平行になるような力を加える
 	{
-		if (GetRayCastVehicle()->numWheelsOnGround > 0) {
-			static const float y = 0.2;
+
+		auto numWheelOnGround = GetRayCastVehicle()->numWheelsOnGround;
+		auto chassisY = GetRayCastVehicle()->getChassisWorldTransform().getOrigin().getY();
+		printf("car y Pos ..%f\n", chassisY);
+		if (numWheelOnGround > 0 and numWheelOnGround != 4 and chassisY < 1.0f) {
+			static const float y = 0.01;
 			//右に傾いている
 			if (m_rightVec.getY() < -y) {
 				auto rel = GetCarRight() * -50;
@@ -335,7 +349,6 @@ void Car::stepSimulation() {
 			}
 		}
 	}
-
 
 	if (m_vehicle->numWheelsOnGround == 4) {
 		m_isOnGround = true;
