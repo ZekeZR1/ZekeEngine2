@@ -55,10 +55,17 @@ public:
 		return m_vehicle->getForwardVector();
 	}
 
+	/// <summary>
+	/// 4つすべてのタイヤが地面についているかの判定結果を返します
+	/// </summary>
+	/// <returns></returns>
 	bool isOnGround() {
 		return m_isOnGround;
 	}
-
+	/// <summary>
+	/// bulletのraycast車のポインタを返します
+	/// </summary>
+	/// <returns></returns>
 	btRaycastVehicle* GetRayCastVehicle() {
 		return m_vehicle;
 	}
@@ -111,7 +118,6 @@ private:
 	void init();
 	void modelInit();
 	void modelUpdate();
-	void Aerial(); //エアリアル制御
 	//調整用
 	//collider
 	CVector3 m_chassisShapeSize = { 0.7,0.3,1.5 };

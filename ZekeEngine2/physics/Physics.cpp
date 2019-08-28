@@ -54,7 +54,7 @@ void CPhysicsWorld::Init()
 	m_debugDraw = new PhysicsDebugDraw;
 	m_debugDraw->Init();
 	debugDrawer = m_debugDraw;
-	dynamicWorld->setGravity(btVector3(0, -10, 0));
+	dynamicWorld->setGravity(btVector3(0, -9.81, 0));
 	dynamicWorld->setDebugDrawer(debugDrawer);
 	debugDrawer->setDebugMode(1);
 }

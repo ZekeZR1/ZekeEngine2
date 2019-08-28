@@ -130,6 +130,7 @@ void Car::init() {
 	//状態クラスを生成しておく
 	m_StatePool.push_back(new OnGroundState);
 	m_StatePool.push_back(new InAirState);
+	m_StatePool.push_back(new FlipState);
 	//地上状態からスタート
 	m_state = GetCarState(enOnGround);
 
@@ -389,76 +390,9 @@ void Car::modelUpdate() {
 
 void  Car::buttonUpdate() {
 
-	//auto LStick = Pad(0).GetLStickXF();
-	//auto R2Trigger = Pad(0).GetRTrigger();
-	//auto L2Trigger = Pad(0).GetLTrigger();
-	//auto speed = m_vehicle->getCurrentSpeedKmHour();
 
 	m_state->Update(this);
 
-	////ステアリング
-	//{
-	//	const float defaultSteerringClamp = 0.3;
-	//	gVehicleSteering = LStick;
-	//	float speed = m_vehicle->getCurrentSpeedKmHour();
-	//	auto sr = gVehicleSteering;
-	//	//値を小さく設定するほど高速で曲がりにくくなります。
-	//	//static float clampParam = 9.5f;
-	//	static float clampParam = 7.f;
-	//	if (speed > 0) {
-	//		steeringClamp = clampParam / speed;
-	//	}
-	//	if (steeringClamp > defaultSteerringClamp)
-	//		steeringClamp = defaultSteerringClamp;
-	//	if (gVehicleSteering > steeringClamp)
-	//		gVehicleSteering = steeringClamp;
-	//	if (gVehicleSteering < -steeringClamp)
-	//		gVehicleSteering = -steeringClamp;
-
-	//}
-
-	////エンジンパワー
-	//{
-	//	static const int engineParam = 1000;
-	//	float engineForce = 0.f;
-	//	//前進
-	//	auto frontForce = R2Trigger * engineParam;
-	//	if (m_vehicle->getCurrentSpeedKmHour() > normalMaxSpeed)
-	//		frontForce = 0;
-	//	//printf("speed %f ... font force %f\n", speed,frontForce);
-	//	//後退
-	//	auto backForce = L2Trigger * engineParam;
-
-	//	gEngineForce = frontForce - backForce;
-
-	//	if (R2Trigger > 0.f or L2Trigger > 0.f) {
-	//		gBreakingForce = 0.f;
-	//	}
-	//	else {
-	//		gBreakingForce = defaultBreakingForce;
-	//	}
-	//}
-
-	////ブースト
-	//if (Pad(0).IsPress(enButtonB)) {
-	//	static const int boostParam = 20000;
-	//	auto rigidbody = m_vehicle->getRigidBody();
-	//	auto forward = m_vehicle->getForwardVector();
-	//	if (speed < boostMaxSpeed)
-	//		rigidbody->applyCentralForce(forward * boostParam);
-	//}
-	////ジャンプ
-	//if (isOnGround()) {
-	//	if (Pad(0).IsTrigger(enButtonA)) {
-	//		static const int jumpParam = 5000;
-	//		auto rigidbody = m_vehicle->getRigidBody();
-	//		rigidbody->applyCentralImpulse(m_upVec * jumpParam);
-	//		//rigidbody->applyCentralImpulse(btVector3(0,1,0) * jumpParam);
-	//	}
-	//}
-	
-	//エアリアル
-	Aerial();
 	//リセット
 	if (Pad(0).IsTrigger(enButtonStart)) {
 		ResetCar();
@@ -545,30 +479,3 @@ void Car::modelInit() {
 	}
 }
 
-void Car::Aerial() {
-	////エアリアル
-
-	//if (m_vehicle->numWheelsOnGround != 0) return;
-	//auto LStickX = Pad(0).GetLStickXF();
-	//auto LStickY = Pad(0).GetLStickYF();
-	//auto rigidbody = m_vehicle->getRigidBody();
-	//auto rdtr = rigidbody->getWorldTransform();
-	//auto rdpos = rdtr.getOrigin();
-	//auto rdrot = rdtr.getRotation();
-	//float rotationSpeed = 40.f;
-
-	//btVector3 totalAngularVelocity = rigidbody->getAngularVelocity();
-	//if (Pad(0).IsPress(enButtonRB1)) {
-	//	//前軸回転
-	//	auto rel = m_rightVec * -50;
-	//	rigidbody->applyImpulse(m_upVec * rotationSpeed / 2 * LStickX, rel);
-	//}
-	//else {
-	//	//上軸回転
-	//	auto rel = m_forwardVec * 50;
-	//	rigidbody->applyImpulse(m_rightVec * rotationSpeed * LStickX, rel);
-	//}
-	////横軸回転
-	//auto rel = m_forwardVec * -50;
-	//rigidbody->applyImpulse(m_upVec * rotationSpeed * LStickY, rel);
-}
