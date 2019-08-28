@@ -61,7 +61,8 @@ float suspensionDamping = 2.13f; //2.3
 float suspensionCompression = 14.4f; //4.4
 float rollInfluence = 0.0f;  //0.1f;
 
-btScalar suspensionRestLength(0.7);
+//btScalar suspensionRestLength(0.7);
+btScalar suspensionRestLength(0.55);
 
 #define CUBE_HALF_EXTENTS 1
 
@@ -303,10 +304,39 @@ void Car::stepSimulation() {
 			//else
 			//	nav.setZ(av.getZ());
 
-	if (m_vehicle->numWheelsOnGround == 0) {
+	if (m_vehicle->numWheelsOnGround < 4) {
 		static btVector3 nav(0, 0, 0);
 		m_carChassis->setAngularVelocity(nav);
 	}
+
+	//’nã‚É‹‚»‚¤‚È‚Æ‚«‚ÍŽÔ‚ª’n–Ê‚Æ•½s‚É‚È‚é‚æ‚¤‚È—Í‚ð‰Á‚¦‚é
+	{
+		if (GetRayCastVehicle()->numWheelsOnGround > 0) {
+			static const float y = 0.2;
+			//‰E‚ÉŒX‚¢‚Ä‚¢‚é
+			if (m_rightVec.getY() < -y) {
+				auto rel = GetCarRight() * -50;
+				m_vehicle->getRigidBody()->applyImpulse(GetCarUp() * -10, rel);
+			}
+			//¶‚ÉŒX‚¢‚Ä‚¢‚é
+			if (m_rightVec.getY() > y) {
+				auto rel = GetCarRight() * -50;
+				m_vehicle->getRigidBody()->applyImpulse(GetCarUp() * 10, rel);
+			}
+			//‰º‚ÉŒX‚¢‚Ä‚é
+			if (m_forwardVec.getY() < -y) {
+				auto rel = GetCarForward() * -50;
+				m_vehicle->getRigidBody()->applyImpulse(GetCarUp() * -20, rel);
+			}
+			//ã‚ÉŒX‚¢‚Ä‚é
+			if (m_forwardVec.getY() > y) {
+				auto rel = GetCarForward() * -50;
+				m_vehicle->getRigidBody()->applyImpulse(GetCarUp() * 20, rel);
+			}
+		}
+	}
+
+
 	if (m_vehicle->numWheelsOnGround == 4) {
 		m_isOnGround = true;
 	}

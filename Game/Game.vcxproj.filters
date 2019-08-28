@@ -22,6 +22,9 @@
     <Filter Include="Assets\sprite">
       <UniqueIdentifier>{32668533-c92e-4d46-810b-ed843b2c4aba}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Network">
+      <UniqueIdentifier>{c2e54bc7-f6d0-4953-af8b-fd963021a151}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">

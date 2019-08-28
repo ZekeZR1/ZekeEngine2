@@ -62,7 +62,7 @@ CarState* OnGroundState::Update(Car* car) {
 
 	//Boost
 	Boost(car);
-	
+
 	//ƒWƒƒƒ“ƒv
 	if (car->isOnGround()) {
 		if (Pad(0).IsTrigger(enButtonA)) {
@@ -73,6 +73,7 @@ CarState* OnGroundState::Update(Car* car) {
 			//rigidbody->applyCentralImpulse(btVector3(0,1,0) * jumpParam);
 		}
 	}
+
 
 	if (!car->isOnGround()) {
 		return car->GetCarState(Car::enInAir);
