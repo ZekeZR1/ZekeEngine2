@@ -58,13 +58,8 @@ static const int MAX_BONE = 512;
 #include "physics/Physics.h"
 #include "HID/Pad.h"
 
-//TODO : photon include
-//#include "Common-cpp/inc/Common.h"
-//#include "LoadBalancing-cpp/inc/Client.h"
-//#include "Network/NetworkLogic.h"
-//#include "../Game/Online/NetworkLogic.h"
-//#include "Network/Console.h"
-//#include "../Game/Online/Console.h"
+#include "PhotonEngine/Common-cpp/inc/Common.h"
+#include "PhotonEngine/LoadBalancing-cpp/inc/Client.h"
 
 #include "EngineStruct.h"
 #include "Engine.h"

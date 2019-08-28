@@ -72,8 +72,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(ProjectDir)/../ZekeEngine2/EffekseerRuntime130/src/include;$(ProjectDir)/../ZekeEngine2/bulletPhysics/src;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)../x64/Debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)/../ZekeEngine2/EffekseerRuntime130/src/include;$(ProjectDir)/../ZekeEngine2/bulletPhysics/src;$(SolutionDir)ZekeEngine2/PhotonEngine;$(ProjectDir);$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)../x64/Debug;$(SolutionDir)ZekeEngine2\PhotonEngine\LoadBalancing-cpp\lib;$(SolutionDir)ZekeEngine2\PhotonEngine\Common-cpp\lib;$(SolutionDir)ZekeEngine2\PhotonEngine\Photon-cpp\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>$(ProjectDir)/../ZekeEngine2/EffekseerRuntime130/src/include;$(ProjectDir)/../ZekeEngine2/bulletPhysics/src;$(IncludePath)</IncludePath>
@@ -98,7 +98,7 @@
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;xaudio2.lib;xinput.lib;dxguid.lib;winmm.lib;comctl32.lib;ZekeEngine2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;xaudio2.lib;xinput.lib;dxguid.lib;winmm.lib;comctl32.lib;ZekeEngine2.lib;Photon-cpp_vc15_debug_windows_mt_x64.lib;Common-cpp_vc15_debug_windows_mt_x64.lib;LoadBalancing-cpp_vc15_debug_windows_mt_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <MeshContentTask>
       <ContentOutput>$(ProjectDirr)Assets/modelData/%(Filename).cmo</ContentOutput>
@@ -147,11 +147,19 @@
     <ClCompile Include="Goal.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MyVehicle.cpp" />
+    <ClCompile Include="Network\BaseView.cpp" />
+    <ClCompile Include="Network\Console.cpp" />
+    <ClCompile Include="Network\LoadBalancingListener.cpp" />
+    <ClCompile Include="Network\NetworkLogic.cpp" />
+    <ClCompile Include="Network\OutputListener.cpp" />
+    <ClCompile Include="Network\TestView.cpp" />
+    <ClCompile Include="OnlineMatch.cpp" />
     <ClCompile Include="ScoreManager.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Title.cpp" />
     <ClCompile Include="Vehicle.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -162,9 +170,17 @@
     <ClInclude Include="GameCamera.h" />
     <ClInclude Include="Goal.h" />
     <ClInclude Include="MyVehicle.h" />
+    <ClInclude Include="Network\BaseView.h" />
+    <ClInclude Include="Network\Console.h" />
+    <ClInclude Include="Network\LoadBalancingListener.h" />
+    <ClInclude Include="Network\NetworkLogic.h" />
+    <ClInclude Include="Network\OutputListener.h" />
+    <ClInclude Include="Network\TestView.h" />
+    <ClInclude Include="OnlineMatch.h" />
     <ClInclude Include="ScoreManager.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="Title.h" />
     <ClInclude Include="Vehicle.h" />
   </ItemGroup>
   <ItemGroup>

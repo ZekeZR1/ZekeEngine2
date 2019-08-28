@@ -288,30 +288,15 @@ void Car::stepSimulation() {
 		m_vehicle->setSteeringValue(m_vehicleSteering, wheelIndex);
 	}
 
-	//auto av = m_carChassis->getAngularVelocity();
-	//printf("x : %f , y : %f , z %f\n", av.getX(), av.getY(), av.getZ());
-
-		//if (abs(av.getX()) > 2.f) 
-			//	nav.setX(0);
-			//else
-			//	nav.setX(av.getX());
-			//if (abs(av.getY()) > 2.f) 
-			//	nav.setY(0);
-			//else
-			//	nav.setY(av.getY());
-			//if (abs(av.getZ()) > 2.f) 
-			//	nav.setZ(0);
-			//else
-			//	nav.setZ(av.getZ());
-
 	if (m_vehicle->numWheelsOnGround < 4) {
 		static btVector3 nav(0, 0, 0);
 		m_carChassis->setAngularVelocity(nav);
 	}
 
+	//TODO : プログラムで判定せずにポリゴンからデータをとってきたい・・・
 	//4輪が地面についてるときは地面方向に引力を発生させる
 	{
-		if (isOnGround()) {
+		if (GetRayCastVehicle()->numWheelsOnGround >= 2) {
 			static const float attr = 6000.f;
 			auto force = GetCarUp();
 			force *= attr;

@@ -63,6 +63,30 @@
     <ClCompile Include="ScoreManager.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="Title.cpp">
+      <Filter>src\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Network\NetworkLogic.cpp">
+      <Filter>src\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Network\OutputListener.cpp">
+      <Filter>src\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Network\TestView.cpp">
+      <Filter>src\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Network\BaseView.cpp">
+      <Filter>src\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Network\Console.cpp">
+      <Filter>src\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Network\LoadBalancingListener.cpp">
+      <Filter>src\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="OnlineMatch.cpp">
+      <Filter>src\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -97,6 +121,30 @@
     </ClInclude>
     <ClInclude Include="ScoreManager.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="Title.h">
+      <Filter>src\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Network\LoadBalancingListener.h">
+      <Filter>src\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Network\NetworkLogic.h">
+      <Filter>src\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Network\OutputListener.h">
+      <Filter>src\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Network\TestView.h">
+      <Filter>src\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Network\BaseView.h">
+      <Filter>src\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Network\Console.h">
+      <Filter>src\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="OnlineMatch.h">
+      <Filter>src\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
