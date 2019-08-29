@@ -309,7 +309,7 @@ void Car::stepSimulation() {
 
 		auto numWheelOnGround = GetRayCastVehicle()->numWheelsOnGround;
 		auto chassisY = GetRayCastVehicle()->getChassisWorldTransform().getOrigin().getY();
-		printf("car y Pos ..%f\n", chassisY);
+		//printf("car y Pos ..%f\n", chassisY);
 		if (numWheelOnGround > 0 and numWheelOnGround != 4 and chassisY < 1.0f) {
 			static const float y = 0.01;
 			//‰E‚ÉŒX‚¢‚Ä‚¢‚é

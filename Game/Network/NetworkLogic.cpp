@@ -8,10 +8,10 @@
 static const ExitGames::Common::JString appID = L"bc498888-ced2-496a-bf8d-d45e2f548db7";
 static const ExitGames::Common::JString appVersion = L"1.0";
 
-static ExitGames::Common::JString gameName = L"Basics";
+//static ExitGames::Common::JString gameName = L"RocketGame";
 
-static const ExitGames::Common::JString PLAYER_NAME = L"user";
-static const int MAX_SENDCOUNT = 100;
+//static const ExitGames::Common::JString PLAYER_NAME = L"user";
+//static const int MAX_SENDCOUNT = 100;
 
 using namespace ExitGames::LoadBalancing;
 using namespace ExitGames::Common;

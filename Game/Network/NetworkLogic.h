@@ -5,6 +5,8 @@
 //#include "../../Game/Online/TestView.h"
 #include "TestView.h"
 class TestView;
+
+
 class NetworkLogic
 {
 public:
@@ -41,9 +43,10 @@ private:
 };
 
 static INetworkSystem& NetSystem() {
-	static INetworkSystem* instance = nullptr;
-	if (instance == nullptr) {
-		instance = new INetworkSystem;
-	}
-	return *instance;
+	static INetworkSystem instance;
+	//static INetworkSystem* instance = nullptr;
+	//if (instance == nullptr) {
+//		instance = new INetworkSystem;
+//	}
+	return instance;
 }

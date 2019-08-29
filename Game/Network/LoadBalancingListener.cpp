@@ -9,7 +9,6 @@
 #include <string>
 
 
-
 const JString PeerStatesStr[] = {
 	L"Uninitialized",
 	L"PeerCreated",
@@ -318,12 +317,5 @@ void LoadBalancingListener::service()
 		if (mpLbc->getState() == PeerStates::Joined) {
 		}
 	}
-	//int cnt = mpLbc->getCountPlayersOnline();
-	//int cnt = mpLbc->getCountGamesRunning();
-	//if (cnt == 2) misConect = true;
-	//else misConect = false;
-	//char str[256];
-	//sprintf_s(str, "Player NUm is %d\n", cnt);
-	//OutputDebugString(str);
 }
 
