@@ -55,6 +55,9 @@
     <Filter Include="src\gameobject">
       <UniqueIdentifier>{6c87a639-3fc7-4e44-a88f-05ff8abdcacc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\network">
+      <UniqueIdentifier>{2e413773-8bc9-43c5-bb67-ea273aeb30dc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">

@@ -57,6 +57,10 @@ public:
 	void SetKey(int f) {
 		Key = f;
 	}
+
+	int GetKey() {
+		return Key;
+	}
 private:
 	//static Engine* instance;
 	void Update();

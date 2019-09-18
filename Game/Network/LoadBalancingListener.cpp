@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "BaseView.h"
 #include "OutputListener.h"
+#include "..//Car.h"
 #include "LoadBalancingListener.h"
 #include "NetworkLogic.h"
 #include "Console.h"
@@ -59,7 +60,7 @@ LoadBalancingListener::LoadBalancingListener(BaseView* pView)
 
 LoadBalancingListener::~LoadBalancingListener(void)
 {
-	delete mpView;
+	//delete mpView;
 }
 
 void LoadBalancingListener::setLBC(ExitGames::LoadBalancing::Client* pLbc)
@@ -139,10 +140,85 @@ void LoadBalancingListener::leaveRoomEventAction(int playerNr, bool isInactive)
 }
 
 
+void LoadBalancingListener::RaiseMyCarTransform(CVector3 pos, CQuaternion rot) {
+	Hashtable data;
+	nByte coords[] = { static_cast<nByte>(pos.x),static_cast<nByte>(pos.y),static_cast<nByte>(pos.z) };
+	data.put((nByte)1, coords,3);
+	mpLbc->opRaiseEvent(false,data,enPosition);
+}
+
 //opRaiseEventでイベントが送信されるとこの関数が呼ばれる
 void LoadBalancingListener::customEventAction(int playerNr, nByte eventCode, const Object& eventContentObj)
 {
+	ExitGames::Common::Hashtable eventContent = ExitGames::Common::ValueObject<ExitGames::Common::Hashtable>(eventContentObj).getDataCopy();
 
+	switch (eventCode) {
+	case enPosition:
+	{
+		Object const* obj = eventContent.getValue("1");
+		if (!obj)
+			obj = eventContent.getValue((nByte)1);
+		if (!obj)
+			obj = eventContent.getValue(1);
+		if (!obj)
+			obj = eventContent.getValue(1.0);
+		if (obj && obj->getDimensions() == 1 && obj->getSizes()[0] == 3)
+		{
+			int x = 0; int y = 0; int z = 0;
+			if (obj->getType() == TypeCode::DOUBLE)
+			{
+				double* data = ((ValueObject<double*>*)obj)->getDataCopy();
+				x = (int)data[0];
+				y = (int)data[1];
+				z = (int)data[2];
+			}
+			if (obj->getType() == TypeCode::INTEGER)
+			{
+				int* data = ((ValueObject<int*>*)obj)->getDataCopy();
+				x = (int)data[0];
+				y = (int)data[1];
+				z = (int)data[2];
+			}
+			else if (obj->getType() == TypeCode::BYTE)
+			{
+				nByte* data = ((ValueObject<nByte*>*)obj)->getDataCopy();
+				x = (int)data[0];
+				y = (int)data[1];
+				z = (int)data[2];
+			}
+			else if (obj->getType() == TypeCode::OBJECT)
+			{
+				Object* data = ((ValueObject<Object*>*)obj)->getDataCopy();
+				if (data[0].getType() == TypeCode::INTEGER)
+				{
+					x = ((ValueObject<int>*)(data + 0))->getDataCopy();
+					y = ((ValueObject<int>*)(data + 1))->getDataCopy();
+					z = ((ValueObject<int>*)(data + 2))->getDataCopy();
+				}
+				else
+				{
+					x = (int)((ValueObject<double>*)(data + 0))->getDataCopy();
+					y = (int)((ValueObject<double>*)(data + 1))->getDataCopy();
+					z = (int)((ValueObject<double>*)(data + 2))->getDataCopy();
+				}
+				MemoryManagement::deallocateArray(data);
+			}
+
+			auto eneCar = FindGO<Car>("EnemyCar");
+			CVector3 npos;
+			npos.x = x;
+			npos.y = y;
+			npos.z = z;
+			eneCar->ResetCar(npos);
+		}
+	}
+	break;
+	case enRotation:
+	{
+
+	}
+	break;
+	}
 }
 
 void LoadBalancingListener::disconnectReturn(void)
@@ -319,3 +395,6 @@ void LoadBalancingListener::service()
 	}
 }
 
+JString LoadBalancingListener::GetState() {
+	return PeerStatesStr[mpLbc->getState()];
+}

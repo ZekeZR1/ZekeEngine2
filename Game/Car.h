@@ -31,7 +31,7 @@ public:
 
 	void stepSimulation();
 	void buttonUpdate();
-	void ResetCar();
+	void ResetCar(CVector3 resetPos = { 0,2,-10 }, CQuaternion resetQuaternion = CQuaternion::Identity());
 
 	void SetChassisPositionFix(CVector3 vec) {
 		m_chassisPositionFix = vec;
@@ -176,6 +176,7 @@ private:
 	float m_engineForce = 0.f; //エンジンの出力
 	float m_vehicleSteering = 0.f; //ステアリング
 	float m_breakingForce = 100.f; //ブレーキ
+
 
 	CarState* m_state = nullptr;
 	std::vector<CarState*> m_StatePool;

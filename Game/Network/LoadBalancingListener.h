@@ -26,7 +26,8 @@ public:
 	void disconnect();
 	void createRoom(void);
 	void service();
-
+	
+	void RaiseMyCarTransform(CVector3 pos, CQuaternion rot);
 	/// <summary>
 	/// ƒIƒ“ƒ‰ƒCƒ“l”‚ğ•Ô‚µ‚Ü‚·
 	/// </summary>
@@ -35,7 +36,17 @@ public:
 		return mpLbc->getCountPlayersOnline();
 	}
 
+	JString GetState();
+
+	int GetLocalPlayerNumber() {
+		return mLocalPlayerNr;
+	}
 private:
+	enum RaiseEventCode {
+		enPosition,
+		enRotation
+	};
+
 	//From Common::BaseListener
 
 	// receive and print out debug out here

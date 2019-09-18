@@ -418,7 +418,6 @@ void Car::modelUpdate() {
 
 void  Car::buttonUpdate() {
 
-
 	m_state->Update(this);
 
 	//ƒŠƒZƒbƒg
@@ -427,14 +426,16 @@ void  Car::buttonUpdate() {
 	}
 }
 
- void Car::ResetCar() {
+ void Car::ResetCar(CVector3 resetPos, CQuaternion resetQuaternion) {
 	 m_vehicleSteering = 0.f;
 	 m_engineForce = 0.f;
 	 m_breakingForce = 100.f;
 	 //‚¿‚å‚Á‚Æã‚É¶¬
 	 auto wtr = m_vehicle->getRigidBody()->getWorldTransform();
-	 wtr.setOrigin(btVector3(0, 2, -10));
-	 wtr.setRotation(btQuaternion::getIdentity());
+	 //wtr.setOrigin(btVector3(0, 2, -10));
+	 wtr.setOrigin(resetPos);
+	 //wtr.setRotation(btQuaternion::getIdentity());
+	 wtr.setRotation(resetQuaternion);
 	 m_carChassis->setCenterOfMassTransform(wtr);
 	 m_carChassis->setLinearVelocity(btVector3(0, 0, 0));
 	 m_carChassis->setAngularVelocity(btVector3(0, 0, 0));

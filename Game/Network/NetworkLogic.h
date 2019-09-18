@@ -13,12 +13,17 @@ public:
 	NetworkLogic();
 	~NetworkLogic();
 	void Start();
+	void Connect();
 	void Disconnect();
 	void Update();
 
 	LoadBalancingListener* GetLBL()
 	{
 		return mpLbl;
+	}
+
+	Client* GetLBC() {
+		return mpLbc;
 	}
 private:
 	ExitGames::LoadBalancing::Client* mpLbc;
@@ -35,6 +40,9 @@ public:
 	void CreateNetworkSystem() {
 		m_network.Start();
 	}
+
+
+
 	void DestroyNetworkSystem() {
 		m_network.Disconnect();
 	}
@@ -44,9 +52,5 @@ private:
 
 static INetworkSystem& NetSystem() {
 	static INetworkSystem instance;
-	//static INetworkSystem* instance = nullptr;
-	//if (instance == nullptr) {
-//		instance = new INetworkSystem;
-//	}
 	return instance;
 }
