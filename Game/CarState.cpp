@@ -24,10 +24,12 @@ CarState* OnGroundState::Update(Car* car) {
 		const float defaultSteerringClamp = 0.3;
 		float steering = LStick;
 		float speed = car->GetRayCastVehicle()->getCurrentSpeedKmHour();
+		//TODO : バックしてるときにステアリングの制限が働いていない。
+		printf("SpeedKm/h : %f\n", speed);
 		//値を小さく設定するほど高速で曲がりにくくなります。
 		static float clampParam = 8.f;
 		if (speed > 0) {
-			steeringClamp = clampParam / speed;
+			steeringClamp = clampParam / abs(speed);
 		}
 		if (steeringClamp > defaultSteerringClamp)
 			steeringClamp = defaultSteerringClamp;
@@ -51,6 +53,10 @@ CarState* OnGroundState::Update(Car* car) {
 		auto backForce = L2Trigger * engineParam;
 
 		car->SetEngineForce(frontForce - backForce);
+
+
+		//car->GetRayCastVehicle()->getRigidBody()->getTotalForce();
+
 
 		if (R2Trigger > 0.f or L2Trigger > 0.f) {
 			car->SetBreakingForce(0.f);

@@ -21,7 +21,7 @@ public:
 	void Exit(Car* car) override;
 	CarState* Update(Car* car) override;
 private:
-	static const int engineParam = 1000;
+	static const int engineParam = 7000;
 	const float normalMaxSpeed = 90.f;
 	const float boostMaxSpeed = 100.f;
 };
