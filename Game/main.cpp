@@ -42,7 +42,7 @@ signed WINAPI wWinMain(
 		PhysicsWorld().SetDebugDraw(false);
 
 		//NewGO<OnlineMatch>(0, "OnlineMatch");
-		NewGO<OnlineMatch>(0, "OnlineMatch");
+		NewGO<Game>(0, "Game");
 		Engine().GameRoop();
 	}
 

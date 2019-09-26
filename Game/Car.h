@@ -118,8 +118,10 @@ private:
 	void init();
 	void modelInit();
 	void modelUpdate();
+	void MoveLimit();
 	//調整用
 	//collider
+	float connectionHeight = 0.2f; //ホイールを接続する高さ。
 	CVector3 m_chassisShapeSize = { 0.7,0.3,1.5 };
 	float wheelRadius = 0.5f;
 	float wheelWidth = 0.4f;

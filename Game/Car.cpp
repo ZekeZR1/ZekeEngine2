@@ -124,6 +124,7 @@ void Car::OnDestroy() {
 void Car::Update() {
 	stepSimulation();
 	buttonUpdate();
+	MoveLimit();
 }
 
 void Car::init() {
@@ -234,7 +235,6 @@ void Car::init() {
 		m_vehicle->setCoordinateSystem(rightIndex, upIndex, forwardIndex);
 
 		//ホイール作成登録
-		float connectionHeight = 0.2f;
 		bool isFrontWheel = true;
 		static const float WheelXDistanceFix = 0.2f;
 		//前輪
@@ -508,3 +508,16 @@ void Car::modelInit() {
 	}
 }
 
+
+
+void Car::MoveLimit() {
+	if (GetPosition().y < 0.f) {
+		auto wtr = m_vehicle->getRigidBody()->getWorldTransform();
+		CVector3 np;
+		np.x = wtr.getOrigin().getX();
+		np.y = 0.3f;
+		np.z = wtr.getOrigin().getZ();
+		wtr.setOrigin(np);
+		m_carChassis->setCenterOfMassTransform(wtr);
+	}
+}
