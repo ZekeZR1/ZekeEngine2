@@ -80,10 +80,12 @@ Car::~Car() {
 		btCollisionShape* shape = m_collisionShapes[j];
 		delete shape;
 	}
+
 	m_collisionShapes.clear();
 
-	//delete m_indexVertexArrays;
-	//delete m_vertices;
+	m_dynamicsWorld->removeVehicle(m_vehicle);
+
+	m_dynamicsWorld->removeRigidBody(m_carChassis);
 
 	delete m_vehicleRayCaster;
 	m_vehicleRayCaster = 0;
@@ -94,21 +96,6 @@ Car::~Car() {
 	delete m_wheelShape;
 	m_wheelShape = 0;
 
-	//delete solver
-	//delete m_constraintSolver;
-	//m_constraintSolver = 0;
-
-	//delete broadphase
-	//delete m_overlappingPairCache;
-	//m_overlappingPairCache = 0;
-
-	//delete dispatcher
-	delete m_dispatcher;
-	m_dispatcher = 0;
-
-	delete m_collisionConfiguration;
-	m_collisionConfiguration = 0;
-
 	for (auto s : m_StatePool)
 		delete s;
 }
@@ -118,7 +105,9 @@ bool Car::Start() {
 }
 
 void Car::OnDestroy() {
-
+	for (auto model : m_models) {
+		DeleteGO(model);
+	}
 }
 
 void Car::Update() {
@@ -138,35 +127,6 @@ void Car::init() {
 
 	modelInit();
 
-	{
-		m_collisionConfiguration = new btDefaultCollisionConfiguration();
-		m_dispatcher = new btCollisionDispatcher(m_collisionConfiguration);
-		btVector3 worldMin(-1000, -1000, -1000);
-		btVector3 worldMax(1000, 1000, 1000);
-		m_overlappingPairCache = new btAxisSweep3(worldMin, worldMax);
-		if (useMCLPSolver)
-		{
-			btDantzigSolver* mlcp = new btDantzigSolver();
-			//btSolveProjectedGaussSeidel* mlcp = new btSolveProjectedGaussSeidel;
-			btMLCPSolver* sol = new btMLCPSolver(mlcp);
-			m_constraintSolver = sol;
-		}
-		else
-		{
-			m_constraintSolver = new btSequentialImpulseConstraintSolver();
-		}
-		if (useMCLPSolver)
-		{
-			m_dynamicsWorld->getSolverInfo().m_minimumSolverBatchSize = 1;  //for direct solver it is better to have a small A matrix
-		}
-		else
-		{
-			m_dynamicsWorld->getSolverInfo().m_minimumSolverBatchSize = 128;  //for direct solver, it is better to solve multiple objects together, small batches have high overhead
-		}
-		m_dynamicsWorld->getSolverInfo().m_globalCfm = 0.00001;
-	}
-
-	//m_dynamicsWorld->setGravity(btVector3(0,0,0));
 	btTransform tr;
 	tr.setIdentity();
 	tr.setOrigin(btVector3(0, -3, 0));
@@ -230,7 +190,6 @@ void Car::init() {
 		m_carChassis->setActivationState(DISABLE_DEACTIVATION);
 
 		m_dynamicsWorld->addVehicle(m_vehicle);
-
 		//choose coordinate system
 		m_vehicle->setCoordinateSystem(rightIndex, upIndex, forwardIndex);
 
@@ -489,20 +448,23 @@ void Car::modelInit() {
 		m_chassiModel = NewGO<SkinModelRender>(0);
 		m_chassiModel->Init(L"Assets/modelData/chassis.cmo");
 		m_chassiModel->SetScale(m_chassisModelScale);
-
+		m_models.push_back(m_chassiModel);
 		//前輪ホイール
 		m_frontLeftWheel = NewGO<SkinModelRender>(0);
+		m_models.push_back(m_frontLeftWheel);
 		m_frontLeftWheel->Init(L"Assets/modelData/frontLeftWheel.cmo");
 		m_frontLeftWheel->SetScale(m_wheelModelScale);
 		m_frontRightWheel = NewGO<SkinModelRender>(0);
+		m_models.push_back(m_frontRightWheel);
 		m_frontRightWheel->Init(L"Assets/modelData/frontRightWheel.cmo");
 		m_frontRightWheel->SetScale(m_wheelModelScale);
-
 		//後輪ホイール
 		m_rearRightWheel = NewGO<SkinModelRender>(0);
+		m_models.push_back(m_rearRightWheel);
 		m_rearRightWheel->Init(L"Assets/modelData/rearRightWheel.cmo");
 		m_rearRightWheel->SetScale(m_wheelModelScale);
 		m_rearLeftWheel = NewGO<SkinModelRender>(0);
+		m_models.push_back(m_rearLeftWheel);
 		m_rearLeftWheel->Init(L"Assets/modelData/rearLeftWheel.cmo");
 		m_rearLeftWheel->SetScale(m_wheelModelScale);
 	}

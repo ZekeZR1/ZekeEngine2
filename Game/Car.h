@@ -149,26 +149,14 @@ private:
 	int m_wheelInstances[4];
 	btAlignedObjectArray<btCollisionShape*> m_collisionShapes;
 
-	//class btBroadphaseInterface* m_overlappingPairCache;
-
-	//class btCollisionDispatcher* m_dispatcher;
-
-	//class btConstraintSolver* m_constraintSolver;
-
-	//class btDefaultCollisionConfiguration* m_collisionConfiguration;
-
-	class btTriangleIndexVertexArray* m_indexVertexArrays = 0;
-
 	float testParam = 0.f;
-
-	btVector3* m_vertices = 0;
-
 
 	btRaycastVehicle::btVehicleTuning m_tuning;
 	btVehicleRaycaster* m_vehicleRayCaster;
 	btRaycastVehicle* m_vehicle = 0;
 	//MyVehicle* m_vehicle = 0;
 	btCollisionShape* m_wheelShape = 0;
+	std::list<SkinModelRender*> m_models;
 	SkinModelRender* m_chassiModel = nullptr;
 	SkinModelRender* m_frontLeftWheel = nullptr; 
 	SkinModelRender* m_frontRightWheel = nullptr;

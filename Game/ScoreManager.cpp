@@ -57,7 +57,7 @@ void ScoreManager::Update() {
 	if (m_sec <= 0) {
 		if (m_min > 0) {
 			m_min--;
-			m_sec = 15;
+			m_sec = 60;
 		}
 	}
 

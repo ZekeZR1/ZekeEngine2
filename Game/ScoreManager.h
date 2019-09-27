@@ -45,10 +45,10 @@ private:
 	std::wstring currentTime;
 
 	//1‡‰½•ª‚ÌƒQ[ƒ€‚©
-	int m_gameScaleMin = 1;
+	int m_gameScaleMin = 5;
 
 	bool m_isGameOver = false;
-	int m_min = 5;
+	int m_min = 0;
 	float m_sec = 0;
 	//pos
 	CVector3 OrangeSpPos = { -160,320,0 };
