@@ -3,6 +3,8 @@ class ScoreManager : public GameObject
 {
 public:
 
+	//TODO : 同点時の追加ゲーム用のマネージャー機能を実装する。
+
 	ScoreManager();
 	~ScoreManager();
 
@@ -21,6 +23,13 @@ public:
 	/// <param name="team">何色のチームが得点をしたか</param>
 	void Goal(eTeam team);
 
+	/// <summary>
+	/// 時間によってゲームが終わったかどうかのフラグを返します。
+	/// </summary>
+	/// <returns></returns>
+	bool IsGameOver() const{
+		return m_isGameOver;
+	}
 private:
 	int m_blueTeamScore = 0;
 	int m_orangeTeamScore = 0;
@@ -33,8 +42,14 @@ private:
 	FontRender* m_blueFnt = nullptr;
 	FontRender* m_timerFnt = nullptr;
 
-	float m_timer = 0.f;
+	std::wstring currentTime;
 
+	//1試合何分のゲームか
+	int m_gameScaleMin = 1;
+
+	bool m_isGameOver = false;
+	int m_min = 5;
+	float m_sec = 0;
 	//pos
 	CVector3 OrangeSpPos = { -160,320,0 };
 	CVector3 TimerSpPos = { 0,320,0 };

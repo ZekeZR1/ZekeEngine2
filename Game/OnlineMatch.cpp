@@ -65,8 +65,8 @@ void OnlineMatch::Update(){
 	auto pc = room.getPlayerCount();
 
 	if (pc == 2) {
-		//NewGO<Game>(0);
-		//DeleteGO(this);
+		NewGO<Game>(0);
+		DeleteGO(this);
 	}
 
 

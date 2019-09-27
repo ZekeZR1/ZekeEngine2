@@ -16,6 +16,9 @@ public:
 		CVector2 pivot = { 0.5f,0.5f }
 	);
 
+	//テキストを更新
+	void SetText(const wchar_t* text = nullptr);
+
 	void SetPosition(CVector2 pos) {
 		m_pos = pos;
 	}

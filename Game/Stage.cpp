@@ -16,6 +16,7 @@ bool Stage::Start() {
 
 
 void Stage::OnDestroy() {
+	DeleteGO(m_goal);
 	DeleteGO(m_floorModel);
 }
 

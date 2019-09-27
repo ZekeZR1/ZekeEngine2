@@ -154,6 +154,7 @@
     <ClCompile Include="Network\OutputListener.cpp" />
     <ClCompile Include="Network\TestView.cpp" />
     <ClCompile Include="OnlineMatch.cpp" />
+    <ClCompile Include="Result.cpp" />
     <ClCompile Include="ScoreManager.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -177,6 +178,7 @@
     <ClInclude Include="Network\OutputListener.h" />
     <ClInclude Include="Network\TestView.h" />
     <ClInclude Include="OnlineMatch.h" />
+    <ClInclude Include="Result.h" />
     <ClInclude Include="ScoreManager.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="stdafx.h" />

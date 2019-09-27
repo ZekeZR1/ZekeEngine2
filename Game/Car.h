@@ -47,6 +47,10 @@ public:
 		return m_vehicle->getChassisWorldTransform().getOrigin();
 	}
 
+	CQuaternion GetRotation() const {
+		return m_vehicle->getChassisWorldTransform().getRotation();
+	}
+
 	float GetSpeedKmHour() const{
 		return m_vehicle->getCurrentSpeedKmHour();
 	}
@@ -145,13 +149,13 @@ private:
 	int m_wheelInstances[4];
 	btAlignedObjectArray<btCollisionShape*> m_collisionShapes;
 
-	class btBroadphaseInterface* m_overlappingPairCache;
+	//class btBroadphaseInterface* m_overlappingPairCache;
 
-	class btCollisionDispatcher* m_dispatcher;
+	//class btCollisionDispatcher* m_dispatcher;
 
-	class btConstraintSolver* m_constraintSolver;
+	//class btConstraintSolver* m_constraintSolver;
 
-	class btDefaultCollisionConfiguration* m_collisionConfiguration;
+	//class btDefaultCollisionConfiguration* m_collisionConfiguration;
 
 	class btTriangleIndexVertexArray* m_indexVertexArrays = 0;
 

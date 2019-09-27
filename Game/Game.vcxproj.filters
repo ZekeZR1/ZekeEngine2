@@ -93,6 +93,9 @@
     <ClCompile Include="Stage.cpp">
       <Filter>src\gameObjects</Filter>
     </ClCompile>
+    <ClCompile Include="Result.cpp">
+      <Filter>src\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -151,6 +154,9 @@
     </ClInclude>
     <ClInclude Include="Stage.h">
       <Filter>src\gameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Result.h">
+      <Filter>src\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

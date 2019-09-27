@@ -13,7 +13,9 @@ bool ScoreManager::Start() {
 	static int SpPrio = 0;
 	static int FnPrio = 1;
 
-	//Oranget Team Score
+	m_min = m_gameScaleMin;
+
+	//Orange Team Score
 	m_orangeSp = NewGO<SpriteRender>(SpPrio);
 	m_orangeSp->Init(L"Assets/sprite/OrangeTeamScoreBack.dds", 100, 100);
 	m_orangeSp->SetPosition(OrangeSpPos);
@@ -47,7 +49,31 @@ void ScoreManager::OnDestroy() {
 }
 
 void ScoreManager::Update() {
+	if (m_isGameOver)
+		return;
 
+	m_sec -= IGameTime().GetFrameDeltaTime();
+
+	if (m_sec <= 0) {
+		if (m_min > 0) {
+			m_min--;
+			m_sec = 15;
+		}
+	}
+
+	if (m_min <= 0 and m_sec <= 0) {
+		m_min = 0;
+		m_sec = 0;
+		m_isGameOver = true;
+	}
+
+	currentTime = std::to_wstring(m_min);
+	currentTime += L":";
+	if (m_sec < 10) {
+		currentTime += L"0";
+	}
+	currentTime += std::to_wstring(static_cast<int>(m_sec));
+	m_timerFnt->SetText(currentTime.c_str());
 }
 
 void ScoreManager::Goal(eTeam team) {

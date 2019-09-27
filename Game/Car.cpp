@@ -82,8 +82,8 @@ Car::~Car() {
 	}
 	m_collisionShapes.clear();
 
-	delete m_indexVertexArrays;
-	delete m_vertices;
+	//delete m_indexVertexArrays;
+	//delete m_vertices;
 
 	delete m_vehicleRayCaster;
 	m_vehicleRayCaster = 0;
@@ -95,12 +95,12 @@ Car::~Car() {
 	m_wheelShape = 0;
 
 	//delete solver
-	delete m_constraintSolver;
-	m_constraintSolver = 0;
+	//delete m_constraintSolver;
+	//m_constraintSolver = 0;
 
 	//delete broadphase
-	delete m_overlappingPairCache;
-	m_overlappingPairCache = 0;
+	//delete m_overlappingPairCache;
+	//m_overlappingPairCache = 0;
 
 	//delete dispatcher
 	delete m_dispatcher;

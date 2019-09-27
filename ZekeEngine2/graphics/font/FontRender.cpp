@@ -59,6 +59,10 @@ void FontRender::Init(
 	m_pivot = pivot;
 }
 
+void FontRender::SetText(const wchar_t* text) {
+	wcscpy(m_text, text);
+}
+
 void FontRender::DrawShadow(CVector2 offset, float size, float rote, CVector4 color)
 {
 	

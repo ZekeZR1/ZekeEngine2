@@ -7,6 +7,7 @@
 #include "GameCamera.h"
 #include "Car.h"
 #include "Network/NetworkLogic.h"
+#include "Result.h"
 
 bool Game::Start() {
 	m_stage = NewGO<Stage>(0);
@@ -29,7 +30,9 @@ void Game::OnDestroy() {
 	DeleteGO(m_myCar);
 	DeleteGO(m_enemyCar);
 	DeleteGO(m_scoreManager);
-	NetSystem().DestroyNetworkSystem();
+
+	//TODO  : ƒlƒbƒg‘Îí
+	//NetSystem().DestroyNetworkSystem();
 }
 
 void Game::Update() {
@@ -53,6 +56,11 @@ void Game::Update() {
 	//TODO tyantoshite
 	auto lbl = NetSystem().GetNetworkLogic().GetLBL();
 	if (lbl != nullptr) {
-		NetSystem().GetNetworkLogic().GetLBL()->RaiseMyCarTransform(m_myCar->GetPosition(), CQuaternion::Identity());
+		NetSystem().GetNetworkLogic().GetLBL()->RaiseMyCarTransform(m_myCar->GetPosition(), m_myCar->GetRotation());
+	}
+
+	if(m_scoreManager->IsGameOver()){
+		DeleteGO(this);
+		NewGO<Result>(0, "ResultScene");
 	}
 }
