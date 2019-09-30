@@ -1,9 +1,8 @@
 #pragma once
 #include "LoadBalancingListener.h"
-//#include "../../Game/Online/LoadBalancingListener.h"
 #include "LoadBalancing-cpp/inc/Client.h"
-//#include "../../Game/Online/TestView.h"
 #include "TestView.h"
+
 class TestView;
 
 

@@ -6,8 +6,6 @@
 #include "Game.h"
 
 bool OnlineMatch::Start() {
-	//NetSystem().CreateNetworkSystem();
-
 	NetworkLogic::GetInstance().Start();
 
 	m_sp1 = NewGO<SpriteRender>(0);
@@ -32,7 +30,6 @@ void OnlineMatch::OnDestroy() {
 }
 
 void OnlineMatch::Update(){
-	//NetSystem().GetNetworkLogic().Update();
 	NetworkLogic::GetInstance().Update();
 
 	auto cp = Mouse::GetCursorPos();

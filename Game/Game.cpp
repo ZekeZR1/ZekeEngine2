@@ -33,7 +33,6 @@ void Game::OnDestroy() {
 	DeleteGO(m_scoreManager);
 
 	//TODO  : ƒlƒbƒg‘Îí
-	//NetSystem().DestroyNetworkSystem();
 	NetworkLogic::GetInstance().Disconnect();
 }
 
@@ -63,7 +62,6 @@ void Game::Update() {
 	//TODO tyantoshite
 	if (NetworkLogic::GetInstance().GetLBL() != nullptr) {
 		NetworkLogic::GetInstance().GetLBL()->RaiseMyCarTransform(m_myCar->GetPosition(), m_myCar->GetRotation());
-		printf("raise my transform\n");
 	}
 
 	if(m_scoreManager->IsGameOver()){
