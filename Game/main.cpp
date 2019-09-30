@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Game.h"
+#include "Title.h"
 #include "OnlineMatch.h"
 
 signed WINAPI wWinMain(
@@ -41,8 +42,8 @@ signed WINAPI wWinMain(
 		//bullet physics debug drawing flag
 		PhysicsWorld().SetDebugDraw(false);
 
-		//NewGO<OnlineMatch>(0, "OnlineMatch");
-		NewGO<Game>(0, "Game");
+		NewGO<OnlineMatch>(0, "OnlineMatch");
+		//NewGO<Title>(0, "Title");
 		Engine().GameRoop();
 	}
 

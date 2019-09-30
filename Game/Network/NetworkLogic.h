@@ -7,10 +7,13 @@
 class TestView;
 
 
-class NetworkLogic
+class NetworkLogic : Noncopyable
 {
 public:
-	NetworkLogic();
+	static NetworkLogic& GetInstance() {
+		static NetworkLogic instance;
+		return instance;
+	}
 	~NetworkLogic();
 	void Start();
 	void Connect();
@@ -30,27 +33,3 @@ private:
 	LoadBalancingListener* mpLbl = nullptr;
 	TestView m_testview;
 };
-
-
-class INetworkSystem : Noncopyable {
-public:
-	NetworkLogic& GetNetworkLogic(){
-		return m_network;
-	}
-	void CreateNetworkSystem() {
-		m_network.Start();
-	}
-
-
-
-	void DestroyNetworkSystem() {
-		m_network.Disconnect();
-	}
-private:
-	NetworkLogic m_network;
-};
-
-static INetworkSystem& NetSystem() {
-	static INetworkSystem instance;
-	return instance;
-}

@@ -8,5 +8,6 @@ public:
 private:
 	SkinModelRender* m_car;
 	SkinModelRender* m_ground;
+	SpriteRender* m_spriteRender = nullptr;
 };
 

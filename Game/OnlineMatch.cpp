@@ -6,7 +6,10 @@
 #include "Game.h"
 
 bool OnlineMatch::Start() {
-	NetSystem().CreateNetworkSystem();
+	//NetSystem().CreateNetworkSystem();
+
+	NetworkLogic::GetInstance().Start();
+
 	m_sp1 = NewGO<SpriteRender>(0);
 	m_sp1->Init(L"Assets/sprite/BlueTeamScoreBack.dds", 50, 50, true);
 
@@ -19,76 +22,70 @@ bool OnlineMatch::Start() {
 	m_sp1->SetPosition({ 100,0,0 });
 	m_sp2->SetPosition({ -100,0,0 });
 	m_sp3->SetPosition({ 0,100,0 });
-
-	auto lbc = NetSystem().GetNetworkLogic().GetLBC();
-
-	lbc->opLeaveRoom();
-
 	return true;
 }
 
 void OnlineMatch::OnDestroy() {
-	//NetSystem().DestroyNetworkSystem();
+	DeleteGO(m_sp1);
+	DeleteGO(m_sp2);
+	DeleteGO(m_sp3);
 }
 
 void OnlineMatch::Update(){
-	NetSystem().GetNetworkLogic().Update();
-	auto lbc = NetSystem().GetNetworkLogic().GetLBC();
-	auto lbl = NetSystem().GetNetworkLogic().GetLBL();
+	//NetSystem().GetNetworkLogic().Update();
+	NetworkLogic::GetInstance().Update();
 
 	auto cp = Mouse::GetCursorPos();
 	m_sp1->SetCollisionTarget(cp);
 	m_sp2->SetCollisionTarget(cp);
 	m_sp3->SetCollisionTarget(cp);
 
-
-
 	if (m_sp1->isCollidingTarget() and Mouse::IsTrigger(enLeftClick)) {
 		//NetSystem().GetNetworkLogic().Connect();
-		NetSystem().GetNetworkLogic().GetLBC()->opJoinOrCreateRoom("A", RoomOptions().setMaxPlayers(2));
+		NetworkLogic::GetInstance().GetLBC()->opJoinOrCreateRoom("A", RoomOptions().setMaxPlayers(2));
 		printf("Create or Join A Room\n");
 	}
 
 	if (m_sp2->isCollidingTarget() and Mouse::IsTrigger(enLeftClick)) {
 			//NetSystem().GetNetworkLogic().Connect();
 			//NetSystem().GetNetworkLogic().GetLBC()->opJoinOrCreateRoom("B", RoomOptions().setMaxPlayers(2));
-		NetSystem().GetNetworkLogic().GetLBC()->opJoinOrCreateRoom("B", RoomOptions().setMaxPlayers(2));
+		NetworkLogic::GetInstance().GetLBC()->opJoinOrCreateRoom("B", RoomOptions().setMaxPlayers(2));
 		printf("Create or Join B Room\n");
 	}
 
 	if (m_sp3->isCollidingTarget() and Mouse::IsTrigger(enLeftClick)) {
-		NetSystem().GetNetworkLogic().GetLBC()->opLeaveRoom();
+		NetworkLogic::GetInstance().GetLBC()->opLeaveRoom();
 	}
 
-	auto room = NetSystem().GetNetworkLogic().GetLBC()->getCurrentlyJoinedRoom();
+	auto room = NetworkLogic::GetInstance().GetLBC()->getCurrentlyJoinedRoom();
 	auto name = room.getName();
 	auto pc = room.getPlayerCount();
 
-	if (pc == 2) {
+	if (pc == 2 or Pad(0).IsTrigger(enButtonA)) {
 		NewGO<Game>(0);
 		DeleteGO(this);
 	}
 
 
 	if (Pad(0).IsPress(enButtonStart)) {
-		int cgr = NetSystem().GetNetworkLogic().GetLBC()->getCountGamesRunning();
-		int cpig = NetSystem().GetNetworkLogic().GetLBC()->getCountPlayersIngame();
-		int cpo = NetSystem().GetNetworkLogic().GetLBC()->getCountPlayersOnline();
+		int cgr = NetworkLogic::GetInstance().GetLBC()->getCountGamesRunning();
+		int cpig = NetworkLogic::GetInstance().GetLBC()->getCountPlayersIngame();
+		int cpo = NetworkLogic::GetInstance().GetLBC()->getCountPlayersOnline();
 
 
-		auto state = lbl->GetState();
+		auto state = NetworkLogic::GetInstance().GetLBL()->GetState();
 
 		wprintf(state);
 		puts("");
 
-		if (lbc->getIsInRoom()) {
+		if (NetworkLogic::GetInstance().GetLBC()->getIsInRoom()) {
 			printf("is in room now\n");
 		}
 		else {
 			puts("isnt in room now");
 		}
 
-		auto lpn = lbl->GetLocalPlayerNumber();
+		auto lpn = NetworkLogic::GetInstance().GetLBL()->GetLocalPlayerNumber();
 		wprintf(L"Local Player Number : %d\n", lpn);
 
 		printf("Room Player Count : %d\n", pc);

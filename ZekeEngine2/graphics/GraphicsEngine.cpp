@@ -129,7 +129,7 @@ bool CGraphicsEngine::InitDirectX(HWND hwnd) {
 	m_pd3dDevice->CreateRasterizerState(&desc, &m_rasterizerState);
 
 	D3D11_VIEWPORT viewport;
-	viewport.Width = FRAME_BUFFER_W;
+	viewport.Width = FRAME_BUFFER_W ;
 	viewport.Height = FRAME_BUFFER_H;
 	viewport.TopLeftX = 0;
 	viewport.TopLeftY = 0;

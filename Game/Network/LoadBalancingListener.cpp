@@ -152,6 +152,8 @@ void LoadBalancingListener::customEventAction(int playerNr, nByte eventCode, con
 {
 	ExitGames::Common::Hashtable eventContent = ExitGames::Common::ValueObject<ExitGames::Common::Hashtable>(eventContentObj).getDataCopy();
 
+	printf("Called Load Balancing Listener customEventAction\n");
+
 	switch (eventCode) {
 	case enPosition:
 	{

@@ -154,6 +154,7 @@
     <ClCompile Include="Network\OutputListener.cpp" />
     <ClCompile Include="Network\TestView.cpp" />
     <ClCompile Include="OnlineMatch.cpp" />
+    <ClCompile Include="PlayerView.cpp" />
     <ClCompile Include="Result.cpp" />
     <ClCompile Include="ScoreManager.cpp" />
     <ClCompile Include="Stage.cpp" />
@@ -178,6 +179,7 @@
     <ClInclude Include="Network\OutputListener.h" />
     <ClInclude Include="Network\TestView.h" />
     <ClInclude Include="OnlineMatch.h" />
+    <ClInclude Include="PlayerView.h" />
     <ClInclude Include="Result.h" />
     <ClInclude Include="ScoreManager.h" />
     <ClInclude Include="Stage.h" />
@@ -224,6 +226,9 @@
     <ImageContentTask Include="Assets\sprite\inGame\BlueTeamScoreBack.png" />
     <ImageContentTask Include="Assets\sprite\inGame\OrangeTeamScoreBack.png" />
     <ImageContentTask Include="Assets\sprite\inGame\TimerBack.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ImageContentTask Include="Assets\sprite\title\title.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

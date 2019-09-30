@@ -3,11 +3,13 @@
 #include "Game.h"
 
 bool Title::Start() {
+	m_spriteRender = NewGO<SpriteRender>(0);
+	m_spriteRender->Init(L"Assets/sprite/title.dds", 1280, 720);
 	return true;
 }
 
 void Title::OnDestroy() {
-
+	DeleteGO(m_spriteRender);
 }
 
 void Title::Update() {

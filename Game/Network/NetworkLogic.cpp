@@ -17,12 +17,6 @@ using namespace ExitGames::LoadBalancing;
 using namespace ExitGames::Common;
 using namespace ExitGames::Photon;
 
-
-NetworkLogic::NetworkLogic()
-{
-}
-
-
 NetworkLogic::~NetworkLogic()
 {
 	delete mpLbl;

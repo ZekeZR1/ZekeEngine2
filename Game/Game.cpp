@@ -7,6 +7,7 @@
 #include "GameCamera.h"
 #include "Car.h"
 #include "Network/NetworkLogic.h"
+#include "Network/LoadBalancingListener.h"
 #include "Result.h"
 
 bool Game::Start() {
@@ -33,13 +34,19 @@ void Game::OnDestroy() {
 
 	//TODO  : ƒlƒbƒg‘Îí
 	//NetSystem().DestroyNetworkSystem();
+	NetworkLogic::GetInstance().Disconnect();
 }
 
 void Game::Update() {
+	NetworkLogic::GetInstance().Update();
+
 	if (Pad(0).IsTrigger(enButtonStart)) {
 		m_ball->ResetBall();
 	}
-
+	{
+		//auto lb = NetSystem().GetNetworkLogic().GetLBL();
+		//NetworkLogic::GetInstance().GetLBL()->RaiseMyCarTransform(CVector3::Zero(), CQuaternion::Identity());
+	}
 	auto pos = m_ball->GetPosition();
 	//m_gameCamera->SetTarget(m_car.GetPosition());
 	m_gameCamera->SetTarget(pos);
@@ -54,9 +61,9 @@ void Game::Update() {
 	m_gameCamera->SetCameraPosition(cameraPos);
 
 	//TODO tyantoshite
-	auto lbl = NetSystem().GetNetworkLogic().GetLBL();
-	if (lbl != nullptr) {
-		NetSystem().GetNetworkLogic().GetLBL()->RaiseMyCarTransform(m_myCar->GetPosition(), m_myCar->GetRotation());
+	if (NetworkLogic::GetInstance().GetLBL() != nullptr) {
+		NetworkLogic::GetInstance().GetLBL()->RaiseMyCarTransform(m_myCar->GetPosition(), m_myCar->GetRotation());
+		printf("raise my transform\n");
 	}
 
 	if(m_scoreManager->IsGameOver()){

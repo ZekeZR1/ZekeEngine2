@@ -96,6 +96,7 @@
     <ClCompile Include="Result.cpp">
       <Filter>src\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerView.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -158,6 +159,7 @@
     <ClInclude Include="Result.h">
       <Filter>src\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerView.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\modelData\Stage.FBX">
@@ -202,6 +204,9 @@
       <Filter>Assets\sprite</Filter>
     </ImageContentTask>
     <ImageContentTask Include="Assets\sprite\inGame\TimerBack.png">
+      <Filter>Assets\sprite</Filter>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\sprite\title\title.png">
       <Filter>Assets\sprite</Filter>
     </ImageContentTask>
   </ItemGroup>
