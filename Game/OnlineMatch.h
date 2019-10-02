@@ -10,5 +10,9 @@ private:
 	SpriteRender* m_sp2 = nullptr;
 	SpriteRender* m_sp3 = nullptr;
 	bool m_isSelectedRoom = false;
+
+	unsigned short m_sec = 0;
+	double delta = 0.0;
+	int m_mSec = 0;
 };
 

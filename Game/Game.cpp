@@ -40,6 +40,9 @@ void Game::OnDestroy() {
 
 void Game::Update() {
 	NetworkLogic::GetInstance().Update();
+
+	NetworkLogic::GetInstance().GetLBL()->RaiseCurrentLocalTime();
+
 	m_raiseTimer++;
 
 	int lpn = NetworkLogic::GetInstance().GetLBL()->GetLocalPlayerNumber();
@@ -53,6 +56,8 @@ void Game::Update() {
 	//Host
 	if (lpn < opn) {
 
+		//ping計測してウェイト設定する
+
 		SetInputs();
 
 		RaiseInputs();
@@ -62,22 +67,23 @@ void Game::Update() {
 		auto eci = NetworkLogic::GetInstance().GetLBL()->GetEnemeyCarInputs();
 		m_enemyCar->SetCarInput(eci);
 
-		if (m_raiseTimer == 30) {
-			NetworkLogic::GetInstance().GetLBL()->RaiseCarTransform(m_myCar->GetPosition(), m_myCar->GetRotation(), 0);
+		//if (m_raiseTimer == 30) {
+			//NetworkLogic::GetInstance().GetLBL()->RaiseCarTransform(m_myCar->GetPosition(), m_myCar->GetRotation(), 0);
 
-			NetworkLogic::GetInstance().GetLBL()->RaiseCarTransform(m_enemyCar->GetPosition(), m_enemyCar->GetRotation(), 1);
+			//NetworkLogic::GetInstance().GetLBL()->RaiseCarTransform(m_enemyCar->GetPosition(), m_enemyCar->GetRotation(), 1);
 
 			m_raiseTimer = 0;
-		}
+		//}
 	}
 	else {
 		SetInputs();
 		RaiseInputs();
 
-		//m_myCar->SetCarInput(m_carCon);
+		m_myCar->SetCarInput(m_carCon);
 
-		//auto eci = NetworkLogic::GetInstance().GetLBL()->GetEnemeyCarInputs();
-		//m_enemyCar->SetCarInput(eci);
+		auto eci = NetworkLogic::GetInstance().GetLBL()->GetEnemeyCarInputs();
+
+		m_enemyCar->SetCarInput(eci);
 
 		//NetworkLogic::GetInstance().GetLBL()->GetGameTime();
 	}

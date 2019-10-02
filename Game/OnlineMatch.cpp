@@ -30,7 +30,31 @@ void OnlineMatch::OnDestroy() {
 }
 
 void OnlineMatch::Update(){
+
+	SYSTEMTIME st;
+	GetLocalTime(&st);
+
+	//printf("%02d.%03d\n",
+	//	st.wSecond,
+	//	st.wMilliseconds);
+
+	//if (m_sec != st.wSecond) {
+	//	delta = 100 - st.wMilliseconds;
+	//}
+	//else {
+	//	delta = st.wMilliseconds - m_mSec;
+	//}
+
+	//printf("Delta %f\n", delta);
+
+	//m_sec = st.wSecond;
+	//m_mSec = st.wMilliseconds;
+
+
+
 	NetworkLogic::GetInstance().Update();
+
+	NetworkLogic::GetInstance().GetLBL()->RaiseCurrentLocalTime();
 
 	auto state = NetworkLogic::GetInstance().GetLBC()->getState();
 	if (state == 6) {
