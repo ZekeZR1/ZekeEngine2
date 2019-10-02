@@ -1,19 +1,18 @@
 #include "stdafx.h"
 #include "CarState.h"
-#include "Car.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 //地上状態
 ////////////////////////////////////////////////////////////////////////////////////////////
 
 void OnGroundState::Enter(Car* car) {
-	printf("OnGround State\n");
+	//printf("OnGround State\n");
 }
 
 CarState* OnGroundState::Update(Car* car) {
-	auto LStick = Pad(0).GetLStickXF();
-	auto R2Trigger = Pad(0).GetRTrigger();
-	auto L2Trigger = Pad(0).GetLTrigger();
+	//auto LStick = Pad(0).GetLStickXF();
+	//auto R2Trigger = Pad(0).GetRTrigger();
+	//auto L2Trigger = Pad(0).GetLTrigger();
 	auto speed = car->GetRayCastVehicle()->getCurrentSpeedKmHour();
 
 	float steeringClamp = 0.2f; //ステアリング制限
@@ -22,7 +21,7 @@ CarState* OnGroundState::Update(Car* car) {
 	//ステアリング
 	{
 		const float defaultSteerringClamp = 0.3;
-		float steering = LStick;
+		float steering = m_inputs.steering;
 		float speed = car->GetRayCastVehicle()->getCurrentSpeedKmHour();
 		speed = abs(speed);
 		//値を小さく設定するほど高速で曲がりにくくなります。
@@ -44,12 +43,12 @@ CarState* OnGroundState::Update(Car* car) {
 	{
 		float engineForce = 0.f;
 		//前進
-		auto frontForce = R2Trigger * engineParam;
+		auto frontForce = m_inputs.accel * engineParam;
 		if (car->GetRayCastVehicle()->getCurrentSpeedKmHour() > normalMaxSpeed)
 			frontForce = 0;
 		//printf("speed %f ... font force %f\n", speed,frontForce);
 		//後退
-		auto backForce = L2Trigger * engineParam;
+		auto backForce = m_inputs.back * engineParam;
 
 		car->SetEngineForce(frontForce - backForce);
 
@@ -57,7 +56,7 @@ CarState* OnGroundState::Update(Car* car) {
 		//car->GetRayCastVehicle()->getRigidBody()->getTotalForce();
 
 
-		if (R2Trigger > 0.f or L2Trigger > 0.f) {
+		if (m_inputs.accel > 0.f or m_inputs.back > 0.f) {
 			car->SetBreakingForce(0.f);
 		}
 		else {
@@ -66,12 +65,14 @@ CarState* OnGroundState::Update(Car* car) {
 	}
 
 	//Boost
-	Boost(car);
+	if(m_inputs.boost)
+		Boost(car);
 
 	//ジャンプ
 	if (car->isOnGround()) {
-		if (Pad(0).IsTrigger(enButtonA)) {
-			static const int jumpParam = 7000;
+		//if (Pad(0).IsTrigger(enButtonA)) {
+		if (m_inputs.jump) {
+			static const int jumpParam = 3000;
 			auto rigidbody = car->GetRayCastVehicle()->getRigidBody();
 			rigidbody->applyCentralImpulse(car->GetCarUp() * jumpParam);
 			return car->GetCarState(Car::enInAir);
@@ -97,7 +98,7 @@ void OnGroundState::Exit(Car* car) {
 //空中状態
 ////////////////////////////////////////////////////////////////////////////////////////////
 void InAirState::Enter(Car* car) {
-	printf("InAir State\n");
+	//printf("InAir State\n");
 }
 
 CarState* InAirState::Update(Car* car) {
@@ -105,16 +106,18 @@ CarState* InAirState::Update(Car* car) {
 	if (car->isOnGround()) return car->GetCarState(Car::enOnGround);
 
 	//フリップ
-	if (Pad(0).IsTrigger(enButtonA)) 
+	//if (Pad(0).IsTrigger(enButtonA)) 
+	if(m_inputs.jump)
 		return car->GetCarState(Car::enFlip);
 
 	//Boost
-	Boost(car);
+	if(m_inputs.boost)
+		Boost(car);
 
 
 	////エアリアル
-	auto LStickX = Pad(0).GetLStickXF();
-	auto LStickY = Pad(0).GetLStickYF();
+	//auto LStickX = Pad(0).GetLStickXF();
+	//auto LStickY = Pad(0).GetLStickYF();
 	auto rigidbody = car->GetRayCastVehicle()->getRigidBody();
 	auto rdtr = rigidbody->getWorldTransform();
 	auto rdpos = rdtr.getOrigin();
@@ -122,19 +125,20 @@ CarState* InAirState::Update(Car* car) {
 	float rotationSpeed = 50.f;
 
 	btVector3 totalAngularVelocity = rigidbody->getAngularVelocity();
-	if (Pad(0).IsPress(enButtonRB1)) {
+	//if (Pad(0).IsPress(enButtonRB1)) {
+	if (m_inputs.airRoll) {
 		//前軸回転
 		auto rel = car->GetCarRight() * -50;
-		rigidbody->applyImpulse(car->GetCarUp() * rotationSpeed / 4 * LStickX, rel);
+		rigidbody->applyImpulse(car->GetCarUp() * rotationSpeed / 4 * m_inputs.aerealX, rel);
 	}
 	else {
 		//上軸回転
 		auto rel = car->GetCarForward() * 50;
-		rigidbody->applyImpulse(car->GetCarRight() * rotationSpeed * LStickX, rel);
+		rigidbody->applyImpulse(car->GetCarRight() * rotationSpeed * m_inputs.aerealX, rel);
 	}
 	//横軸回転
 	auto rel = car->GetCarForward() * -50;
-	rigidbody->applyImpulse(car->GetCarUp() * rotationSpeed * 0.85 * LStickY, rel);
+	rigidbody->applyImpulse(car->GetCarUp() * rotationSpeed * 0.85 * m_inputs.aerealY, rel);
 
 	return this;
 }
@@ -148,7 +152,7 @@ void InAirState::Exit(Car* car) {
 //フリップ状態
 ////////////////////////////////////////////////////////////////////////////////////////////
 void FlipState::Enter(Car* car) {
-	printf("Flip State\n");
+	//printf("Flip State\n");
 }
 
 CarState* FlipState::Update(Car* car) {
@@ -165,25 +169,25 @@ CarState* FlipState::Update(Car* car) {
 		return this;
 	}
 
-	auto LStickX = Pad(0).GetLStickXF();
-	auto LStickY = Pad(0).GetLStickYF();
+	//auto LStickX = Pad(0).GetLStickXF();
+	//auto LStickY = Pad(0).GetLStickYF();
 	auto rigidbody = car->GetRayCastVehicle()->getRigidBody();
 	//rigidbody->applyCentralImpulse(m_upVec * 2000);
 	//横フリップ
 	auto Vright = car->GetCarRight();
-	if (LStickX > 0) {
+	if (m_inputs.aerealX > 0) {
 		rigidbody->applyCentralImpulse(Vright * 5000);
 		//rigidbody->applyImpulse(m_upVec * 1000, -m_forwardVec);
 	}
-	else if (LStickX < 0) {
+	else if (m_inputs.aerealX < 0) {
 		rigidbody->applyCentralImpulse(-Vright * 5000);
 	}
 	//前後フリップ
-	if (LStickY > 0) {
+	if (m_inputs.aerealY > 0) {
 		rigidbody->applyCentralImpulse(car->GetRayCastVehicle()->getForwardVector() * 4000);
 		//rigidbody->applyImpulse(m_upVec * 8000, -m_forwardVec);
 	}
-	else if (LStickY < 0) {
+	else if (m_inputs.aerealY < 0) {
 		rigidbody->applyCentralImpulse(car->GetRayCastVehicle()->getForwardVector() * -4000);
 	}
 	//最速ジャンプ
@@ -203,7 +207,8 @@ void FlipState::Exit(Car* car) {
 //ブースト処理
 ////////////////////////////////////////////////////////////////////////////////////////////
 static void Boost(Car* car) {
-	if (Pad(0).IsPress(enButtonB)) {
+	//if (Pad(0).IsPress(enButtonB)) {
+	{
 		auto speed = car->GetRayCastVehicle()->getCurrentSpeedKmHour();
 		const float boostMaxSpeed = 100.f;
 		static const int boostParam = 10000;

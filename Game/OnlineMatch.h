@@ -9,5 +9,6 @@ private:
 	SpriteRender* m_sp1 = nullptr;
 	SpriteRender* m_sp2 = nullptr;
 	SpriteRender* m_sp3 = nullptr;
+	bool m_isSelectedRoom = false;
 };
 

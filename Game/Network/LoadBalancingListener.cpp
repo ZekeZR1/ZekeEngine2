@@ -48,9 +48,9 @@ public:
 	}
 } checker;
 
-LocalPlayer::LocalPlayer(void) : x(0), y(0),z(0), lastUpdateTime(0)
-{
-}
+//LocalPlayer::LocalPlayer(void) : x(0), y(0),z(0), lastUpdateTime(0)
+//{
+//}
 
 LoadBalancingListener::LoadBalancingListener(BaseView* pView)
 {
@@ -112,6 +112,7 @@ void LoadBalancingListener::joinRoomEventAction(int playerNr, const JVector<int>
 	if (mLocalPlayerNr != playerNr)
 	{
 		//つながった！
+		m_enemyPlayerNumber = playerNr;
 		misConect = true;
 		m_enemyAbandoned = false;
 	}
@@ -139,12 +140,36 @@ void LoadBalancingListener::leaveRoomEventAction(int playerNr, bool isInactive)
 	misConect = false;//切れた。
 }
 
-
-void LoadBalancingListener::RaiseMyCarTransform(CVector3 pos, CQuaternion rot) {
+void LoadBalancingListener::RaiseCarTransform(CVector3 pos, CQuaternion rot, int carNumber) {
 	Hashtable data;
 	nByte coords[] = { static_cast<nByte>(pos.x),static_cast<nByte>(pos.y),static_cast<nByte>(pos.z) };
-	data.put((nByte)1, coords,3);
-	mpLbc->opRaiseEvent(false,data,enPosition);
+	data.put((nByte)1, coords, 3);
+	switch (carNumber) {
+	case 0:
+		mpLbc->opRaiseEvent(false, data, enMyTransform);
+		break;
+	case 1:
+		mpLbc->opRaiseEvent(false, data, enEnemyTransform);
+		break;
+	}
+}
+
+void LoadBalancingListener::RaiseLocalPlayerInput(Car::CarControll input) {
+	ExitGames::Common::Hashtable ev;
+	ExitGames::Common::Hashtable hash;
+
+	hash.put(ACC, input.accel);
+	hash.put(BACK, input.back);
+	hash.put(STEER, input.steering);
+	hash.put(AX, input.aerealX);
+	hash.put(AY, input.aerealY);
+	hash.put(JUMP, input.jump);
+	hash.put(BOOST, input.boost);
+	hash.put(AIRR, input.airRoll);
+
+	ev.put(key, hash);
+
+	mpLbc->opRaiseEvent(false, ev, enInputs);
 }
 
 //opRaiseEventでイベントが送信されるとこの関数が呼ばれる
@@ -155,7 +180,45 @@ void LoadBalancingListener::customEventAction(int playerNr, nByte eventCode, con
 	//printf("Called Load Balancing Listener customEventAction\n");
 
 	switch (eventCode) {
-	case enPosition:
+	case enInputs:
+	{
+		ExitGames::Common::Hashtable hashData;
+		
+		if (eventContent.getValue(key))
+		{
+
+			hashData = (ExitGames::Common::ValueObject<ExitGames::Common::Hashtable>(eventContent.getValue(key))).getDataCopy();
+
+
+			if (hashData.getValue(ACC)) {
+				m_enemyCon.accel = (ExitGames::Common::ValueObject<float>(hashData.getValue(ACC))).getDataCopy();
+				printf("Enemy Accel Data is %f\n", (ExitGames::Common::ValueObject<float>(hashData.getValue(ACC))).getDataCopy());
+			}
+
+			if (hashData.getValue(BACK))
+				m_enemyCon.back = (ExitGames::Common::ValueObject<float>(hashData.getValue(BACK))).getDataCopy();
+
+			if (hashData.getValue(STEER))
+				m_enemyCon.steering = (ExitGames::Common::ValueObject<float>(hashData.getValue(STEER))).getDataCopy();
+
+			if (hashData.getValue(AX))
+				m_enemyCon.aerealX = (ExitGames::Common::ValueObject<float>(hashData.getValue(AX))).getDataCopy();
+
+			if (hashData.getValue(AY))
+				m_enemyCon.aerealY = (ExitGames::Common::ValueObject<float>(hashData.getValue(AY))).getDataCopy();
+
+			if (hashData.getValue(JUMP))
+				m_enemyCon.jump = (ExitGames::Common::ValueObject<float>(hashData.getValue(JUMP))).getDataCopy();
+
+			if (hashData.getValue(BOOST))
+				m_enemyCon.boost = (ExitGames::Common::ValueObject<bool>(hashData.getValue(BOOST))).getDataCopy();
+
+			if (hashData.getValue(AIRR))
+				m_enemyCon.airRoll = (ExitGames::Common::ValueObject<bool>(hashData.getValue(AIRR))).getDataCopy();
+		}
+	}
+	break;
+	case enEnemyTransform or enMyTransform:
 	{
 		Object const* obj = eventContent.getValue("1");
 		if (!obj)
@@ -206,18 +269,20 @@ void LoadBalancingListener::customEventAction(int playerNr, nByte eventCode, con
 				MemoryManagement::deallocateArray(data);
 			}
 
-			auto eneCar = FindGO<Car>("EnemyCar");
 			CVector3 npos;
 			npos.x = x;
 			npos.y = y;
 			npos.z = z;
-			eneCar->ResetCar(npos);
-		}
-	}
-	break;
-	case enRotation:
-	{
 
+			if (eventCode == enMyTransform) {
+				printf("Get Enemy Car Transform\n");
+				FindGO<Car>("EnemyCar")->ResetCar(npos);
+			}
+			if (eventCode == enEnemyTransform) {
+				printf("Get My Car Transform\n");
+				FindGO<Car>("Car")->ResetCar(npos);
+			}
+		}
 	}
 	break;
 	}
@@ -389,9 +454,9 @@ void LoadBalancingListener::connectReturn(int errorCode, const JString& errorStr
 void LoadBalancingListener::service()
 {
 	unsigned long t = GETTIMEMS();
-	if ((t - mLocalPlayer.lastUpdateTime) > PLAYER_UPDATE_INTERVAL_MS)
+	if ((t - lastUpdateTime) > PLAYER_UPDATE_INTERVAL_MS)
 	{
-		mLocalPlayer.lastUpdateTime = t;
+		lastUpdateTime = t;
 		if (mpLbc->getState() == PeerStates::Joined) {
 		}
 	}

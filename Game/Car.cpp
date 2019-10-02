@@ -377,8 +377,8 @@ void Car::modelUpdate() {
 
 void  Car::buttonUpdate() {
 
+	m_state->SetInput(m_carInputs);
 	m_state->Update(this);
-
 	//ƒŠƒZƒbƒg
 	if (Pad(0).IsTrigger(enButtonStart)) {
 		ResetCar();
@@ -482,4 +482,15 @@ void Car::MoveLimit() {
 		wtr.setOrigin(np);
 		m_carChassis->setCenterOfMassTransform(wtr);
 	}
+}
+
+void Car::SetCarInput(CarControll& input) {
+	m_carInputs.accel = input.accel;
+	m_carInputs.back = input.back;
+	m_carInputs.steering = input.steering;
+	m_carInputs.aerealX = input.aerealX;
+	m_carInputs.aerealY = input.aerealY;
+	m_carInputs.jump = input.jump;
+	m_carInputs.boost = input.boost;
+	m_carInputs.airRoll = input.airRoll;
 }

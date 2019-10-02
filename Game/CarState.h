@@ -1,5 +1,5 @@
 #pragma once
-class Car;
+#include "Car.h"
 
 /// <summary>
 /// ステートパターンのステート基底クラス
@@ -10,6 +10,9 @@ public:
 	virtual CarState* Update(Car* car) { return nullptr; };
 	virtual void Enter(Car* car) {};
 	virtual void Exit(Car* car) {};
+	void SetInput(Car::CarControll i) { m_inputs = i; };
+protected:
+	Car::CarControll m_inputs;
 };
 
 /// <summary>

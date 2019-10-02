@@ -21,6 +21,19 @@ public:
 	};
 
 	/// <summary>
+	/// 車制御用のパラメータ構造体
+	/// </summary>
+	struct CarControll {
+		float accel = 0.f;
+		float back = 0.f;
+		float steering = 0.f;
+		float aerealX = 0.f;
+		float aerealY = 0.f;
+		bool jump = false;
+		bool boost = false;
+		bool airRoll = false;
+	};
+	/// <summary>
 	/// 車のステート返す
 	/// </summary>
 	/// <param name="state">インスタンスを取得したい状態</param>
@@ -118,6 +131,13 @@ public:
 	btVector3 GetCarUp() {
 		return m_upVec;
 	}
+
+	/// <summary>
+	/// 車制御用のインプット構造体をセットする
+	/// </summary>
+	/// <param name="input">コントローラーの入力状態を適用した構造体</param>
+	void SetCarInput(CarControll& input);
+
 private:
 	void init();
 	void modelInit();
@@ -174,5 +194,6 @@ private:
 
 	CarState* m_state = nullptr;
 	std::vector<CarState*> m_StatePool;
+	CarControll m_carInputs;
 };
 

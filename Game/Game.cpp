@@ -18,7 +18,7 @@ bool Game::Start() {
 
 	m_enemyCar = NewGO<Car>(0, "EnemyCar");
 	m_enemyCar->ResetCar({ 0,2,10 });
-	//m_car->SetChassisPositionFix(CVector3(0.f,-0.3f,0.f ));
+
 	m_gameCamera = NewGO<GameCamera>(0);
 	m_scoreManager = NewGO < ScoreManager>(0,"ScoreManager");
 	return true;
@@ -32,22 +32,43 @@ void Game::OnDestroy() {
 	DeleteGO(m_enemyCar);
 	DeleteGO(m_scoreManager);
 
-	//TODO  : ƒlƒbƒg‘Îí
 	NetworkLogic::GetInstance().Disconnect();
 }
 
 void Game::Update() {
 	NetworkLogic::GetInstance().Update();
+	
+	int lpn = NetworkLogic::GetInstance().GetLBL()->GetLocalPlayerNumber();
+	int opn = NetworkLogic::GetInstance().GetLBL()->GetEnemyPlayerNumber();
 
 	if (Pad(0).IsTrigger(enButtonStart)) {
-		m_ball->ResetBall();
+		//m_ball->ResetBall();
+		printf("My Number : %d , Enemy Number : %d\n", lpn, opn);
 	}
-	{
-		//auto lb = NetSystem().GetNetworkLogic().GetLBL();
-		//NetworkLogic::GetInstance().GetLBL()->RaiseMyCarTransform(CVector3::Zero(), CQuaternion::Identity());
+
+	if (lpn < opn) {
+
+		SetInputs();
+		m_myCar->SetCarInput(m_carCon);
+
+		auto eci = NetworkLogic::GetInstance().GetLBL()->GetEnemeyCarInputs();
+		m_enemyCar->SetCarInput(eci);
+
+		NetworkLogic::GetInstance().GetLBL()->RaiseCarTransform(m_myCar->GetPosition(), m_myCar->GetRotation(), 0);
+
+		NetworkLogic::GetInstance().GetLBL()->RaiseCarTransform(m_enemyCar->GetPosition(), m_enemyCar->GetRotation(), 1);
+		//RaiseGameData();
 	}
+	else {
+		SetInputs();
+		RaiseInputs();
+		//NetworkLogic::GetInstance().GetLBL()->GetMyTransform();
+		//NetworkLogic::GetInstance().GetLBL()->GetGameTime();
+		//m_myCar->ResetCar();
+	}
+
+
 	auto pos = m_ball->GetPosition();
-	//m_gameCamera->SetTarget(m_car.GetPosition());
 	m_gameCamera->SetTarget(pos);
 	CVector3 cameraPos = CVector3::Zero();
 	auto carToBallVec = m_ball->GetPosition() - m_myCar->GetPosition();
@@ -59,13 +80,23 @@ void Game::Update() {
 		cameraPos.y = m_myCar->GetPosition().y + 3.f;
 	m_gameCamera->SetCameraPosition(cameraPos);
 
-	//TODO tyantoshite
-	if (NetworkLogic::GetInstance().GetLBL() != nullptr) {
-		NetworkLogic::GetInstance().GetLBL()->RaiseMyCarTransform(m_myCar->GetPosition(), m_myCar->GetRotation());
-	}
-
 	if(m_scoreManager->IsGameOver()){
 		DeleteGO(this);
 		NewGO<Result>(0, "ResultScene");
 	}
+}
+
+void Game::SetInputs() {
+	m_carCon.accel = Pad(0).GetRTrigger();
+	m_carCon.back = Pad(0).GetLTrigger();
+	m_carCon.steering = Pad(0).GetLStickXF();
+	m_carCon.aerealX = Pad(0).GetLStickXF();
+	m_carCon.aerealY = Pad(0).GetLStickYF();
+	m_carCon.jump = Pad(0).IsTrigger(enButtonA);
+	m_carCon.boost = Pad(0).IsPress(enButtonB);
+	m_carCon.airRoll = Pad(0).IsPress(enButtonRB1);
+}
+
+void Game::RaiseInputs() {
+	NetworkLogic::GetInstance().GetLBL()->RaiseLocalPlayerInput(m_carCon);
 }

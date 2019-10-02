@@ -1,20 +1,21 @@
 #pragma once
 #include "LoadBalancing-cpp/inc/Client.h"
 #include "BaseView.h"
+#include "..//Car.h"
 
 #define PLAYER_UPDATE_INTERVAL_MS 500
 
 using namespace ExitGames::Common;
 using namespace ExitGames::LoadBalancing;
 
-struct LocalPlayer
-{
-	LocalPlayer();
-	int x;
-	int y;
-	int z;
-	unsigned long lastUpdateTime;
-};
+//struct LocalPlayer
+//{
+//	LocalPlayer();
+//	int x;
+//	int y;
+//	int z;
+//	unsigned long lastUpdateTime;
+//};
 
 class LoadBalancingListener : public ExitGames::LoadBalancing::Listener
 {
@@ -28,6 +29,23 @@ public:
 	void service();
 	
 	void RaiseMyCarTransform(CVector3 pos, CQuaternion rot);
+
+	void RaiseCarTransform(CVector3 pos, CQuaternion rot, int carNumber);
+
+	/// <summary>
+	/// 敵のtransformを送信
+	/// </summary>
+	/// <param name="pos">座標</param>
+	/// <param name="rot">回転クォータニオン</param>
+	void RaiseEnemyCarTransform(CVector3 pos, CQuaternion rot);
+
+
+	/// <summary>
+	/// ローカルプレイヤーのコントローラーのインプット状況を送信する。
+	/// </summary>
+	/// <param name="input">ローカルプレイヤーの入力情報構造体</param>
+	void RaiseLocalPlayerInput(Car::CarControll input);
+
 	/// <summary>
 	/// オンライン人数を返します
 	/// </summary>
@@ -41,11 +59,25 @@ public:
 	int GetLocalPlayerNumber() {
 		return mLocalPlayerNr;
 	}
-private:
+
+	int GetEnemyPlayerNumber() {
+		return m_enemyPlayerNumber;
+	}
+
+	/// <summary>
+/// 敵のコントローラー入力状態を取得
+/// </summary>
+/// <returns>対戦相手の入力値構造体</returns>
+	Car::CarControll GetEnemeyCarInputs() {
+		return m_enemyCon;
+	}
 	enum RaiseEventCode {
-		enPosition,
-		enRotation
+		enEnemyTransform,
+		enMyTransform,
+		enTime,
+		enInputs,
 	};
+private:
 
 	//From Common::BaseListener
 
@@ -83,22 +115,48 @@ private:
 
 	void updateState(void);
 	void afterRoomJoined(int localPlayerNr);
+
 private:
-	
 	ExitGames::LoadBalancing::Client* mpLbc;
 	BaseView* mpView;
 	int mMap = 1;	//ルーム作成時に使うKey
 	int m_val = 10; //送信する値などを適当に定義
 	int m_maxPlayer = 2;
 
-
 	int mLocalPlayerNr; //Photonから自分に割り振られたプレイヤーナンバー
-	LocalPlayer mLocalPlayer;
-	
+	int m_enemyPlayerNumber = 0;
+	//LocalPlayer mLocalPlayer;
+	unsigned long lastUpdateTime;
 	bool misConect = false;		//つながってる～？
 	bool m_enemyAbandoned = false;
 	bool misHang = false;		//何か送られてきてる？
 	bool m_isEnemyLoadedMyData = false;
 	bool m_isJoining = false;
+
+
+	//Key
+	const nByte key = 103;
+
+	enum DataKey {
+		enAccel,
+		enBack,
+		enSteering,
+		enAerealX,
+		enAerealY,
+		enJump,
+		enBoost,
+		enAirRoll
+	};
+
+	const nByte ACC = enAccel;
+	const nByte BACK = enBack;
+	const nByte STEER = enSteering;
+	const nByte AX = enAerealX;
+	const nByte AY = enAerealY;
+	const nByte JUMP = enAerealY;
+	const nByte BOOST = enAerealY;
+	const nByte AIRR = enAerealY;
+
+	Car::CarControll m_enemyCon;
 };
 

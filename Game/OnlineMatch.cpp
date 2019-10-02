@@ -32,33 +32,43 @@ void OnlineMatch::OnDestroy() {
 void OnlineMatch::Update(){
 	NetworkLogic::GetInstance().Update();
 
+	auto state = NetworkLogic::GetInstance().GetLBC()->getState();
+	if (state == 6) {
+		NetworkLogic::GetInstance().GetLBC()->opJoinLobby();
+	}
+
 	auto cp = Mouse::GetCursorPos();
 	m_sp1->SetCollisionTarget(cp);
 	m_sp2->SetCollisionTarget(cp);
 	m_sp3->SetCollisionTarget(cp);
 
 	if (m_sp1->isCollidingTarget() and Mouse::IsTrigger(enLeftClick)) {
-		//NetSystem().GetNetworkLogic().Connect();
 		NetworkLogic::GetInstance().GetLBC()->opJoinOrCreateRoom("A", RoomOptions().setMaxPlayers(2));
 		printf("Create or Join A Room\n");
+		m_isSelectedRoom = true;
 	}
 
 	if (m_sp2->isCollidingTarget() and Mouse::IsTrigger(enLeftClick)) {
-			//NetSystem().GetNetworkLogic().Connect();
-			//NetSystem().GetNetworkLogic().GetLBC()->opJoinOrCreateRoom("B", RoomOptions().setMaxPlayers(2));
 		NetworkLogic::GetInstance().GetLBC()->opJoinOrCreateRoom("B", RoomOptions().setMaxPlayers(2));
 		printf("Create or Join B Room\n");
+		m_isSelectedRoom = true;
 	}
 
 	if (m_sp3->isCollidingTarget() and Mouse::IsTrigger(enLeftClick)) {
 		NetworkLogic::GetInstance().GetLBC()->opLeaveRoom();
+		m_isSelectedRoom = false;
 	}
 
 	auto room = NetworkLogic::GetInstance().GetLBC()->getCurrentlyJoinedRoom();
 	auto name = room.getName();
 	auto pc = room.getPlayerCount();
+	
+	if (Pad(0).IsTrigger(enButtonA)) {
+		NewGO<Game>(0);
+		DeleteGO(this);
+	}
 
-	if (pc == 2 or Pad(0).IsTrigger(enButtonA)) {
+	if (pc == 2 and m_isSelectedRoom) {
 		NewGO<Game>(0);
 		DeleteGO(this);
 	}
