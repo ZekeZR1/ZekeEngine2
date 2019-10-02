@@ -6,6 +6,7 @@
 #include "Game.h"
 
 bool OnlineMatch::Start() {
+	//TODO : ベストリージョンを選択する
 	NetworkLogic::GetInstance().Start();
 
 	m_sp1 = NewGO<SpriteRender>(0);

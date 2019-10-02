@@ -68,9 +68,9 @@ void Game::Update() {
 		m_enemyCar->SetCarInput(eci);
 
 		//if (m_raiseTimer == 30) {
-			//NetworkLogic::GetInstance().GetLBL()->RaiseCarTransform(m_myCar->GetPosition(), m_myCar->GetRotation(), 0);
+			NetworkLogic::GetInstance().GetLBL()->RaiseCarTransform(m_myCar->GetPosition(), m_myCar->GetRotation(), 0);
 
-			//NetworkLogic::GetInstance().GetLBL()->RaiseCarTransform(m_enemyCar->GetPosition(), m_enemyCar->GetRotation(), 1);
+			NetworkLogic::GetInstance().GetLBL()->RaiseCarTransform(m_enemyCar->GetPosition(), m_enemyCar->GetRotation(), 1);
 
 			m_raiseTimer = 0;
 		//}
@@ -79,11 +79,11 @@ void Game::Update() {
 		SetInputs();
 		RaiseInputs();
 
-		m_myCar->SetCarInput(m_carCon);
+		//m_enemyCar->SetCarInput(m_carCon);
 
 		auto eci = NetworkLogic::GetInstance().GetLBL()->GetEnemeyCarInputs();
 
-		m_enemyCar->SetCarInput(eci);
+		//m_myCar->SetCarInput(eci);
 
 		//NetworkLogic::GetInstance().GetLBL()->GetGameTime();
 	}

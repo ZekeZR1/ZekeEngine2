@@ -224,14 +224,14 @@ void LoadBalancingListener::customEventAction(int playerNr, nByte eventCode, con
 			short delta = 999;
 			auto lct = IGameTime().GetLocalCurrentTime();
 
-			printf("Raised Time is %d.%d , Current Time is %d.%d\n",sec,msec,lct.wSecond,lct.wMilliseconds);
+			//printf("Raised Time is %d.%d , Current Time is %d.%d\n",sec,msec,lct.wSecond,lct.wMilliseconds);
 
 			short old = (sec * 1000) + msec;
 			short now = (lct.wSecond * 1000) + lct.wMilliseconds;
 
 			delta = now - old;
 
-			//printf("ping %d\n", abs(delta));
+			printf("ping %d\n", delta);
 
 		}
 	}
