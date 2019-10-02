@@ -28,16 +28,7 @@ public:
 	void createRoom(void);
 	void service();
 	
-	void RaiseMyCarTransform(CVector3 pos, CQuaternion rot);
-
 	void RaiseCarTransform(CVector3 pos, CQuaternion rot, int carNumber);
-
-	/// <summary>
-	/// 敵のtransformを送信
-	/// </summary>
-	/// <param name="pos">座標</param>
-	/// <param name="rot">回転クォータニオン</param>
-	void RaiseEnemyCarTransform(CVector3 pos, CQuaternion rot);
 
 
 	/// <summary>
@@ -77,6 +68,11 @@ public:
 		enTime,
 		enInputs,
 	};
+
+	void SetCars(Car* localCar, Car* enemyCar) {
+		m_localPlayerCar = localCar;
+		m_onlinePlayerCar = enemyCar;
+	}
 private:
 
 	//From Common::BaseListener
@@ -132,6 +128,9 @@ private:
 	bool misHang = false;		//何か送られてきてる？
 	bool m_isEnemyLoadedMyData = false;
 	bool m_isJoining = false;
+
+	Car* m_localPlayerCar = nullptr;
+	Car* m_onlinePlayerCar = nullptr;
 
 
 	//Key

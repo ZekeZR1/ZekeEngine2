@@ -22,5 +22,6 @@ private:
 	Stage* m_stage = nullptr;
 	GameCamera* m_gameCamera = nullptr;
 	ScoreManager* m_scoreManager;
+	int m_raiseTimer = 0;
 };
 

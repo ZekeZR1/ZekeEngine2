@@ -13,7 +13,7 @@
 bool Game::Start() {
 	m_stage = NewGO<Stage>(0);
 	m_ball = NewGO<Ball>(0,"BallChan");
-	m_myCar = NewGO<Car>(0,"Car");
+	m_myCar = NewGO<Car>(0,"MyCar");
 	m_myCar->ResetCar({ 0,2,-10 });
 
 	m_enemyCar = NewGO<Car>(0, "EnemyCar");
@@ -21,6 +21,9 @@ bool Game::Start() {
 
 	m_gameCamera = NewGO<GameCamera>(0);
 	m_scoreManager = NewGO < ScoreManager>(0,"ScoreManager");
+
+	NetworkLogic::GetInstance().GetLBL()->SetCars(m_myCar, m_enemyCar);
+
 	return true;
 }
 
@@ -37,7 +40,8 @@ void Game::OnDestroy() {
 
 void Game::Update() {
 	NetworkLogic::GetInstance().Update();
-	
+	m_raiseTimer++;
+
 	int lpn = NetworkLogic::GetInstance().GetLBL()->GetLocalPlayerNumber();
 	int opn = NetworkLogic::GetInstance().GetLBL()->GetEnemyPlayerNumber();
 
@@ -46,6 +50,7 @@ void Game::Update() {
 		printf("My Number : %d , Enemy Number : %d\n", lpn, opn);
 	}
 
+	//Host
 	if (lpn < opn) {
 
 		SetInputs();
@@ -54,15 +59,21 @@ void Game::Update() {
 		auto eci = NetworkLogic::GetInstance().GetLBL()->GetEnemeyCarInputs();
 		m_enemyCar->SetCarInput(eci);
 
+		if(m_raiseTimer == 30)
 		NetworkLogic::GetInstance().GetLBL()->RaiseCarTransform(m_myCar->GetPosition(), m_myCar->GetRotation(), 0);
 
-		NetworkLogic::GetInstance().GetLBL()->RaiseCarTransform(m_enemyCar->GetPosition(), m_enemyCar->GetRotation(), 1);
+		if (m_raiseTimer == 60) {
+			NetworkLogic::GetInstance().GetLBL()->RaiseCarTransform(m_enemyCar->GetPosition(), m_enemyCar->GetRotation(), 1);
+			m_raiseTimer = 0;
+		}
 		//RaiseGameData();
 	}
 	else {
 		SetInputs();
-		RaiseInputs();
-		//NetworkLogic::GetInstance().GetLBL()->GetMyTransform();
+		if (m_raiseTimer == 10) {
+			RaiseInputs();
+			m_raiseTimer = 0;
+		}
 		//NetworkLogic::GetInstance().GetLBL()->GetGameTime();
 		//m_myCar->ResetCar();
 	}

@@ -9,7 +9,6 @@
 #include <fstream>
 #include <string>
 
-
 const JString PeerStatesStr[] = {
 	L"Uninitialized",
 	L"PeerCreated",
@@ -142,7 +141,7 @@ void LoadBalancingListener::leaveRoomEventAction(int playerNr, bool isInactive)
 
 void LoadBalancingListener::RaiseCarTransform(CVector3 pos, CQuaternion rot, int carNumber) {
 	Hashtable data;
-	nByte coords[] = { static_cast<nByte>(pos.x),static_cast<nByte>(pos.y),static_cast<nByte>(pos.z) };
+	float coords[] = { static_cast<float>(pos.x),static_cast<float>(pos.y),static_cast<float>(pos.z) };
 	data.put((nByte)1, coords, 3);
 	switch (carNumber) {
 	case 0:
@@ -192,7 +191,6 @@ void LoadBalancingListener::customEventAction(int playerNr, nByte eventCode, con
 
 			if (hashData.getValue(ACC)) {
 				m_enemyCon.accel = (ExitGames::Common::ValueObject<float>(hashData.getValue(ACC))).getDataCopy();
-				printf("Enemy Accel Data is %f\n", (ExitGames::Common::ValueObject<float>(hashData.getValue(ACC))).getDataCopy());
 			}
 
 			if (hashData.getValue(BACK))
@@ -218,7 +216,7 @@ void LoadBalancingListener::customEventAction(int playerNr, nByte eventCode, con
 		}
 	}
 	break;
-	case enEnemyTransform or enMyTransform:
+	case enEnemyTransform:
 	{
 		Object const* obj = eventContent.getValue("1");
 		if (!obj)
@@ -227,60 +225,57 @@ void LoadBalancingListener::customEventAction(int playerNr, nByte eventCode, con
 			obj = eventContent.getValue(1);
 		if (!obj)
 			obj = eventContent.getValue(1.0);
+
+		float x = 0; float y = 0; float z = 0;
+
 		if (obj && obj->getDimensions() == 1 && obj->getSizes()[0] == 3)
 		{
-			int x = 0; int y = 0; int z = 0;
-			if (obj->getType() == TypeCode::DOUBLE)
+			float x = 0; float y = 0; float z = 0;
+			if (obj->getType() == TypeCode::FLOAT)
 			{
-				double* data = ((ValueObject<double*>*)obj)->getDataCopy();
-				x = (int)data[0];
-				y = (int)data[1];
-				z = (int)data[2];
-			}
-			if (obj->getType() == TypeCode::INTEGER)
-			{
-				int* data = ((ValueObject<int*>*)obj)->getDataCopy();
-				x = (int)data[0];
-				y = (int)data[1];
-				z = (int)data[2];
-			}
-			else if (obj->getType() == TypeCode::BYTE)
-			{
-				nByte* data = ((ValueObject<nByte*>*)obj)->getDataCopy();
-				x = (int)data[0];
-				y = (int)data[1];
-				z = (int)data[2];
-			}
-			else if (obj->getType() == TypeCode::OBJECT)
-			{
-				Object* data = ((ValueObject<Object*>*)obj)->getDataCopy();
-				if (data[0].getType() == TypeCode::INTEGER)
-				{
-					x = ((ValueObject<int>*)(data + 0))->getDataCopy();
-					y = ((ValueObject<int>*)(data + 1))->getDataCopy();
-					z = ((ValueObject<int>*)(data + 2))->getDataCopy();
-				}
-				else
-				{
-					x = (int)((ValueObject<double>*)(data + 0))->getDataCopy();
-					y = (int)((ValueObject<double>*)(data + 1))->getDataCopy();
-					z = (int)((ValueObject<double>*)(data + 2))->getDataCopy();
-				}
-				MemoryManagement::deallocateArray(data);
-			}
+				float* data = ((ValueObject<float*>*)obj)->getDataCopy();
+				x = (float)data[0];
+				y = (float)data[1];
+				z = (float)data[2];
+				CVector3 npos;
+				npos.x = x;
+				npos.y = y;
+				npos.z = z;
 
-			CVector3 npos;
-			npos.x = x;
-			npos.y = y;
-			npos.z = z;
-
-			if (eventCode == enMyTransform) {
-				printf("Get Enemy Car Transform\n");
-				FindGO<Car>("EnemyCar")->ResetCar(npos);
+				printf("Get My Car Transform float x : %f, y : %f\n", x, y);
+				m_localPlayerCar->ResetCar(npos);
 			}
-			if (eventCode == enEnemyTransform) {
-				printf("Get My Car Transform\n");
-				FindGO<Car>("Car")->ResetCar(npos);
+		}
+	}
+	break;
+	case enMyTransform:
+	{
+		Object const* obj = eventContent.getValue("1");
+		if (!obj)
+			obj = eventContent.getValue((nByte)1);
+		if (!obj)
+			obj = eventContent.getValue(1);
+		if (!obj)
+			obj = eventContent.getValue(1.0);
+
+		float x = 0; float y = 0; float z = 0;
+
+		if (obj && obj->getDimensions() == 1 && obj->getSizes()[0] == 3)
+		{
+			float x = 0; float y = 0; float z = 0;
+			if (obj->getType() == TypeCode::FLOAT)
+			{
+				float* data = ((ValueObject<float*>*)obj)->getDataCopy();
+				x = (float)data[0];
+				y = (float)data[1];
+				z = (float)data[2];
+				CVector3 npos;
+				npos.x = x;
+				npos.y = y;
+				npos.z = z;
+
+				printf("Get Enemy Car Transform x : %f, y : %f\n", x, y);
+				m_onlinePlayerCar->ResetCar(npos);
 			}
 		}
 	}
