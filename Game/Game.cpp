@@ -54,28 +54,32 @@ void Game::Update() {
 	if (lpn < opn) {
 
 		SetInputs();
+
+		RaiseInputs();
+
 		m_myCar->SetCarInput(m_carCon);
 
 		auto eci = NetworkLogic::GetInstance().GetLBL()->GetEnemeyCarInputs();
 		m_enemyCar->SetCarInput(eci);
 
-		if(m_raiseTimer == 30)
-		NetworkLogic::GetInstance().GetLBL()->RaiseCarTransform(m_myCar->GetPosition(), m_myCar->GetRotation(), 0);
+		//if (m_raiseTimer == 0) {
+			NetworkLogic::GetInstance().GetLBL()->RaiseCarTransform(m_myCar->GetPosition(), m_myCar->GetRotation(), 0);
 
-		if (m_raiseTimer == 60) {
 			NetworkLogic::GetInstance().GetLBL()->RaiseCarTransform(m_enemyCar->GetPosition(), m_enemyCar->GetRotation(), 1);
+
 			m_raiseTimer = 0;
-		}
-		//RaiseGameData();
+	//	}
 	}
 	else {
 		SetInputs();
-		if (m_raiseTimer == 10) {
-			RaiseInputs();
-			m_raiseTimer = 0;
-		}
+		RaiseInputs();
+
+		//m_myCar->SetCarInput(m_carCon);
+
+		//auto eci = NetworkLogic::GetInstance().GetLBL()->GetEnemeyCarInputs();
+		//m_enemyCar->SetCarInput(eci);
+
 		//NetworkLogic::GetInstance().GetLBL()->GetGameTime();
-		//m_myCar->ResetCar();
 	}
 
 
@@ -92,8 +96,8 @@ void Game::Update() {
 	m_gameCamera->SetCameraPosition(cameraPos);
 
 	if(m_scoreManager->IsGameOver()){
-		DeleteGO(this);
-		NewGO<Result>(0, "ResultScene");
+		//DeleteGO(this);
+		//NewGO<Result>(0, "ResultScene");
 	}
 }
 

@@ -141,8 +141,13 @@ void LoadBalancingListener::leaveRoomEventAction(int playerNr, bool isInactive)
 
 void LoadBalancingListener::RaiseCarTransform(CVector3 pos, CQuaternion rot, int carNumber) {
 	Hashtable data;
+
 	float coords[] = { static_cast<float>(pos.x),static_cast<float>(pos.y),static_cast<float>(pos.z) };
 	data.put((nByte)1, coords, 3);
+
+	float rots[] = { rot.x,rot.y,rot.z,rot.w };
+	data.put((nByte)2, rots, 4);
+
 	switch (carNumber) {
 	case 0:
 		mpLbc->opRaiseEvent(false, data, enMyTransform);
@@ -182,7 +187,7 @@ void LoadBalancingListener::customEventAction(int playerNr, nByte eventCode, con
 	case enInputs:
 	{
 		ExitGames::Common::Hashtable hashData;
-		
+
 		if (eventContent.getValue(key))
 		{
 
@@ -218,64 +223,135 @@ void LoadBalancingListener::customEventAction(int playerNr, nByte eventCode, con
 	break;
 	case enEnemyTransform:
 	{
-		Object const* obj = eventContent.getValue("1");
-		if (!obj)
-			obj = eventContent.getValue((nByte)1);
-		if (!obj)
-			obj = eventContent.getValue(1);
-		if (!obj)
-			obj = eventContent.getValue(1.0);
 
-		float x = 0; float y = 0; float z = 0;
+		CVector3 npos;
+		CQuaternion rot;
 
-		if (obj && obj->getDimensions() == 1 && obj->getSizes()[0] == 3)
 		{
-			float x = 0; float y = 0; float z = 0;
-			if (obj->getType() == TypeCode::FLOAT)
-			{
-				float* data = ((ValueObject<float*>*)obj)->getDataCopy();
-				x = (float)data[0];
-				y = (float)data[1];
-				z = (float)data[2];
-				CVector3 npos;
-				npos.x = x;
-				npos.y = y;
-				npos.z = z;
+			Object const* obj = eventContent.getValue("1");
+			if (!obj)
+				obj = eventContent.getValue((nByte)1);
+			if (!obj)
+				obj = eventContent.getValue(1);
+			if (!obj)
+				obj = eventContent.getValue(1.0);
 
-				printf("Get My Car Transform float x : %f, y : %f\n", x, y);
-				m_localPlayerCar->ResetCar(npos);
+			float x = 0; float y = 0; float z = 0;
+
+			if (obj && obj->getDimensions() == 1 && obj->getSizes()[0] == 3)
+			{
+				if (obj->getType() == TypeCode::FLOAT)
+				{
+					float* data = ((ValueObject<float*>*)obj)->getDataCopy();
+					x = (float)data[0];
+					y = (float)data[1];
+					z = (float)data[2];
+
+					npos.x = x;
+					npos.y = y;
+					npos.z = z;
+
+					//printf("Get My Car Transform float x : %f, y : %f\n", x, y);
+					//m_localPlayerCar->SetTransform(npos);
+				}
+			}
+
+			//Rot
+			obj = eventContent.getValue("2");
+			if (!obj)
+				obj = eventContent.getValue((nByte)2);
+			if (!obj)
+				obj = eventContent.getValue(2);
+			if (!obj)
+				obj = eventContent.getValue(2.0);
+
+			float qx = 0; float qy = 0; float qz = 0; float qw = 0;
+
+			if (obj && obj->getDimensions() == 1 && obj->getSizes()[0] == 4)
+			{
+				if (obj->getType() == TypeCode::FLOAT)
+				{
+					float* data = ((ValueObject<float*>*)obj)->getDataCopy();
+					qx = (float)data[0];
+					qy = (float)data[1];
+					qz = (float)data[2];
+					qw = (float)data[3];
+
+					rot.x = qx;
+					rot.y = qy;
+					rot.z = qz;
+					rot.w = qw;
+
+					//printf("Get My Car Transform float x : %f, y : %f\n", x, y);
+					m_localPlayerCar->SetTransform(npos, rot);
+				}
 			}
 		}
 	}
 	break;
 	case enMyTransform:
 	{
-		Object const* obj = eventContent.getValue("1");
-		if (!obj)
-			obj = eventContent.getValue((nByte)1);
-		if (!obj)
-			obj = eventContent.getValue(1);
-		if (!obj)
-			obj = eventContent.getValue(1.0);
+		CVector3 npos;
+		CQuaternion rot;
 
-		float x = 0; float y = 0; float z = 0;
-
-		if (obj && obj->getDimensions() == 1 && obj->getSizes()[0] == 3)
 		{
-			float x = 0; float y = 0; float z = 0;
-			if (obj->getType() == TypeCode::FLOAT)
-			{
-				float* data = ((ValueObject<float*>*)obj)->getDataCopy();
-				x = (float)data[0];
-				y = (float)data[1];
-				z = (float)data[2];
-				CVector3 npos;
-				npos.x = x;
-				npos.y = y;
-				npos.z = z;
+			Object const* obj = eventContent.getValue("1");
+			if (!obj)
+				obj = eventContent.getValue((nByte)1);
+			if (!obj)
+				obj = eventContent.getValue(1);
+			if (!obj)
+				obj = eventContent.getValue(1.0);
 
-				printf("Get Enemy Car Transform x : %f, y : %f\n", x, y);
-				m_onlinePlayerCar->ResetCar(npos);
+			float x = 0; float y = 0; float z = 0;
+
+			if (obj && obj->getDimensions() == 1 && obj->getSizes()[0] == 3)
+			{
+				if (obj->getType() == TypeCode::FLOAT)
+				{
+					float* data = ((ValueObject<float*>*)obj)->getDataCopy();
+					x = (float)data[0];
+					y = (float)data[1];
+					z = (float)data[2];
+
+					npos.x = x;
+					npos.y = y;
+					npos.z = z;
+
+					//printf("Get My Car Transform float x : %f, y : %f\n", x, y);
+					//m_localPlayerCar->SetTransform(npos);
+				}
+			}
+
+			//Rot
+			obj = eventContent.getValue("2");
+			if (!obj)
+				obj = eventContent.getValue((nByte)2);
+			if (!obj)
+				obj = eventContent.getValue(2);
+			if (!obj)
+				obj = eventContent.getValue(2.0);
+
+			float qx = 0; float qy = 0; float qz = 0; float qw = 0;
+
+			if (obj && obj->getDimensions() == 1 && obj->getSizes()[0] == 4)
+			{
+				if (obj->getType() == TypeCode::FLOAT)
+				{
+					float* data = ((ValueObject<float*>*)obj)->getDataCopy();
+					qx = (float)data[0];
+					qy = (float)data[1];
+					qz = (float)data[2];
+					qw = (float)data[3];
+
+					rot.x = qx;
+					rot.y = qy;
+					rot.z = qz;
+					rot.w = qw;
+
+					//printf("Get My Car Transform float x : %f, y : %f\n", x, y);
+					m_onlinePlayerCar->SetTransform(npos, rot);
+				}
 			}
 		}
 	}

@@ -494,3 +494,19 @@ void Car::SetCarInput(CarControll& input) {
 	m_carInputs.boost = input.boost;
 	m_carInputs.airRoll = input.airRoll;
 }
+
+void Car::SetTransform(CVector3 pos, CQuaternion rot) {
+	auto wtr = m_vehicle->getRigidBody()->getWorldTransform();
+	wtr.setOrigin(pos);
+	wtr.setRotation(rot);
+	m_carChassis->setCenterOfMassTransform(wtr);
+	m_dynamicsWorld->getBroadphase()->getOverlappingPairCache()->cleanProxyFromPairs(m_carChassis->getBroadphaseHandle(), m_dynamicsWorld->getDispatcher());
+	if (m_vehicle)
+	{
+		//m_vehicle->resetSuspension();
+		for (int i = 0; i < m_vehicle->getNumWheels(); i++)
+		{
+			//m_vehicle->updateWheelTransform(i, true);
+		}
+	}
+}

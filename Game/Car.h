@@ -46,6 +46,8 @@ public:
 	void buttonUpdate();
 	void ResetCar(CVector3 resetPos = { 0,2,-10 }, CQuaternion resetQuaternion = CQuaternion::Identity());
 
+	void SetTransform(CVector3 pos, CQuaternion rot = CQuaternion::Identity());
+
 	void SetChassisPositionFix(CVector3 vec) {
 		m_chassisPositionFix = vec;
 	}

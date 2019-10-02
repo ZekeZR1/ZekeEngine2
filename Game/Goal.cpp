@@ -37,7 +37,7 @@ void Goal::Update() {
 				manager->Goal(ScoreManager::enBlueTeam);
 
 			printf("Goal");
-			auto car = FindGO<Car>("Car");
+			auto car = FindGO<Car>("MyCar");
 			car->ResetCar();
 			mp_ball->ResetBall();
 		}
