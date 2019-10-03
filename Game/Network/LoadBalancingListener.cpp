@@ -168,6 +168,30 @@ void LoadBalancingListener::RaiseCarTransform(CVector3 pos, CQuaternion rot, int
 	}
 }
 
+void LoadBalancingListener::RaiseForceAndTorque(CVector3 force, CVector3 torque, int carNumber) {
+	Hashtable ev;
+
+	float fr[] = { force.x,force.y,force.z };
+	float tr[] = { torque.x,torque.y,torque.z };
+
+	ev.put(1, fr, 3);
+	ev.put(2, tr, 3);
+	ev.put(3, (nByte)carNumber);
+
+	//mpLbc->opRaiseEvent(false, ev, enForceAndTorque);
+
+	switch (carNumber) {
+	case 0:
+		mpLbc->opRaiseEvent(false, ev, enMyCarVelocity);
+		break;
+	case 1:
+		mpLbc->opRaiseEvent(false, ev, enEnemyCarVelocity);
+		break;
+	}
+}
+
+
+
 void LoadBalancingListener::RaiseLocalPlayerInput(Car::CarControll input) {
 	ExitGames::Common::Hashtable ev;
 	ExitGames::Common::Hashtable hash;
@@ -212,6 +236,98 @@ void LoadBalancingListener::customEventAction(int playerNr, nByte eventCode, con
 	//printf("Called Load Balancing Listener customEventAction\n");
 
 	switch (eventCode) {
+	case enMyCarVelocity:
+	{
+		{
+			Object const* obj = eventContent.getValue("1");
+			if (!obj)
+				obj = eventContent.getValue((nByte)1);
+			if (!obj)
+				obj = eventContent.getValue(1);
+			if (!obj)
+				obj = eventContent.getValue(1.0);
+
+			if (obj && obj->getDimensions() == 1 && obj->getSizes()[0] == 3)
+			{
+				if (obj->getType() == TypeCode::FLOAT)
+				{
+					float* data = ((ValueObject<float*>*)obj)->getDataCopy();
+					m_EnemyLinearVelocity.x = (float)data[0];
+					m_EnemyLinearVelocity.y = (float)data[1];
+					m_EnemyLinearVelocity.z = (float)data[2];
+
+					printf("linear x %f , y %f, z %f\n", m_EnemyLinearVelocity.x, m_EnemyLinearVelocity.y, m_EnemyLinearVelocity.z);
+				}
+			}
+
+			//Torque
+			obj = eventContent.getValue("2");
+			if (!obj)
+				obj = eventContent.getValue((nByte)2);
+			if (!obj)
+				obj = eventContent.getValue(2);
+			if (!obj)
+				obj = eventContent.getValue(2.0);
+
+			if (obj && obj->getDimensions() == 1 && obj->getSizes()[0] == 4)
+			{
+				if (obj->getType() == TypeCode::FLOAT)
+				{
+					float* data = ((ValueObject<float*>*)obj)->getDataCopy();
+					m_EnemyAngularVelocity.x = (float)data[0];
+					m_EnemyAngularVelocity.y = (float)data[1];
+					m_EnemyAngularVelocity.z = (float)data[2];
+				}
+			}
+		}
+	}
+	break;
+	case enEnemyCarVelocity :
+	{
+		{
+			Object const* obj = eventContent.getValue("1");
+			if (!obj)
+				obj = eventContent.getValue((nByte)1);
+			if (!obj)
+				obj = eventContent.getValue(1);
+			if (!obj)
+				obj = eventContent.getValue(1.0);
+
+			if (obj && obj->getDimensions() == 1 && obj->getSizes()[0] == 3)
+			{
+				if (obj->getType() == TypeCode::FLOAT)
+				{
+					float* data = ((ValueObject<float*>*)obj)->getDataCopy();
+					m_MyLinearVelocity.x = (float)data[0];
+					m_MyLinearVelocity.y = (float)data[1];
+					m_MyLinearVelocity.z = (float)data[2];
+
+					printf("linear x %f , y %f, z %f\n", m_MyLinearVelocity.x, m_MyLinearVelocity.y, m_MyLinearVelocity.z);
+				}
+			}
+			//Torque
+			obj = eventContent.getValue("2");
+			if (!obj)
+				obj = eventContent.getValue((nByte)2);
+			if (!obj)
+				obj = eventContent.getValue(2);
+			if (!obj)
+				obj = eventContent.getValue(2.0);
+
+			if (obj && obj->getDimensions() == 1 && obj->getSizes()[0] == 4)
+			{
+				if (obj->getType() == TypeCode::FLOAT)
+				{
+					float* data = ((ValueObject<float*>*)obj)->getDataCopy();
+					m_MyAngularVelocity.x = (float)data[0];
+					m_MyAngularVelocity.y = (float)data[1];
+					m_MyAngularVelocity.z = (float)data[2];
+				}
+			}
+		}
+	}
+	break;
+
 	case enPing:
 	{
 		nByte sec = 0, msec = 0;

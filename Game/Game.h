@@ -15,6 +15,7 @@ public:
 private:
 	void SetInputs();
 	void RaiseInputs();
+	void RaiseCarVelocitys();
 	Car::CarControll m_carCon;
 	Car* m_myCar = nullptr;
 	Car* m_enemyCar = nullptr;

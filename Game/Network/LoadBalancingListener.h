@@ -30,6 +30,8 @@ public:
 
 	void RaiseCurrentLocalTime();
 
+	void RaiseForceAndTorque(CVector3 force, CVector3 torque,int carNumber);
+
 	void RaiseCarTransform(CVector3 pos, CQuaternion rot, int carNumber);
 
 	/// <summary>
@@ -69,6 +71,9 @@ public:
 		enTime,
 		enInputs,
 		enPing,
+		enForceAndTorque,
+		enEnemyCarVelocity,
+		enMyCarVelocity,
 	};
 
 	void SetCars(Car* localCar, Car* enemyCar) {
@@ -87,6 +92,24 @@ public:
 	void SetLagAve(int ave) {
 		m_lagAve = ave;
 	}
+
+
+	CVector3 GetEnemyCarLinearVelocity() {
+		return m_EnemyLinearVelocity;
+	}
+
+	CVector3 GetEnemyCarAnguraVelocity() {
+		return m_EnemyAngularVelocity;
+	}
+
+	CVector3 GetMyCarLinearVelocity() {
+		return m_MyLinearVelocity;
+	}
+
+	CVector3 GetMyCarAnguraVelocity() {
+		return m_MyAngularVelocity;
+	}
+
 private:
 
 	//From Common::BaseListener
@@ -136,9 +159,9 @@ private:
 	int m_enemyPlayerNumber = 0;
 	//LocalPlayer mLocalPlayer;
 	unsigned long lastUpdateTime;
-	bool misConect = false;		//Ç¬Ç»Ç™Ç¡ÇƒÇÈÅ`ÅH
+	bool misConect = false;		
 	bool m_enemyAbandoned = false;
-	bool misHang = false;		//âΩÇ©ëóÇÁÇÍÇƒÇ´ÇƒÇÈÅH
+	bool misHang = false;		
 	bool m_isEnemyLoadedMyData = false;
 	bool m_isJoining = false;
 
@@ -147,6 +170,13 @@ private:
 
 	int m_lag = 999;
 	int m_lagAve = 999;
+
+	CVector3 m_EnemyLinearVelocity = CVector3::Zero();
+	CVector3 m_EnemyAngularVelocity = CVector3::Zero();
+
+	CVector3 m_MyLinearVelocity = CVector3::Zero();
+	CVector3 m_MyAngularVelocity = CVector3::Zero();
+
 	//Key
 	const nByte key = 103;
 
