@@ -23,5 +23,10 @@ private:
 	GameCamera* m_gameCamera = nullptr;
 	ScoreManager* m_scoreManager;
 	int m_raiseTimer = 0;
+
+	float m_NetworkLagTime = 0;
+	float m_lagFixTimer = 0;
+	unsigned short m_lag = 0;
+	std::queue<Car::CarControll> m_inputDataQueue;
 };
 

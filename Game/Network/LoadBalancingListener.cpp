@@ -136,7 +136,17 @@ void LoadBalancingListener::leaveRoomEventAction(int playerNr, bool isInactive)
 	else {
 		m_enemyAbandoned = true;
 	}
-	misConect = false;//切れた。
+	misConect = false;
+}
+
+void LoadBalancingListener::onAvailableRegions(const ExitGames::Common::JVector<ExitGames::Common::JString>& availableRegions, const ExitGames::Common::JVector<ExitGames::Common::JString>& availableRegionServers)
+{
+	wprintf(L"onAvailableRegions: %ls / %ls", availableRegions.toString().cstr(), availableRegionServers.toString().cstr());
+	Console::get().writeLine(L"onAvailableRegions: " + availableRegions.toString() + L" / " + availableRegionServers.toString());
+	// select first region from list
+	Console::get().writeLine(L"selecting region: " + availableRegions[0]);
+	//mpLbc->selectRegion(availableRegions[5]);
+	mpLbc->selectRegion("jp");
 }
 
 void LoadBalancingListener::RaiseCarTransform(CVector3 pos, CQuaternion rot, int carNumber) {
@@ -221,17 +231,22 @@ void LoadBalancingListener::customEventAction(int playerNr, nByte eventCode, con
 				msec = (ExitGames::Common::ValueObject<nByte>(hashData.getValue((nByte)2))).getDataCopy();
 			}
 
-			short delta = 999;
 			auto lct = IGameTime().GetLocalCurrentTime();
 
 			//printf("Raised Time is %d.%d , Current Time is %d.%d\n",sec,msec,lct.wSecond,lct.wMilliseconds);
 
 			short old = (sec * 1000) + msec;
-			short now = (lct.wSecond * 1000) + lct.wMilliseconds;
+			short now = 0;
+			if (sec == 59 and lct.wSecond == 0) {
+				now = (60 * 1000) + lct.wMilliseconds;
+			}
+			else {
+				now = (lct.wSecond * 1000) + lct.wMilliseconds;
+			}
 
-			delta = now - old;
+			m_lag = now - old;
 
-			printf("ping %d\n", delta);
+			//printf("lag %d ms\n", abs(delta));
 
 		}
 	}

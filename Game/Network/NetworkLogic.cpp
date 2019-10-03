@@ -33,10 +33,8 @@ void NetworkLogic::Disconnect() {
 }
 
 void NetworkLogic::Start() {
-	//BaseViewの仮想関数を定義したクラスのポインタを渡す
-	//LoadBalancingからそれらを呼び出す
 	mpLbl = new LoadBalancingListener(&m_testview);
-	mpLbc = new Client(*mpLbl, appID, appVersion);
+	mpLbc = new Client(*mpLbl, appID, appVersion, ExitGames::Photon::ConnectionProtocol::DEFAULT,false, RegionSelectionMode::SELECT);
 	mpLbc->setDebugOutputLevel(DEBUG_RELEASE(ExitGames::Common::DebugLevel::INFO, ExitGames::Common::DebugLevel::WARNINGS));
 	ExitGames::Common::Base::setListener(mpLbl);
 	ExitGames::Common::Base::setDebugOutputLevel(DEBUG_RELEASE(ExitGames::Common::DebugLevel::INFO, ExitGames::Common::DebugLevel::WARNINGS));

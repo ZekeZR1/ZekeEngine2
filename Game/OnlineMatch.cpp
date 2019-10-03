@@ -6,7 +6,6 @@
 #include "Game.h"
 
 bool OnlineMatch::Start() {
-	//TODO : ベストリージョンを選択する
 	NetworkLogic::GetInstance().Start();
 
 	m_sp1 = NewGO<SpriteRender>(0);
@@ -25,6 +24,9 @@ bool OnlineMatch::Start() {
 }
 
 void OnlineMatch::OnDestroy() {
+
+	NetworkLogic::GetInstance().GetLBL()->SetLagAve(m_sumLag / m_cs);
+
 	DeleteGO(m_sp1);
 	DeleteGO(m_sp2);
 	DeleteGO(m_sp3);
@@ -34,6 +36,14 @@ void OnlineMatch::Update(){
 
 	SYSTEMTIME st;
 	GetLocalTime(&st);
+
+
+	auto lag = NetworkLogic::GetInstance().GetLBL()->GetLag();
+	if (lag < 999) {
+		m_cs++;
+		float lg = (float)lag / 1000.f;
+		m_sumLag += lg;
+	}
 
 	//printf("%02d.%03d\n",
 	//	st.wSecond,
@@ -52,10 +62,7 @@ void OnlineMatch::Update(){
 	//m_mSec = st.wMilliseconds;
 
 
-
 	NetworkLogic::GetInstance().Update();
-
-	NetworkLogic::GetInstance().GetLBL()->RaiseCurrentLocalTime();
 
 	auto state = NetworkLogic::GetInstance().GetLBC()->getState();
 	if (state == 6) {
@@ -104,6 +111,7 @@ void OnlineMatch::Update(){
 		int cpig = NetworkLogic::GetInstance().GetLBC()->getCountPlayersIngame();
 		int cpo = NetworkLogic::GetInstance().GetLBC()->getCountPlayersOnline();
 
+		NetworkLogic::GetInstance().GetLBL()->RaiseCurrentLocalTime();
 
 		auto state = NetworkLogic::GetInstance().GetLBL()->GetState();
 

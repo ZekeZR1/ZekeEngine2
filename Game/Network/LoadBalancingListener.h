@@ -75,6 +75,18 @@ public:
 		m_localPlayerCar = localCar;
 		m_onlinePlayerCar = enemyCar;
 	}
+
+	short GetLag() {
+		return m_lag;
+	}
+
+	short GetLagAve() {
+		return m_lagAve;
+	}
+
+	void SetLagAve(int ave) {
+		m_lagAve = ave;
+	}
 private:
 
 	//From Common::BaseListener
@@ -89,7 +101,6 @@ private:
 	virtual void clientErrorReturn(int errorCode);
 	virtual void warningReturn(int warningCode);
 	virtual void serverErrorReturn(int errorCode);
-
 	// events, triggered by certain operations of all players in the same room
 	virtual void joinRoomEventAction(int playerNr, const ExitGames::Common::JVector<int>& playernrs, const ExitGames::LoadBalancing::Player& player);
 	virtual void leaveRoomEventAction(int playerNr, bool isInactive);
@@ -110,7 +121,7 @@ private:
 	virtual void onLobbyStatsUpdate(const ExitGames::Common::JVector<ExitGames::LoadBalancing::LobbyStatsResponse>& lobbyStats);
 	virtual void onLobbyStatsResponse(const ExitGames::Common::JVector<ExitGames::LoadBalancing::LobbyStatsResponse>& lobbyStats);
 	virtual void onRoomPropertiesChange(const ExitGames::Common::Hashtable& changes);
-
+	virtual void onAvailableRegions(const ExitGames::Common::JVector<ExitGames::Common::JString>& /*availableRegions*/, const ExitGames::Common::JVector<ExitGames::Common::JString>&) override;
 	void updateState(void);
 	void afterRoomJoined(int localPlayerNr);
 
@@ -134,8 +145,8 @@ private:
 	Car* m_localPlayerCar = nullptr;
 	Car* m_onlinePlayerCar = nullptr;
 
-	int m_ping = 999;
-
+	int m_lag = 999;
+	int m_lagAve = 999;
 	//Key
 	const nByte key = 103;
 
