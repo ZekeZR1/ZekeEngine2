@@ -176,6 +176,24 @@ void LoadBalancingListener::RaiseLocalPlayerInput(Car::CarControll input) {
 	mpLbc->opRaiseEvent(false, ev, enInputs);
 }
 
+void LoadBalancingListener::RaiseCurrentLocalTime() {
+	SYSTEMTIME st;
+	GetLocalTime(&st);
+	
+	nByte sec = st.wSecond;
+	nByte msec = st.wMilliseconds;
+
+	ExitGames::Common::Hashtable ev;
+	ExitGames::Common::Hashtable hash;
+
+	hash.put((nByte)1, sec);
+	hash.put((nByte)2, msec);
+
+	ev.put((nByte)999, hash);
+
+	mpLbc->opRaiseEvent(false, ev, enPing);
+}
+
 //opRaiseEventでイベントが送信されるとこの関数が呼ばれる
 void LoadBalancingListener::customEventAction(int playerNr, nByte eventCode, const Object& eventContentObj)
 {
@@ -184,6 +202,40 @@ void LoadBalancingListener::customEventAction(int playerNr, nByte eventCode, con
 	//printf("Called Load Balancing Listener customEventAction\n");
 
 	switch (eventCode) {
+	case enPing:
+	{
+		nByte sec = 0, msec = 0;
+		nByte pingKey = 999;
+
+		ExitGames::Common::Hashtable hashData;
+		hashData = (ExitGames::Common::ValueObject<ExitGames::Common::Hashtable>(eventContent.getValue(pingKey))).getDataCopy();
+
+		if (eventContent.getValue(pingKey)) {
+
+			hashData = (ExitGames::Common::ValueObject<ExitGames::Common::Hashtable>(eventContent.getValue(pingKey))).getDataCopy();
+
+			if (hashData.getValue((nByte)1)) {
+				sec = (ExitGames::Common::ValueObject<nByte>(hashData.getValue((nByte)1))).getDataCopy();
+			}
+			if (hashData.getValue((nByte)2)) {
+				msec = (ExitGames::Common::ValueObject<nByte>(hashData.getValue((nByte)2))).getDataCopy();
+			}
+
+			short delta = 999;
+			auto lct = IGameTime().GetLocalCurrentTime();
+
+			//printf("Raised Time is %d.%d , Current Time is %d.%d\n",sec,msec,lct.wSecond,lct.wMilliseconds);
+
+			short old = (sec * 1000) + msec;
+			short now = (lct.wSecond * 1000) + lct.wMilliseconds;
+
+			delta = now - old;
+
+			printf("ping %d\n", delta);
+
+		}
+	}
+	break;
 	case enInputs:
 	{
 		ExitGames::Common::Hashtable hashData;

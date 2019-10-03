@@ -27,9 +27,10 @@ public:
 	void disconnect();
 	void createRoom(void);
 	void service();
-	
-	void RaiseCarTransform(CVector3 pos, CQuaternion rot, int carNumber);
 
+	void RaiseCurrentLocalTime();
+
+	void RaiseCarTransform(CVector3 pos, CQuaternion rot, int carNumber);
 
 	/// <summary>
 	/// ローカルプレイヤーのコントローラーのインプット状況を送信する。
@@ -67,6 +68,7 @@ public:
 		enMyTransform,
 		enTime,
 		enInputs,
+		enPing,
 	};
 
 	void SetCars(Car* localCar, Car* enemyCar) {
@@ -132,6 +134,7 @@ private:
 	Car* m_localPlayerCar = nullptr;
 	Car* m_onlinePlayerCar = nullptr;
 
+	int m_ping = 999;
 
 	//Key
 	const nByte key = 103;

@@ -9,6 +9,11 @@ public:
 		static GameTime t;
 		return t;
 	}
+
+	SYSTEMTIME GetLocalCurrentTime() {
+		GetLocalTime(&m_systemTime);
+		return m_systemTime;
+	}
 	/*!
 	 *@brief	1フレームの経過時間を取得(単位・秒)。
 	 */
@@ -35,6 +40,7 @@ public:
 private:
 	std::list<float> m_frameDeltaTimeQue;
 	float		m_frameDeltaTime = 1.0f / 60.0f;		//1フレームの経過時間。
+	SYSTEMTIME m_systemTime;
 };
 
 static GameTime& IGameTime()
