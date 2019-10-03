@@ -6,7 +6,6 @@
 #include "Game.h"
 
 bool OnlineMatch::Start() {
-	//TODO : ベストリージョンを選択する
 	NetworkLogic::GetInstance().Start();
 
 	m_sp1 = NewGO<SpriteRender>(0);
@@ -55,8 +54,6 @@ void OnlineMatch::Update(){
 
 	NetworkLogic::GetInstance().Update();
 
-	NetworkLogic::GetInstance().GetLBL()->RaiseCurrentLocalTime();
-
 	auto state = NetworkLogic::GetInstance().GetLBC()->getState();
 	if (state == 6) {
 		NetworkLogic::GetInstance().GetLBC()->opJoinLobby();
@@ -104,6 +101,7 @@ void OnlineMatch::Update(){
 		int cpig = NetworkLogic::GetInstance().GetLBC()->getCountPlayersIngame();
 		int cpo = NetworkLogic::GetInstance().GetLBC()->getCountPlayersOnline();
 
+		NetworkLogic::GetInstance().GetLBL()->RaiseCurrentLocalTime();
 
 		auto state = NetworkLogic::GetInstance().GetLBL()->GetState();
 

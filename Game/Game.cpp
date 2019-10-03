@@ -2,7 +2,7 @@
 #include "Game.h"
 #include "ScoreManager.h"
 #include "Vehicle.h"
-#include "Ball.h";
+#include "Ball.h"
 #include "Stage.h"
 #include "GameCamera.h"
 #include "Car.h"
@@ -49,8 +49,8 @@ void Game::Update() {
 	int opn = NetworkLogic::GetInstance().GetLBL()->GetEnemyPlayerNumber();
 
 	if (Pad(0).IsTrigger(enButtonStart)) {
-		//m_ball->ResetBall();
-		printf("My Number : %d , Enemy Number : %d\n", lpn, opn);
+		m_ball->ResetBall();
+		//NetworkLogic::GetInstance().GetLBC()->()
 	}
 
 	//Host
@@ -68,9 +68,9 @@ void Game::Update() {
 		m_enemyCar->SetCarInput(eci);
 
 		//if (m_raiseTimer == 30) {
-			NetworkLogic::GetInstance().GetLBL()->RaiseCarTransform(m_myCar->GetPosition(), m_myCar->GetRotation(), 0);
+			//NetworkLogic::GetInstance().GetLBL()->RaiseCarTransform(m_myCar->GetPosition(), m_myCar->GetRotation(), 0);
 
-			NetworkLogic::GetInstance().GetLBL()->RaiseCarTransform(m_enemyCar->GetPosition(), m_enemyCar->GetRotation(), 1);
+			//NetworkLogic::GetInstance().GetLBL()->RaiseCarTransform(m_enemyCar->GetPosition(), m_enemyCar->GetRotation(), 1);
 
 			m_raiseTimer = 0;
 		//}
@@ -79,11 +79,11 @@ void Game::Update() {
 		SetInputs();
 		RaiseInputs();
 
-		//m_enemyCar->SetCarInput(m_carCon);
+		m_enemyCar->SetCarInput(m_carCon);
 
 		auto eci = NetworkLogic::GetInstance().GetLBL()->GetEnemeyCarInputs();
 
-		//m_myCar->SetCarInput(eci);
+		m_myCar->SetCarInput(eci);
 
 		//NetworkLogic::GetInstance().GetLBL()->GetGameTime();
 	}

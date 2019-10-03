@@ -89,7 +89,6 @@ private:
 	virtual void clientErrorReturn(int errorCode);
 	virtual void warningReturn(int warningCode);
 	virtual void serverErrorReturn(int errorCode);
-
 	// events, triggered by certain operations of all players in the same room
 	virtual void joinRoomEventAction(int playerNr, const ExitGames::Common::JVector<int>& playernrs, const ExitGames::LoadBalancing::Player& player);
 	virtual void leaveRoomEventAction(int playerNr, bool isInactive);
@@ -110,7 +109,7 @@ private:
 	virtual void onLobbyStatsUpdate(const ExitGames::Common::JVector<ExitGames::LoadBalancing::LobbyStatsResponse>& lobbyStats);
 	virtual void onLobbyStatsResponse(const ExitGames::Common::JVector<ExitGames::LoadBalancing::LobbyStatsResponse>& lobbyStats);
 	virtual void onRoomPropertiesChange(const ExitGames::Common::Hashtable& changes);
-
+	virtual void onAvailableRegions(const ExitGames::Common::JVector<ExitGames::Common::JString>& /*availableRegions*/, const ExitGames::Common::JVector<ExitGames::Common::JString>&) override;
 	void updateState(void);
 	void afterRoomJoined(int localPlayerNr);
 

@@ -136,7 +136,16 @@ void LoadBalancingListener::leaveRoomEventAction(int playerNr, bool isInactive)
 	else {
 		m_enemyAbandoned = true;
 	}
-	misConect = false;//切れた。
+	misConect = false;
+}
+
+void LoadBalancingListener::onAvailableRegions(const ExitGames::Common::JVector<ExitGames::Common::JString>& availableRegions, const ExitGames::Common::JVector<ExitGames::Common::JString>& availableRegionServers)
+{
+	wprintf(L"onAvailableRegions: %ls / %ls", availableRegions.toString().cstr(), availableRegionServers.toString().cstr());
+	Console::get().writeLine(L"onAvailableRegions: " + availableRegions.toString() + L" / " + availableRegionServers.toString());
+	// select first region from list
+	Console::get().writeLine(L"selecting region: " + availableRegions[0]);
+	mpLbc->selectRegion(availableRegions[5]);
 }
 
 void LoadBalancingListener::RaiseCarTransform(CVector3 pos, CQuaternion rot, int carNumber) {
@@ -231,7 +240,7 @@ void LoadBalancingListener::customEventAction(int playerNr, nByte eventCode, con
 
 			delta = now - old;
 
-			printf("ping %d\n", delta);
+			printf("lag %d\n", delta);
 
 		}
 	}

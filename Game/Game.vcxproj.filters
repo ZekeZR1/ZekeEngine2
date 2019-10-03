@@ -195,19 +195,17 @@
     <None Include="Assets\modelData\RLStage.fbx">
       <Filter>Assets\model</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ImageContentTask Include="Assets\sprite\inGame\BlueTeamScoreBack.png">
+    <None Include="Assets\sprite\title\title.png">
       <Filter>Assets\sprite</Filter>
-    </ImageContentTask>
-    <ImageContentTask Include="Assets\sprite\inGame\OrangeTeamScoreBack.png">
+    </None>
+    <None Include="Assets\sprite\inGame\OrangeTeamScoreBack.png">
       <Filter>Assets\sprite</Filter>
-    </ImageContentTask>
-    <ImageContentTask Include="Assets\sprite\inGame\TimerBack.png">
+    </None>
+    <None Include="Assets\sprite\inGame\TimerBack.png">
       <Filter>Assets\sprite</Filter>
-    </ImageContentTask>
-    <ImageContentTask Include="Assets\sprite\title\title.png">
+    </None>
+    <None Include="Assets\sprite\inGame\BlueTeamScoreBack.png">
       <Filter>Assets\sprite</Filter>
-    </ImageContentTask>
+    </None>
   </ItemGroup>
 </Project>
