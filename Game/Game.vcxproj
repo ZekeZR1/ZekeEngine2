@@ -223,12 +223,12 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ImageContentTask Include="Assets\sprite\inGame\BlueTeamScoreBack.png" />
-    <ImageContentTask Include="Assets\sprite\inGame\OrangeTeamScoreBack.png" />
-    <ImageContentTask Include="Assets\sprite\inGame\TimerBack.png" />
+    <None Include="Assets\sprite\inGame\BlueTeamScoreBack.png" />
+    <None Include="Assets\sprite\inGame\OrangeTeamScoreBack.png" />
+    <None Include="Assets\sprite\inGame\TimerBack.png" />
   </ItemGroup>
   <ItemGroup>
-    <ImageContentTask Include="Assets\sprite\title\title.png" />
+    <None Include="Assets\sprite\title\title.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

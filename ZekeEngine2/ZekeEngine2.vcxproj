@@ -87,7 +87,7 @@
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>$(ProjectDir)/bulletPhysics/src;$(ProjectDir)/../;$(ProjectDir)/EffekseerRuntime130/src/include;$(ProjectDir);$(IncludePath)</IncludePath>
     <ReferencePath>$(ProjectDir)/DirectXTK/Bin/Desktop_2015_Win10/x64/Release;$(ProjectDir)/exlib/x64;$(ReferencePath)</ReferencePath>
-    <LibraryPath>$(ProjectDir)/exlib/x64;$(ProjectDir)/DirectXTK/Bin/Desktop_2015_Win10/x64/Release;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(ProjectDir)/exlib/x64;$(ProjectDir)/DirectXTK/Bin/Desktop_2015_Win10/x64/Release;$(ProjectDir)exlib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -159,6 +159,7 @@
     </Link>
     <Lib>
       <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;xaudio2.lib;xinput.lib;dxguid.lib;Effekseer.Debug.lib;EffekseerRendererDX11.Debug.lib;BulletCollision_Debug.lib;BulletDynamics_Debug.lib;LinearMath_Debug.lib;DirectXTK.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)exlib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
