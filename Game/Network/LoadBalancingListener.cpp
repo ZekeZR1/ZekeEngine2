@@ -145,7 +145,8 @@ void LoadBalancingListener::onAvailableRegions(const ExitGames::Common::JVector<
 	Console::get().writeLine(L"onAvailableRegions: " + availableRegions.toString() + L" / " + availableRegionServers.toString());
 	// select first region from list
 	Console::get().writeLine(L"selecting region: " + availableRegions[0]);
-	mpLbc->selectRegion(availableRegions[5]);
+	//mpLbc->selectRegion(availableRegions[5]);
+	mpLbc->selectRegion("jp");
 }
 
 void LoadBalancingListener::RaiseCarTransform(CVector3 pos, CQuaternion rot, int carNumber) {
@@ -236,11 +237,17 @@ void LoadBalancingListener::customEventAction(int playerNr, nByte eventCode, con
 			//printf("Raised Time is %d.%d , Current Time is %d.%d\n",sec,msec,lct.wSecond,lct.wMilliseconds);
 
 			short old = (sec * 1000) + msec;
-			short now = (lct.wSecond * 1000) + lct.wMilliseconds;
+			short now = 0;
+			if (sec == 59 and lct.wSecond == 0) {
+				now = (60 * 1000) + lct.wMilliseconds;
+			}
+			else {
+				now = (lct.wSecond * 1000) + lct.wMilliseconds;
+			}
 
 			delta = now - old;
 
-			printf("lag %d\n", delta);
+			//printf("lag %d ms\n", abs(delta));
 
 		}
 	}
