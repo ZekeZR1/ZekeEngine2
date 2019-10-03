@@ -24,6 +24,9 @@ bool OnlineMatch::Start() {
 }
 
 void OnlineMatch::OnDestroy() {
+
+	NetworkLogic::GetInstance().GetLBL()->SetLagAve(m_sumLag / m_cs);
+
 	DeleteGO(m_sp1);
 	DeleteGO(m_sp2);
 	DeleteGO(m_sp3);
@@ -33,6 +36,14 @@ void OnlineMatch::Update(){
 
 	SYSTEMTIME st;
 	GetLocalTime(&st);
+
+
+	auto lag = NetworkLogic::GetInstance().GetLBL()->GetLag();
+	if (lag < 999) {
+		m_cs++;
+		float lg = (float)lag / 1000.f;
+		m_sumLag += lg;
+	}
 
 	//printf("%02d.%03d\n",
 	//	st.wSecond,
@@ -49,7 +60,6 @@ void OnlineMatch::Update(){
 
 	//m_sec = st.wSecond;
 	//m_mSec = st.wMilliseconds;
-
 
 
 	NetworkLogic::GetInstance().Update();

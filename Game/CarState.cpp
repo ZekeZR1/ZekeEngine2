@@ -114,6 +114,7 @@ CarState* InAirState::Update(Car* car) {
 	if(m_inputs.boost)
 		Boost(car);
 
+	//TODO : 慣性とか回転方法考える
 
 	////エアリアル
 	//auto LStickX = Pad(0).GetLStickXF();

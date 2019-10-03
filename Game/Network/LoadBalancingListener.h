@@ -75,6 +75,18 @@ public:
 		m_localPlayerCar = localCar;
 		m_onlinePlayerCar = enemyCar;
 	}
+
+	short GetLag() {
+		return m_lag;
+	}
+
+	short GetLagAve() {
+		return m_lagAve;
+	}
+
+	void SetLagAve(int ave) {
+		m_lagAve = ave;
+	}
 private:
 
 	//From Common::BaseListener
@@ -133,8 +145,8 @@ private:
 	Car* m_localPlayerCar = nullptr;
 	Car* m_onlinePlayerCar = nullptr;
 
-	int m_ping = 999;
-
+	int m_lag = 999;
+	int m_lagAve = 999;
 	//Key
 	const nByte key = 103;
 

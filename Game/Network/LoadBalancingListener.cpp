@@ -231,7 +231,6 @@ void LoadBalancingListener::customEventAction(int playerNr, nByte eventCode, con
 				msec = (ExitGames::Common::ValueObject<nByte>(hashData.getValue((nByte)2))).getDataCopy();
 			}
 
-			short delta = 999;
 			auto lct = IGameTime().GetLocalCurrentTime();
 
 			//printf("Raised Time is %d.%d , Current Time is %d.%d\n",sec,msec,lct.wSecond,lct.wMilliseconds);
@@ -245,7 +244,7 @@ void LoadBalancingListener::customEventAction(int playerNr, nByte eventCode, con
 				now = (lct.wSecond * 1000) + lct.wMilliseconds;
 			}
 
-			delta = now - old;
+			m_lag = now - old;
 
 			//printf("lag %d ms\n", abs(delta));
 
