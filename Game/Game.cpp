@@ -91,6 +91,8 @@ void Game::Update() {
 		//RaiseInputs();
 		RaiseCarVelocitys();
 
+		RaiseBallTransform();
+
 		//if (m_lagFixTimer >= m_NetworkLagTime) {
 			if (true) {
 				m_myCar->SetCarInput(m_inputDataQueue.front());
@@ -125,7 +127,10 @@ void Game::Update() {
 		m_myCar->GetRayCastVehicle()->getRigidBody()->setLinearVelocity(mclv);
 		m_myCar->GetRayCastVehicle()->getRigidBody()->setAngularVelocity(mcav);
 
+		auto bp = NetworkLogic::GetInstance().GetLBL()->GetBallPos();
+		auto br = NetworkLogic::GetInstance().GetLBL()->GetBallRot();
 
+		m_ball->SetTransform(bp,br);
 		//auto eci = NetworkLogic::GetInstance().GetLBL()->GetEnemeyCarInputs();
 
 		//m_enemyCar->SetCarInput(eci);
@@ -200,4 +205,13 @@ void Game::RaiseCarTransform() {
 
 void Game::RaiseInputs() {
 	NetworkLogic::GetInstance().GetLBL()->RaiseLocalPlayerInput(m_carCon);
+}
+
+void Game::RaiseBallTransform() {
+	NetworkLogic::GetInstance().GetLBL()->RaiseBallTransform(m_ball->GetPosition(),m_ball->GetRotation());
+}
+
+
+void Game::RaiseBallVelocity() {
+
 }

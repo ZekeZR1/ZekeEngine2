@@ -48,6 +48,10 @@ public:
 	{
 		m_rot = rotation;
 	}
+
+	CQuaternion GetRotation() {
+		return m_rot;
+	}
 	/*!
 	*@brief	Šg‘å—¦‚ğİ’èB
 	*/

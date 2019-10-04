@@ -11,6 +11,11 @@ public:
 	CVector3 GetPosition() {
 		return m_ballModel->GetPosition();
 	}
+	CQuaternion GetRotation() {
+		return m_ballModel->GetRotation();
+	}
+
+	void SetTransform(CVector3 pos,CQuaternion rot);
 private:
 	btRigidBody* m_rigidBody = nullptr;
 	btRigidBody* createRigidBody(float mass, const btTransform& startTransform, btCollisionShape* shape, const btVector4& color = btVector4(1, 0, 0, 1))

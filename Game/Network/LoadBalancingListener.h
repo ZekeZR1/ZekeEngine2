@@ -34,6 +34,8 @@ public:
 
 	void RaiseCarTransform(CVector3 pos, CQuaternion rot, int carNumber);
 
+	void RaiseBallTransform(CVector3 pos, CQuaternion rot);
+
 	/// <summary>
 	/// ローカルプレイヤーのコントローラーのインプット状況を送信する。
 	/// </summary>
@@ -74,6 +76,7 @@ public:
 		enForceAndTorque,
 		enEnemyCarVelocity,
 		enMyCarVelocity,
+		enBallTransform,
 	};
 
 	void SetCars(Car* localCar, Car* enemyCar) {
@@ -108,6 +111,14 @@ public:
 
 	CVector3 GetMyCarAnguraVelocity() {
 		return m_MyAngularVelocity;
+	}
+
+	CVector3 GetBallPos() {
+		return m_ballPos;
+	}
+
+	CQuaternion GetBallRot() {
+		return m_ballRot;
 	}
 
 private:
@@ -177,6 +188,8 @@ private:
 	CVector3 m_MyLinearVelocity = CVector3::Zero();
 	CVector3 m_MyAngularVelocity = CVector3::Zero();
 
+	CVector3 m_ballPos = CVector3::Zero();
+	CQuaternion m_ballRot = CQuaternion::Identity();
 	//Key
 	const nByte key = 103;
 

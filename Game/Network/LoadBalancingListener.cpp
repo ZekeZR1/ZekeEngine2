@@ -9,6 +9,9 @@
 #include <fstream>
 #include <string>
 
+
+//TODO : Raise系で重複した処理をまとめる
+
 const JString PeerStatesStr[] = {
 	L"Uninitialized",
 	L"PeerCreated",
@@ -149,6 +152,19 @@ void LoadBalancingListener::onAvailableRegions(const ExitGames::Common::JVector<
 	mpLbc->selectRegion("jp");
 }
 
+void LoadBalancingListener::RaiseBallTransform(CVector3 pos, CQuaternion rot) {
+	Hashtable data;
+
+	float coords[] = { static_cast<float>(pos.x),static_cast<float>(pos.y),static_cast<float>(pos.z) };
+	data.put((nByte)1, coords, 3);
+
+	float rots[] = { rot.x,rot.y,rot.z,rot.w };
+	data.put((nByte)2, rots, 4);
+
+	mpLbc->opRaiseEvent(false, data, enBallTransform);
+}
+
+
 void LoadBalancingListener::RaiseCarTransform(CVector3 pos, CQuaternion rot, int carNumber) {
 	Hashtable data;
 
@@ -236,6 +252,71 @@ void LoadBalancingListener::customEventAction(int playerNr, nByte eventCode, con
 	//printf("Called Load Balancing Listener customEventAction\n");
 
 	switch (eventCode) {
+	case enBallTransform:
+	{
+		CVector3 npos;
+		CQuaternion rot;
+
+		{
+			Object const* obj = eventContent.getValue("1");
+			if (!obj)
+				obj = eventContent.getValue((nByte)1);
+			if (!obj)
+				obj = eventContent.getValue(1);
+			if (!obj)
+				obj = eventContent.getValue(1.0);
+
+			float x = 0; float y = 0; float z = 0;
+
+			if (obj && obj->getDimensions() == 1 && obj->getSizes()[0] == 3)
+			{
+				if (obj->getType() == TypeCode::FLOAT)
+				{
+					float* data = ((ValueObject<float*>*)obj)->getDataCopy();
+					x = (float)data[0];
+					y = (float)data[1];
+					z = (float)data[2];
+
+					npos.x = x;
+					npos.y = y;
+					npos.z = z;
+
+					m_ballPos = npos;
+				}
+			}
+
+			//Rot
+			obj = eventContent.getValue("2");
+			if (!obj)
+				obj = eventContent.getValue((nByte)2);
+			if (!obj)
+				obj = eventContent.getValue(2);
+			if (!obj)
+				obj = eventContent.getValue(2.0);
+
+			float qx = 0; float qy = 0; float qz = 0; float qw = 0;
+
+			if (obj && obj->getDimensions() == 1 && obj->getSizes()[0] == 4)
+			{
+				if (obj->getType() == TypeCode::FLOAT)
+				{
+					float* data = ((ValueObject<float*>*)obj)->getDataCopy();
+					qx = (float)data[0];
+					qy = (float)data[1];
+					qz = (float)data[2];
+					qw = (float)data[3];
+
+					rot.x = qx;
+					rot.y = qy;
+					rot.z = qz;
+					rot.w = qw;
+
+					m_ballRot = rot;
+				}
+			}
+		}
+	}
+	break;
 	case enMyCarVelocity:
 	{
 		{

@@ -57,3 +57,12 @@ void Ball::ResetBall() {
 	m_rigidBody->setAngularVelocity(btVector3(0, 0, 0));
 }
 
+void Ball::SetTransform(CVector3 pos, CQuaternion rot) {
+	btTransform wtr;
+	wtr.setOrigin(pos);
+	wtr.setRotation(rot);
+	if(m_rigidBody != nullptr)
+		m_rigidBody->setCenterOfMassTransform(wtr);
+	//m_rigidBody->setLinearVelocity(btVector3(0, 0, 0));
+	//m_rigidBody->setAngularVelocity(btVector3(0, 0, 0));
+}
