@@ -27,7 +27,6 @@ bool Game::Start() {
 	m_NetworkLagTime = NetworkLogic::GetInstance().GetLBL()->GetLagAve();
 
 	auto lag = NetworkLogic::GetInstance().GetLBL()->GetLag();
-	lag = 150;
 	float lg  = (float)lag / 1000.f;
 	printf("lag %d\n", lag);
 	m_NetworkLagTime = lg;
@@ -106,7 +105,7 @@ void Game::Update() {
 		auto eci = NetworkLogic::GetInstance().GetLBL()->GetEnemeyCarInputs();
 		m_enemyCar->SetCarInput(eci);
 
-		if (m_raiseTimer == 120) {
+		if (m_raiseTimer == 60) {
 			RaiseCarTransform();
 			m_raiseTimer = 0;
 		}
@@ -162,7 +161,7 @@ void Game::Update() {
 		cameraPos.y = 3.f;
 	else
 		cameraPos.y = m_myCar->GetPosition().y + 3.f;
-	//m_gameCamera->SetCameraPosition(cameraPos);
+	m_gameCamera->SetCameraPosition(cameraPos);
 
 	if(m_scoreManager->IsGameOver()){
 		//DeleteGO(this);
