@@ -161,6 +161,7 @@
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="TestScene.cpp" />
     <ClCompile Include="Title.cpp" />
     <ClCompile Include="Vehicle.cpp" />
   </ItemGroup>
@@ -184,6 +185,7 @@
     <ClInclude Include="ScoreManager.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="TestScene.h" />
     <ClInclude Include="Title.h" />
     <ClInclude Include="Vehicle.h" />
   </ItemGroup>

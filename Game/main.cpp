@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "Title.h"
 #include "OnlineMatch.h"
+#include "TestScene.h"
 
 signed WINAPI wWinMain(
 	HINSTANCE hInstance,

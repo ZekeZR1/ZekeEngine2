@@ -256,7 +256,7 @@ void LoadBalancingListener::customEventAction(int playerNr, nByte eventCode, con
 					m_EnemyLinearVelocity.y = (float)data[1];
 					m_EnemyLinearVelocity.z = (float)data[2];
 
-					printf("linear x %f , y %f, z %f\n", m_EnemyLinearVelocity.x, m_EnemyLinearVelocity.y, m_EnemyLinearVelocity.z);
+					//printf("linear x %f , y %f, z %f\n", m_EnemyLinearVelocity.x, m_EnemyLinearVelocity.y, m_EnemyLinearVelocity.z);
 				}
 			}
 
@@ -269,7 +269,7 @@ void LoadBalancingListener::customEventAction(int playerNr, nByte eventCode, con
 			if (!obj)
 				obj = eventContent.getValue(2.0);
 
-			if (obj && obj->getDimensions() == 1 && obj->getSizes()[0] == 4)
+			if (obj && obj->getDimensions() == 1 && obj->getSizes()[0] == 3)
 			{
 				if (obj->getType() == TypeCode::FLOAT)
 				{
@@ -277,6 +277,8 @@ void LoadBalancingListener::customEventAction(int playerNr, nByte eventCode, con
 					m_EnemyAngularVelocity.x = (float)data[0];
 					m_EnemyAngularVelocity.y = (float)data[1];
 					m_EnemyAngularVelocity.z = (float)data[2];
+
+					//printf("ang velo %f, %f, %f", m_EnemyAngularVelocity.x, m_EnemyAngularVelocity.y, m_EnemyAngularVelocity.z);
 				}
 			}
 		}
@@ -302,7 +304,7 @@ void LoadBalancingListener::customEventAction(int playerNr, nByte eventCode, con
 					m_MyLinearVelocity.y = (float)data[1];
 					m_MyLinearVelocity.z = (float)data[2];
 
-					printf("linear x %f , y %f, z %f\n", m_MyLinearVelocity.x, m_MyLinearVelocity.y, m_MyLinearVelocity.z);
+					//printf("linear x %f , y %f, z %f\n", m_MyLinearVelocity.x, m_MyLinearVelocity.y, m_MyLinearVelocity.z);
 				}
 			}
 			//Torque
@@ -314,7 +316,7 @@ void LoadBalancingListener::customEventAction(int playerNr, nByte eventCode, con
 			if (!obj)
 				obj = eventContent.getValue(2.0);
 
-			if (obj && obj->getDimensions() == 1 && obj->getSizes()[0] == 4)
+			if (obj && obj->getDimensions() == 1 && obj->getSizes()[0] == 3)
 			{
 				if (obj->getType() == TypeCode::FLOAT)
 				{
@@ -322,6 +324,8 @@ void LoadBalancingListener::customEventAction(int playerNr, nByte eventCode, con
 					m_MyAngularVelocity.x = (float)data[0];
 					m_MyAngularVelocity.y = (float)data[1];
 					m_MyAngularVelocity.z = (float)data[2];
+
+					//printf("ang velo %f, %f, %f", m_MyAngularVelocity.x, m_MyAngularVelocity.y, m_MyAngularVelocity.z);
 				}
 			}
 		}

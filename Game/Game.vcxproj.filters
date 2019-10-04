@@ -97,6 +97,9 @@
       <Filter>src\Scene</Filter>
     </ClCompile>
     <ClCompile Include="PlayerView.cpp" />
+    <ClCompile Include="TestScene.cpp">
+      <Filter>src\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -160,6 +163,9 @@
       <Filter>src\Scene</Filter>
     </ClInclude>
     <ClInclude Include="PlayerView.h" />
+    <ClInclude Include="TestScene.h">
+      <Filter>src\Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\modelData\Stage.FBX">

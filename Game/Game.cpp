@@ -27,6 +27,7 @@ bool Game::Start() {
 	m_NetworkLagTime = NetworkLogic::GetInstance().GetLBL()->GetLagAve();
 
 	auto lag = NetworkLogic::GetInstance().GetLBL()->GetLag();
+	lag = 150;
 	float lg  = (float)lag / 1000.f;
 	printf("lag %d\n", lag);
 	m_NetworkLagTime = lg;
@@ -64,6 +65,7 @@ void Game::Update() {
 		//NetworkLogic::GetInstance().GetLBC()->()
 	}
 
+
 	////トルクとフォース情報のみで車を動かす実験
 	//{
 	//	SetInputs();
@@ -81,34 +83,33 @@ void Game::Update() {
 	//Host
 	if (lpn < opn) {
 		
+		m_myCar->SetHostCarFlag(true);
+		m_enemyCar->SetHostCarFlag(true);
+
 		SetInputs();
 		m_inputDataQueue.push(m_carCon);
 
 		//RaiseInputs();
-
 		RaiseCarVelocitys();
 
 		//if (m_lagFixTimer >= m_NetworkLagTime) {
-		if (true) {
-			m_myCar->SetCarInput(m_inputDataQueue.front());
-			m_inputDataQueue.pop();
-		}
-		else {
-			m_lagFixTimer += IGameTime().GetFrameDeltaTime();
-		}
-
+			if (true) {
+				m_myCar->SetCarInput(m_inputDataQueue.front());
+				m_inputDataQueue.pop();
+			}
+			else {
+				m_lagFixTimer += IGameTime().GetFrameDeltaTime();
+			}
+		//}
 		//m_myCar->SetCarInput(cc);
 
 		auto eci = NetworkLogic::GetInstance().GetLBL()->GetEnemeyCarInputs();
 		m_enemyCar->SetCarInput(eci);
 
-		//if (m_raiseTimer == 30) {
-			//NetworkLogic::GetInstance().GetLBL()->RaiseCarTransform(m_myCar->GetPosition(), m_myCar->GetRotation(), 0);
-
-			//NetworkLogic::GetInstance().GetLBL()->RaiseCarTransform(m_enemyCar->GetPosition(), m_enemyCar->GetRotation(), 1);
-
+		if (m_raiseTimer == 120) {
+			RaiseCarTransform();
 			m_raiseTimer = 0;
-		//}
+		}
 	}
 	else {
 		SetInputs();
@@ -116,14 +117,15 @@ void Game::Update() {
 
 		auto ecav = NetworkLogic::GetInstance().GetLBL()->GetEnemyCarAnguraVelocity();
 		auto eclv = NetworkLogic::GetInstance().GetLBL()->GetEnemyCarLinearVelocity();
-		m_myCar->GetRayCastVehicle()->getRigidBody()->setLinearVelocity(eclv);
-		m_myCar->GetRayCastVehicle()->getRigidBody()->setAngularVelocity(ecav);
+		m_enemyCar->GetRayCastVehicle()->getRigidBody()->setLinearVelocity(eclv);
+		m_enemyCar->GetRayCastVehicle()->getRigidBody()->setAngularVelocity(ecav);
 
 
 		auto mcav = NetworkLogic::GetInstance().GetLBL()->GetMyCarAnguraVelocity();
 		auto mclv = NetworkLogic::GetInstance().GetLBL()->GetMyCarLinearVelocity();
-		m_enemyCar->GetRayCastVehicle()->getRigidBody()->setLinearVelocity(mclv);
-		m_enemyCar->GetRayCastVehicle()->getRigidBody()->setAngularVelocity(mcav);
+		m_myCar->GetRayCastVehicle()->getRigidBody()->setLinearVelocity(mclv);
+		m_myCar->GetRayCastVehicle()->getRigidBody()->setAngularVelocity(mcav);
+
 
 		//auto eci = NetworkLogic::GetInstance().GetLBL()->GetEnemeyCarInputs();
 
@@ -160,7 +162,7 @@ void Game::Update() {
 		cameraPos.y = 3.f;
 	else
 		cameraPos.y = m_myCar->GetPosition().y + 3.f;
-	m_gameCamera->SetCameraPosition(cameraPos);
+	//m_gameCamera->SetCameraPosition(cameraPos);
 
 	if(m_scoreManager->IsGameOver()){
 		//DeleteGO(this);
@@ -189,6 +191,12 @@ void Game::RaiseCarVelocitys() {
 	 agv = m_enemyCar->GetRayCastVehicle()->getRigidBody()->getAngularVelocity();
 	NetworkLogic::GetInstance().GetLBL()->RaiseForceAndTorque(lv, agv, 1);
 
+}
+
+void Game::RaiseCarTransform() {
+	NetworkLogic::GetInstance().GetLBL()->RaiseCarTransform(m_myCar->GetPosition(), m_myCar->GetRotation(), 0);
+
+	NetworkLogic::GetInstance().GetLBL()->RaiseCarTransform(m_enemyCar->GetPosition(), m_enemyCar->GetRotation(), 1);
 }
 
 void Game::RaiseInputs() {

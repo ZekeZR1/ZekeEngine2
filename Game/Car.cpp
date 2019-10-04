@@ -248,8 +248,10 @@ void Car::stepSimulation() {
 	}
 
 	if (m_vehicle->numWheelsOnGround < 4) {
-		static btVector3 nav(0, 0, 0);
-		m_carChassis->setAngularVelocity(nav);
+		if (m_isHostPlayerCar) {
+			static btVector3 nav(0, 0, 0);
+			m_carChassis->setAngularVelocity(nav);
+		}
 	}
 
 	//TODO : プログラムで判定せずにポリゴンからデータをとってきたい・・・

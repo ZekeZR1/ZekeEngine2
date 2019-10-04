@@ -140,6 +140,14 @@ public:
 	/// <param name="input">コントローラーの入力状態を適用した構造体</param>
 	void SetCarInput(CarControll& input);
 
+	/// <summary>
+	/// ローカルプレイヤーの車かどうかセットする
+	/// </summary>
+	/// <param name="flag">ローカルプレイヤーの車か</param>
+	void SetHostCarFlag(bool flag) {
+		m_isHostPlayerCar = flag;
+	}
+
 private:
 	void init();
 	void modelInit();
@@ -197,5 +205,7 @@ private:
 	CarState* m_state = nullptr;
 	std::vector<CarState*> m_StatePool;
 	CarControll m_carInputs;
+
+	bool m_isHostPlayerCar = false;
 };
 
