@@ -91,3 +91,19 @@ void ScoreManager::Goal(eTeam team) {
 		m_blueFnt->Init(str, CVector2(-OrangeSpPos.x, OrangeSpPos.y) + FontPosFix);
 	}
 }
+
+void ScoreManager::SetPoint(int bluePoint, int orangePoint) {
+
+
+	m_blueTeamScore = bluePoint;
+	m_orangeTeamScore = orangePoint;
+
+	if (m_blueFnt != nullptr and m_orangetFnt != nullptr) {
+		wchar_t str[256];
+		swprintf_s(str, L"%d", m_blueTeamScore);
+		m_blueFnt->Init(str, CVector2(-OrangeSpPos.x, OrangeSpPos.y) + FontPosFix);
+		wchar_t str2[256];
+		swprintf_s(str2, L"%d", m_orangeTeamScore);
+		m_orangetFnt->Init(str2, CVector2(OrangeSpPos.x, OrangeSpPos.y) + FontPosFix);
+	}
+}

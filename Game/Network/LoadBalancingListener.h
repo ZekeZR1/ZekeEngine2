@@ -36,6 +36,8 @@ public:
 
 	void RaiseBallTransform(CVector3 pos, CQuaternion rot);
 
+	void RaiseGameScore(int blue, int orange);
+
 	/// <summary>
 	/// ローカルプレイヤーのコントローラーのインプット状況を送信する。
 	/// </summary>
@@ -77,6 +79,7 @@ public:
 		enEnemyCarVelocity,
 		enMyCarVelocity,
 		enBallTransform,
+		enScore,
 	};
 
 	void SetCars(Car* localCar, Car* enemyCar) {
@@ -121,6 +124,13 @@ public:
 		return m_ballRot;
 	}
 
+	int GetBlueTeamScore() {
+		return m_blueTeamScore;
+	}
+
+	int GetOrangeTeamScore() {
+		return m_orangeTeamScore;
+	}
 private:
 
 	//From Common::BaseListener
@@ -190,6 +200,9 @@ private:
 
 	CVector3 m_ballPos = CVector3::Zero();
 	CQuaternion m_ballRot = CQuaternion::Identity();
+
+	int m_blueTeamScore = 0;
+	int m_orangeTeamScore = 0;
 	//Key
 	const nByte key = 103;
 

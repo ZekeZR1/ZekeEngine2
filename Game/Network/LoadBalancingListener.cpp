@@ -206,6 +206,18 @@ void LoadBalancingListener::RaiseForceAndTorque(CVector3 force, CVector3 torque,
 	}
 }
 
+void LoadBalancingListener::RaiseGameScore(int blue, int orange) {
+	Hashtable ev;
+	ExitGames::Common::Hashtable hash;
+
+	hash.put((nByte)1, (nByte)blue);
+	hash.put((nByte)2, (nByte)orange);
+
+	ev.put((nByte)1, hash);
+
+	mpLbc->opRaiseEvent(false, ev, enScore);
+}
+
 
 
 void LoadBalancingListener::RaiseLocalPlayerInput(Car::CarControll input) {
@@ -621,6 +633,27 @@ void LoadBalancingListener::customEventAction(int playerNr, nByte eventCode, con
 					m_onlinePlayerCar->SetTransform(npos, rot);
 				}
 			}
+		}
+	}
+	break;
+	case enScore:
+	{
+		nByte Key = 1;
+
+		ExitGames::Common::Hashtable hashData;
+		hashData = (ExitGames::Common::ValueObject<ExitGames::Common::Hashtable>(eventContent.getValue(Key))).getDataCopy();
+
+		if (eventContent.getValue(Key)) {
+
+			hashData = (ExitGames::Common::ValueObject<ExitGames::Common::Hashtable>(eventContent.getValue(Key))).getDataCopy();
+
+			if (hashData.getValue((nByte)1)) {
+				m_blueTeamScore = (ExitGames::Common::ValueObject<nByte>(hashData.getValue((nByte)1))).getDataCopy();
+			}
+			if (hashData.getValue((nByte)2)) {
+				m_orangeTeamScore = (ExitGames::Common::ValueObject<nByte>(hashData.getValue((nByte)2))).getDataCopy();
+			}
+			printf("custom event action orange score %d, blue %d\n", m_orangeTeamScore, m_blueTeamScore);
 		}
 	}
 	break;

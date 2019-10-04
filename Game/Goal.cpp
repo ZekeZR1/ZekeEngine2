@@ -24,22 +24,24 @@ void Goal::OnDestroy() {
 }
 
 void Goal::Update() {
-	if (mp_ball == nullptr) {
-		mp_ball = FindGO<Ball>("BallChan");
-	}
-	else {
-		auto pos = mp_ball->GetPosition();
-		if (pos.z <= -175 or pos.z >= 175) {
-			auto manager = FindGO<ScoreManager>("ScoreManager");
-			if (pos.z < 0)
-				manager->Goal(ScoreManager::enOrangeTeam);
-			if (pos.z > 0)
-				manager->Goal(ScoreManager::enBlueTeam);
+	//if (!m_isHost) return;
 
-			printf("Goal");
-			auto car = FindGO<Car>("MyCar");
-			car->ResetCar();
-			mp_ball->ResetBall();
-		}
-	}
+	//if (mp_ball == nullptr) {
+	//	mp_ball = FindGO<Ball>("BallChan");
+	//}
+	//else {
+	//	auto pos = mp_ball->GetPosition();
+	//	if (pos.z <= -175 or pos.z >= 175) {
+	//		auto manager = FindGO<ScoreManager>("ScoreManager");
+	//		if (pos.z < 0) {
+	//			manager->Goal(ScoreManager::enOrangeTeam);
+	//		}
+	//		if (pos.z > 0)
+	//		{
+	//			manager->Goal(ScoreManager::enBlueTeam);
+	//		}
+	//		printf("Goal");
+	//		m_isScored = true;
+	//	}
+	//}
 }

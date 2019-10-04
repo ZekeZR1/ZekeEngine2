@@ -30,6 +30,16 @@ public:
 	bool IsGameOver() const{
 		return m_isGameOver;
 	}
+
+	void SetPoint(int bluePoint, int orangePoint);
+
+	int GetBluePoint() {
+		return m_blueTeamScore;
+	}
+
+	int GetOrangePoint() {
+		return m_orangeTeamScore;
+	}
 private:
 	int m_blueTeamScore = 0;
 	int m_orangeTeamScore = 0;

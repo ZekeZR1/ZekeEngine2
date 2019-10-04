@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Game.h"
+#include "Goal.h"
 #include "ScoreManager.h"
 #include "Vehicle.h"
 #include "Ball.h"
@@ -81,12 +82,29 @@ void Game::Update() {
 
 	//Host
 	if (lpn < opn) {
-		
+
 		m_myCar->SetHostCarFlag(true);
 		m_enemyCar->SetHostCarFlag(true);
 
 		SetInputs();
 		m_inputDataQueue.push(m_carCon);
+
+		{
+			auto pos = m_ball->GetPosition();
+			if (pos.z <= -175 or pos.z >= 175) {
+				if (pos.z < 0) {
+					m_scoreManager->Goal(ScoreManager::enOrangeTeam);
+				}
+				if (pos.z > 0)
+				{
+					m_scoreManager->Goal(ScoreManager::enBlueTeam);
+				}
+				printf("Goal");
+				RaiseGameScore();
+				m_myCar->ResetCar();
+				m_ball->ResetBall();
+			}
+		}
 
 		//RaiseInputs();
 		RaiseCarVelocitys();
@@ -131,6 +149,12 @@ void Game::Update() {
 		auto br = NetworkLogic::GetInstance().GetLBL()->GetBallRot();
 
 		m_ball->SetTransform(bp,br);
+
+		auto bts = NetworkLogic::GetInstance().GetLBL()->GetBlueTeamScore();
+		auto ots = NetworkLogic::GetInstance().GetLBL()->GetOrangeTeamScore();
+
+		m_scoreManager->SetPoint(bts, ots);
+
 		//auto eci = NetworkLogic::GetInstance().GetLBL()->GetEnemeyCarInputs();
 
 		//m_enemyCar->SetCarInput(eci);
@@ -213,5 +237,13 @@ void Game::RaiseBallTransform() {
 
 
 void Game::RaiseBallVelocity() {
+
+}
+
+void Game::RaiseGameScore() {
+	NetworkLogic::GetInstance().GetLBL()->RaiseGameScore(m_scoreManager->GetBluePoint(),m_scoreManager->GetOrangePoint());
+}
+
+void Game::RaiseGameTime() {
 
 }

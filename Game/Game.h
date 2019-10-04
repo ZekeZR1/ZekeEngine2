@@ -19,6 +19,8 @@ private:
 	void RaiseBallTransform();
 	void RaiseBallVelocity();
 	void RaiseCarTransform();
+	void RaiseGameTime();
+	void RaiseGameScore();
 	Car::CarControll m_carCon;
 	Car* m_myCar = nullptr;
 	Car* m_enemyCar = nullptr;
