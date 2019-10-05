@@ -34,7 +34,7 @@ void NetworkLogic::Disconnect() {
 
 void NetworkLogic::Start() {
 	mpLbl = new LoadBalancingListener(&m_testview);
-	mpLbc = new Client(*mpLbl, appID, appVersion, ExitGames::Photon::ConnectionProtocol::UDP,false, RegionSelectionMode::SELECT);
+	mpLbc = new Client(*mpLbl, appID, appVersion, ExitGames::Photon::ConnectionProtocol::TCP,false, RegionSelectionMode::SELECT);
 	mpLbc->setDebugOutputLevel(DEBUG_RELEASE(ExitGames::Common::DebugLevel::INFO, ExitGames::Common::DebugLevel::WARNINGS));
 	ExitGames::Common::Base::setListener(mpLbl);
 	ExitGames::Common::Base::setDebugOutputLevel(DEBUG_RELEASE(ExitGames::Common::DebugLevel::INFO, ExitGames::Common::DebugLevel::WARNINGS));

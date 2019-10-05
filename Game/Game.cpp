@@ -125,7 +125,7 @@ void Game::Update() {
 		auto eci = NetworkLogic::GetInstance().GetLBL()->GetEnemeyCarInputs();
 		m_enemyCar->SetCarInput(eci);
 
-		if (m_raiseTimer == 60) {
+		if (m_raiseTimer ==180) {
 			RaiseCarTransform();
 			m_raiseTimer = 0;
 		}
