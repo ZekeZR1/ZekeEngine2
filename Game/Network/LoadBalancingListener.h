@@ -201,6 +201,7 @@ private:
 	CVector3 m_ballPos = CVector3::Zero();
 	CQuaternion m_ballRot = CQuaternion::Identity();
 
+
 	int m_blueTeamScore = 0;
 	int m_orangeTeamScore = 0;
 	//Key

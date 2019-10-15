@@ -62,26 +62,12 @@ void Game::Update() {
 			printf("Im Host\n");
 		}
 		printf("Lag %d\n", NetworkLogic::GetInstance().GetLBL()->GetLag());
-		//NetworkLogic::GetInstance().GetLBC()->()
+
 	}
 
-
-	////トルクとフォース情報のみで車を動かす実験
-	//{
-	//	SetInputs();
-	//	m_myCar->SetCarInput(m_carCon);
-
-	//	auto lv = m_myCar->GetRayCastVehicle()->getRigidBody()->getLinearVelocity();
-	//	auto agv = m_myCar->GetRayCastVehicle()->getRigidBody()->getAngularVelocity();
-
-	//	//printf("lv %f, %f, %f\n", lv.getX(), lv.getY(), lv.getZ());
-
-	//	m_enemyCar->GetRayCastVehicle()->getRigidBody()->setLinearVelocity(lv);
-	//	m_enemyCar->GetRayCastVehicle()->getRigidBody()->setAngularVelocity(agv);
-	//}
-
 	//Host
-	if (lpn < opn) {
+	//if (lpn < opn) {
+	if (true) {
 
 		m_myCar->SetHostCarFlag(true);
 		m_enemyCar->SetHostCarFlag(true);
@@ -101,7 +87,8 @@ void Game::Update() {
 				}
 				printf("Goal");
 				RaiseGameScore();
-				m_myCar->ResetCar();
+				m_myCar->ResetCar({ 0,2,-10 });
+				m_enemyCar->ResetCar({ 0,2,10 });
 				m_ball->ResetBall();
 			}
 		}

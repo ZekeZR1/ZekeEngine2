@@ -531,8 +531,6 @@ void LoadBalancingListener::customEventAction(int playerNr, nByte eventCode, con
 					npos.y = y;
 					npos.z = z;
 
-					//printf("Get My Car Transform float x : %f, y : %f\n", x, y);
-					//m_localPlayerCar->SetTransform(npos);
 				}
 			}
 

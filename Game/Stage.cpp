@@ -4,7 +4,7 @@
 
 bool Stage::Start() {
 	m_floorModel = NewGO<SkinModelRender>(0);
-	m_floorModel->Init(L"Assets/modelData/RLStage.cmo");
+	m_floorModel->Init(L"Assets/modelData/RLStage.cmo",nullptr,0,enFbxUpAxisZ,"PSMainStage");
 	m_floorModel->SetShadowCasterFlag(false);
 	m_floorModel->SetPosition(CVector3::Zero());
 	m_floorModel->SetRotation(CQuaternion::Identity());
