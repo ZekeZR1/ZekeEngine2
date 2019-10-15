@@ -123,23 +123,34 @@ CarState* InAirState::Update(Car* car) {
 	auto rdtr = rigidbody->getWorldTransform();
 	auto rdpos = rdtr.getOrigin();
 	auto rdrot = rdtr.getRotation();
-	float rotationSpeed = 50.f;
+	float rotationSpeed = 2.5f;
 
 	btVector3 totalAngularVelocity = rigidbody->getAngularVelocity();
+	CVector3 totalRotVec = CVector3::Zero();
 	//if (Pad(0).IsPress(enButtonRB1)) {
 	if (m_inputs.airRoll) {
 		//‘OŽ²‰ñ“]
-		auto rel = car->GetCarRight() * -50;
-		rigidbody->applyImpulse(car->GetCarUp() * rotationSpeed / 4 * m_inputs.aerealX, rel);
+		totalRotVec.z = m_inputs.aerealX * -rotationSpeed;
+		//auto rel = car->GetCarRight() * -50;
+		//rigidbody->applyImpulse(car->GetCarUp() * rotationSpeed / 4 * m_inputs.aerealX, rel);
 	}
 	else {
 		//ãŽ²‰ñ“]
-		auto rel = car->GetCarForward() * 50;
-		rigidbody->applyImpulse(car->GetCarRight() * rotationSpeed * m_inputs.aerealX, rel);
+		totalRotVec.y = m_inputs.aerealX * rotationSpeed;
+		//auto rel = car->GetCarForward() * 50;
+		//rigidbody->applyImpulse(car->GetCarRight() * rotationSpeed * m_inputs.aerealX, rel);
 	}
 	//‰¡Ž²‰ñ“]
-	auto rel = car->GetCarForward() * -50;
-	rigidbody->applyImpulse(car->GetCarUp() * rotationSpeed * 0.85 * m_inputs.aerealY, rel);
+	//CVector3 rotVec = CVector3(m_inputs.aerealY,0,0);
+	totalRotVec.x += m_inputs.aerealY * rotationSpeed;
+	auto wtr = car->GetRayCastVehicle()->getChassisWorldTransform();
+	CQuaternion rot = wtr.getRotation();
+	CMatrix mat;
+	mat.MakeRotationFromQuaternion(rot);
+	mat.Mul(totalRotVec);
+	rigidbody->setAngularVelocity(totalAngularVelocity + totalRotVec);
+	//auto rel = car->GetCarForward() * -50;
+	//rigidbody->applyImpulse(car->GetCarUp() * rotationSpeed * 0.85 * m_inputs.aerealY, rel);
 
 	return this;
 }
