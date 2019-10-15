@@ -8,14 +8,12 @@
 using namespace ExitGames::Common;
 using namespace ExitGames::LoadBalancing;
 
-//struct LocalPlayer
-//{
-//	LocalPlayer();
-//	int x;
-//	int y;
-//	int z;
-//	unsigned long lastUpdateTime;
-//};
+struct PlayerView {
+	CVector3 pos = CVector3::Zero();
+	CQuaternion rot = CQuaternion::Identity();
+	CVector3 linearVelocity = CVector3::Zero();
+	CVector3 angularVelocity = CVector3::Zero();
+};
 
 class LoadBalancingListener : public ExitGames::LoadBalancing::Listener
 {
@@ -99,21 +97,12 @@ public:
 		m_lagAve = ave;
 	}
 
-
-	CVector3 GetEnemyCarLinearVelocity() {
-		return m_EnemyLinearVelocity;
+	PlayerView GetOnlinePlayerView(){
+		return m_onlinePlayer;
 	}
 
-	CVector3 GetEnemyCarAnguraVelocity() {
-		return m_EnemyAngularVelocity;
-	}
-
-	CVector3 GetMyCarLinearVelocity() {
-		return m_MyLinearVelocity;
-	}
-
-	CVector3 GetMyCarAnguraVelocity() {
-		return m_MyAngularVelocity;
+	PlayerView GetLocalPlayerView() {
+		return m_localPlayer;
 	}
 
 	CVector3 GetBallPos() {
@@ -192,15 +181,20 @@ private:
 	int m_lag = 999;
 	int m_lagAve = 999;
 
-	CVector3 m_EnemyLinearVelocity = CVector3::Zero();
-	CVector3 m_EnemyAngularVelocity = CVector3::Zero();
+	PlayerView m_localPlayer;
+	PlayerView m_onlinePlayer;
 
-	CVector3 m_MyLinearVelocity = CVector3::Zero();
-	CVector3 m_MyAngularVelocity = CVector3::Zero();
+	//CVector3 m_EnemyLinearVelocity = CVector3::Zero();
+	//CVector3 m_EnemyAngularVelocity = CVector3::Zero();
+
+	//CVector3 m_MyLinearVelocity = CVector3::Zero();
+	//CVector3 m_MyAngularVelocity = CVector3::Zero();
 
 	CVector3 m_ballPos = CVector3::Zero();
 	CQuaternion m_ballRot = CQuaternion::Identity();
 
+	//CVector3 m_enemyPos = CVector3::Zero();
+	//CVector3 m_myPos = CVector3::Zero();
 
 	int m_blueTeamScore = 0;
 	int m_orangeTeamScore = 0;

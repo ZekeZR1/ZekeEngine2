@@ -1,7 +1,8 @@
 #include "stdafx.h"
 #include "GameCamera.h"
+#include "Car.h"
 
-#define _USE_DEBUG_CAMERA
+//#define _USE_DEBUG_CAMERA
 
 bool GameCamera::Start() {
 	return true;
@@ -27,7 +28,34 @@ void GameCamera::Update() {
 		m_pos.x -= 5.f;
 	}
 #else
-	m_target.y += m_raiseViewPoint;
+
+	switch (m_mode) 
+	{
+	case enBallCamera:
+	{
+		CVector3 cameraPos = CVector3::Zero();
+		auto carToBallVec = m_ballPos - m_car->GetPosition();
+		carToBallVec.Normalize();
+		cameraPos = m_car->GetPosition() + (carToBallVec * -8);
+		if (cameraPos.y < 3.f)
+			cameraPos.y = 3.f;
+		else
+			cameraPos.y = m_car->GetPosition().y + 3.f;
+
+		m_pos = cameraPos;
+		m_target = m_ballPos;
+		m_target.y += m_raiseViewPoint;
+	}
+	break;
+	case enPlayerCamera:
+	{
+		m_pos = (m_car->GetCarForward() * -10) + m_car->GetPosition();
+		m_pos.y += 3.f;
+		m_target = (m_car->GetCarForward() * 10) + m_car->GetPosition();
+	}
+	break;
+	}
+
 
 	float x = Pad(0).GetRStickXF();
 	float y = Pad(0).GetRStickYF();

@@ -127,11 +127,14 @@ void LoadBalancingListener::joinRoomEventAction(int playerNr, const JVector<int>
 
 void LoadBalancingListener::leaveRoomEventAction(int playerNr, bool isInactive)
 {
-	if (isInactive)
+	if (isInactive) {
 		Console::get().writeLine(JString(L"player ") + playerNr + L" has suspended the game");
+		wprintf(JString(L"player ") + playerNr + L" has suspended the game");
+	}
 	else
 	{
 		Console::get().writeLine(JString(L"player ") + playerNr + L" has abandoned the game");
+		wprintf(JString(L"player ") + playerNr + L" has abandoned the game");
 	}
 	if (mLocalPlayerNr == playerNr) {
 		m_isJoining = false;
@@ -345,39 +348,35 @@ void LoadBalancingListener::customEventAction(int playerNr, nByte eventCode, con
 				if (obj->getType() == TypeCode::FLOAT)
 				{
 					float* data = ((ValueObject<float*>*)obj)->getDataCopy();
-					m_EnemyLinearVelocity.x = (float)data[0];
-					m_EnemyLinearVelocity.y = (float)data[1];
-					m_EnemyLinearVelocity.z = (float)data[2];
-
-					//printf("linear x %f , y %f, z %f\n", m_EnemyLinearVelocity.x, m_EnemyLinearVelocity.y, m_EnemyLinearVelocity.z);
+					m_onlinePlayer.linearVelocity.x = (float)data[0];
+					m_onlinePlayer.linearVelocity.y = (float)data[1];
+					m_onlinePlayer.linearVelocity.z = (float)data[2];
 				}
-			}
 
-			//Torque
-			obj = eventContent.getValue("2");
-			if (!obj)
-				obj = eventContent.getValue((nByte)2);
-			if (!obj)
-				obj = eventContent.getValue(2);
-			if (!obj)
-				obj = eventContent.getValue(2.0);
+				//Torque
+				obj = eventContent.getValue("2");
+				if (!obj)
+					obj = eventContent.getValue((nByte)2);
+				if (!obj)
+					obj = eventContent.getValue(2);
+				if (!obj)
+					obj = eventContent.getValue(2.0);
 
-			if (obj && obj->getDimensions() == 1 && obj->getSizes()[0] == 3)
-			{
-				if (obj->getType() == TypeCode::FLOAT)
+				if (obj && obj->getDimensions() == 1 && obj->getSizes()[0] == 3)
 				{
-					float* data = ((ValueObject<float*>*)obj)->getDataCopy();
-					m_EnemyAngularVelocity.x = (float)data[0];
-					m_EnemyAngularVelocity.y = (float)data[1];
-					m_EnemyAngularVelocity.z = (float)data[2];
-
-					//printf("ang velo %f, %f, %f", m_EnemyAngularVelocity.x, m_EnemyAngularVelocity.y, m_EnemyAngularVelocity.z);
+					if (obj->getType() == TypeCode::FLOAT)
+					{
+						float* data = ((ValueObject<float*>*)obj)->getDataCopy();
+						m_onlinePlayer.angularVelocity.x = (float)data[0];
+						m_onlinePlayer.angularVelocity.y = (float)data[1];
+						m_onlinePlayer.angularVelocity.z = (float)data[2];
+					}
 				}
 			}
 		}
 	}
-	break;
-	case enEnemyCarVelocity :
+		break;
+	case enEnemyCarVelocity:
 	{
 		{
 			Object const* obj = eventContent.getValue("1");
@@ -393,10 +392,9 @@ void LoadBalancingListener::customEventAction(int playerNr, nByte eventCode, con
 				if (obj->getType() == TypeCode::FLOAT)
 				{
 					float* data = ((ValueObject<float*>*)obj)->getDataCopy();
-					m_MyLinearVelocity.x = (float)data[0];
-					m_MyLinearVelocity.y = (float)data[1];
-					m_MyLinearVelocity.z = (float)data[2];
-
+					m_localPlayer.linearVelocity.x = (float)data[0];
+					m_localPlayer.linearVelocity.y = (float)data[1];
+					m_localPlayer.linearVelocity.z = (float)data[2];
 					//printf("linear x %f , y %f, z %f\n", m_MyLinearVelocity.x, m_MyLinearVelocity.y, m_MyLinearVelocity.z);
 				}
 			}
@@ -414,9 +412,9 @@ void LoadBalancingListener::customEventAction(int playerNr, nByte eventCode, con
 				if (obj->getType() == TypeCode::FLOAT)
 				{
 					float* data = ((ValueObject<float*>*)obj)->getDataCopy();
-					m_MyAngularVelocity.x = (float)data[0];
-					m_MyAngularVelocity.y = (float)data[1];
-					m_MyAngularVelocity.z = (float)data[2];
+					m_localPlayer.angularVelocity.x = (float)data[0];
+					m_localPlayer.angularVelocity.y = (float)data[1];
+					m_localPlayer.angularVelocity.z = (float)data[2];
 
 					//printf("ang velo %f, %f, %f", m_MyAngularVelocity.x, m_MyAngularVelocity.y, m_MyAngularVelocity.z);
 				}
@@ -424,7 +422,7 @@ void LoadBalancingListener::customEventAction(int playerNr, nByte eventCode, con
 		}
 	}
 	break;
-
+		
 	case enPing:
 	{
 		nByte sec = 0, msec = 0;
@@ -561,7 +559,9 @@ void LoadBalancingListener::customEventAction(int playerNr, nByte eventCode, con
 					rot.w = qw;
 
 					//printf("Get My Car Transform float x : %f, y : %f\n", x, y);
-					m_localPlayerCar->SetTransform(npos, rot);
+					//m_localPlayerCar->SetTransform(npos, rot);
+					m_localPlayer.pos = npos;
+					m_localPlayer.rot = rot;
 				}
 			}
 		}
@@ -628,7 +628,9 @@ void LoadBalancingListener::customEventAction(int playerNr, nByte eventCode, con
 					rot.w = qw;
 
 					//printf("Get My Car Transform float x : %f, y : %f\n", x, y);
-					m_onlinePlayerCar->SetTransform(npos, rot);
+					//m_onlinePlayerCar->SetTransform(npos, rot);
+					m_onlinePlayer.pos = npos;
+					m_onlinePlayer.rot = rot;
 				}
 			}
 		}
@@ -662,6 +664,7 @@ void LoadBalancingListener::disconnectReturn(void)
 {
 	updateState();
 	Console::get().writeLine(L"disconnected");
+	printf("disconnected\n");
 }
 
 void LoadBalancingListener::createRoomReturn(int localPlayerNr, const Hashtable& gameProperties, const Hashtable& playerProperties, int errorCode, const JString& errorString)
