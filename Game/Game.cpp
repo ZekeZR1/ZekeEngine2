@@ -29,7 +29,8 @@ bool Game::Start() {
 	float lg  = (float)lag / 1000.f;
 	//printf("lag %d\n", lag);
 	m_NetworkLagTime = lg;
-
+	//dynamicWorld->getSimulationIslandManager()->setSplitIslands(false);
+	PhysicsWorld().GetDynamicWorld()->getSimulationIslandManager()->setSplitIslands(false);
 	return true;
 }
 
@@ -46,15 +47,13 @@ void Game::OnDestroy() {
 
 void Game::Update() {
 
-	if (Pad(0).IsTrigger(enButtonStart)) {
-		printf("car pos x %f, z , %f", m_myCar->GetPosition().x, m_myCar->GetPosition().z);
-	}
-
 	IGameObjectManager().SetShadowCameraPosAndTarget({ m_myCar->GetPosition().x,m_myCar->GetPosition().y + 50,m_myCar->GetPosition().z }, { m_myCar->GetPosition().x,m_myCar->GetPosition().y,m_myCar->GetPosition().z });
 
 	NetworkLogic::GetInstance().Update();
 
 	NetworkLogic::GetInstance().GetLBL()->RaiseCurrentLocalTime();
+
+	//printf("frame delta time %f\n", IGameTime().GetFrameDeltaTime());
 
 	m_raiseTimer++;
 

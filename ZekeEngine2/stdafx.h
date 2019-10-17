@@ -41,6 +41,7 @@ static const int MAX_BONE = 512;
 
 #include "bulletPhysics/src/btBulletDynamicsCommon.h"
 #include "bulletPhysics/src/btBulletCollisionCommon.h"
+#include "bulletPhysics/src/BulletCollision/CollisionDispatch/btSimulationIslandManager.h"
 #include	 "bulletPhysics/src/BulletCollision/CollisionDispatch/btGhostObject.h"
 
 #include "EffekseerRuntime130/src/include/Effekseer.h"

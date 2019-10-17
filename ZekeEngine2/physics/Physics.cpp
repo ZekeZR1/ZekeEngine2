@@ -51,6 +51,7 @@ void CPhysicsWorld::Init()
 		constraintSolver,
 		collisionConfig
 	);
+
 	m_debugDraw = new PhysicsDebugDraw;
 	m_debugDraw->Init();
 	debugDrawer = m_debugDraw;
