@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "ShadowMap.h"
 
-
+#include "..//..//Game/Ball.h"
 
 ShadowMap::ShadowMap()
 {
@@ -26,6 +26,7 @@ void ShadowMap::UpdateFromLightDirection(CVector3 lightCameraPos, CVector3 light
 	else {
 		lightCameraUpAxis = CVector3::AxisY();
 	}
+
 	m_lightViewMatrix.MakeLookAt(
 		m_lightCameraPosition,
 		m_lightCameraTarget,
@@ -33,11 +34,12 @@ void ShadowMap::UpdateFromLightDirection(CVector3 lightCameraPos, CVector3 light
 	);
 
 	m_lightProjMatrix.MakeOrthoProjectionMatrix(
-		3000,
-		3000,
-		0.1f,
-		5000.0f
+		30.f,
+		30.f,
+		0.01f,
+		1000.0f
 	);
+
 }
 void ShadowMap::UpdateFromLightTarget(CVector3 lightCameraPos, CVector3 lightCameraTarget)
 {
@@ -64,6 +66,7 @@ void ShadowMap::RenderToShadowMap()
 	//一番奥のZは1.0なので、1.0で塗りつぶす。
 	float clearColor[4] = { 1.0f, 1.0f, 1.0f, 1.0f }; //red,green,blue,alpha
 	m_shadowMapRT.ClearRenderTarget(clearColor);
+
 
 	//シャドウキャスターをシャドウマップにレンダリング。
 	for (auto caster : m_shadowCasters) {

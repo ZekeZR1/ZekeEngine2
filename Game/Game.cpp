@@ -15,11 +15,9 @@ bool Game::Start() {
 	m_stage = NewGO<Stage>(0);
 	m_ball = NewGO<Ball>(0,"BallChan");
 	m_myCar = NewGO<Car>(0,"MyCar");
-	m_myCar->ResetCar({ 0,2,-10 });
-
+	m_myCar->ResetCar(m_localCarInitPos);
 	m_enemyCar = NewGO<Car>(0, "EnemyCar");
-	m_enemyCar->ResetCar({ 0,2,10 });
-
+	m_enemyCar->ResetCar(m_onlineCarInitPos);
 	m_gameCamera = NewGO<GameCamera>(0);
 	m_scoreManager = NewGO < ScoreManager>(0,"ScoreManager");
 
@@ -47,6 +45,13 @@ void Game::OnDestroy() {
 }
 
 void Game::Update() {
+
+	if (Pad(0).IsTrigger(enButtonStart)) {
+		printf("car pos x %f, z , %f", m_myCar->GetPosition().x, m_myCar->GetPosition().z);
+	}
+
+	IGameObjectManager().SetShadowCameraPosAndTarget({ m_myCar->GetPosition().x,m_myCar->GetPosition().y + 50,m_myCar->GetPosition().z }, { m_myCar->GetPosition().x,m_myCar->GetPosition().y,m_myCar->GetPosition().z });
+
 	NetworkLogic::GetInstance().Update();
 
 	NetworkLogic::GetInstance().GetLBL()->RaiseCurrentLocalTime();
@@ -58,6 +63,8 @@ void Game::Update() {
 
 	if (Pad(0).IsTrigger(enButtonStart)) {
 		m_ball->ResetBall();
+		m_myCar->ResetCar(m_localCarInitPos);
+		m_enemyCar->ResetCar(m_onlineCarInitPos);
 		if (lpn < opn) {
 			printf("Im Host\n");
 		}
@@ -87,8 +94,8 @@ void Game::Update() {
 				}
 				printf("Goal");
 				RaiseGameScore();
-				m_myCar->ResetCar({ 0,2,-10 });
-				m_enemyCar->ResetCar({ 0,2,10 });
+				m_myCar->ResetCar(m_localCarInitPos);
+				m_enemyCar->ResetCar(m_onlineCarInitPos);
 				m_ball->ResetBall();
 			}
 		}
@@ -190,6 +197,12 @@ void Game::Update() {
 		//DeleteGO(this);
 		//NewGO<Result>(0, "ResultScene");
 	}
+}
+
+void Game::PostUpdate() {
+	//IGameObjectManager().GetShadowMap()->UpdateFromLightDirection({ m_myCar->GetPosition().x,100,m_myCar->GetPosition().z },
+//		{ m_myCar->GetPosition().x,0,m_myCar->GetPosition().z }
+//	);
 }
 
 void Game::SetInputs() {

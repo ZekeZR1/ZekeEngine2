@@ -255,9 +255,8 @@ void Car::stepSimulation() {
 	}
 
 	//TODO : プログラムで判定せずにポリゴンからデータをとってきたい・・・
-	//4輪が地面についてるときは地面方向に引力を発生させる
 	{
-		if (GetRayCastVehicle()->numWheelsOnGround >= 2) {
+		if (GetRayCastVehicle()->numWheelsOnGround > 0) {
 			static const float attr = 6000.f;
 			auto force = GetCarUp();
 			force *= attr;
@@ -271,7 +270,7 @@ void Car::stepSimulation() {
 		auto numWheelOnGround = GetRayCastVehicle()->numWheelsOnGround;
 		auto chassisY = GetRayCastVehicle()->getChassisWorldTransform().getOrigin().getY();
 		//printf("car y Pos ..%f\n", chassisY);
-		if (numWheelOnGround > 0 and numWheelOnGround != 4 and chassisY < 1.0f) {
+		if (numWheelOnGround > 0 and numWheelOnGround != 4 and chassisY < 3.0f) {
 			static const float y = 0.01;
 			//右に傾いている
 			if (m_rightVec.getY() < -y) {
@@ -381,10 +380,6 @@ void  Car::buttonUpdate() {
 
 	m_state->SetInput(m_carInputs);
 	m_state->Update(this);
-	//リセット
-	if (Pad(0).IsTrigger(enButtonStart)) {
-		ResetCar();
-	}
 }
 
  void Car::ResetCar(CVector3 resetPos, CQuaternion resetQuaternion) {

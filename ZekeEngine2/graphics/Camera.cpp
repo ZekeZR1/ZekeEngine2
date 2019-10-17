@@ -39,6 +39,7 @@ void Camera::Update(){
 			m_projectionMatrix.MakeOrthoProjectionMatrix(m_width, m_height, m_near, m_far);
 		}
 	}
+
 	m_viewMatrix.MakeLookAt(m_position, m_target, m_up);
 	m_viewProjectionMatrix.Mul(m_viewMatrix, m_projectionMatrix);
 	m_viewMatrixInv.Inverse(m_viewMatrix);

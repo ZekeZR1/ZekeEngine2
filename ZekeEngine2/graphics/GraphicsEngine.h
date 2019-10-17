@@ -101,6 +101,7 @@ public:
 		m_ambientLight = amb;
 	}
 
+
 	const float GetAmbientLight() {
 		return m_ambientLight;
 	}

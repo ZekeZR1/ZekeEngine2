@@ -13,6 +13,8 @@ class CTransform;
 class GameObjectManager : Noncopyable
 {
 private:
+	CVector3 ppp = CVector3::Zero();
+
 	GameObjectManager() :
 		m_gameObjectPriorityMax(0)
 	{
@@ -211,7 +213,14 @@ private:
 		return &m_mainRenderTarget;
 	}
 
+	void SetShadowCameraPosAndTarget(CVector3 pos, CVector3 target) {
+		m_lightCameraPos = pos;
+		m_lightCameraTarget = target;
+	}
+
 private:
+	CVector3 m_lightCameraPos = { 0,1,0 };
+	CVector3 m_lightCameraTarget = { 0,0,0 };
 	ShadowMap m_shadowMap;					//シャドウマップ。
 	RenderTarget m_mainRenderTarget;		//メインレンダリングターゲット。
 	PostEffect m_postEffect;				//ポストエフェクト。

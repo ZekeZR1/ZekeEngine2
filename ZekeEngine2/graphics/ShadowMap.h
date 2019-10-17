@@ -39,7 +39,7 @@ public:
 		return m_shadowMapRT.GetRenderTargetSRV();
 	}
 private:
-	CVector3 m_lightCameraPosition = CVector3::Zero();	//ライトカメラの視点。
+	CVector3 m_lightCameraPosition = { 0,10,0 };	//ライトカメラの視点。
 	CVector3 m_lightCameraTarget = CVector3::Zero();	//ライトカメラの注視点。
 	CMatrix m_lightViewMatrix = CMatrix::Identity();	//ライトビュー行列。
 	CMatrix m_lightProjMatrix = CMatrix::Identity();	//ライトプロジェクション行列。

@@ -12,6 +12,7 @@ public:
 	bool Start() override;
 	void OnDestroy() override;
 	void Update() override;
+	void PostUpdate() override;
 private:
 	void SetInputs();
 	void RaiseInputs();
@@ -34,5 +35,8 @@ private:
 	float m_lagFixTimer = 0;
 	unsigned short m_lag = 0;
 	std::queue<Car::CarControll> m_inputDataQueue;
+
+	CVector3 m_localCarInitPos = {0,2,-50};
+	CVector3 m_onlineCarInitPos = {0,2,50};
 };
 

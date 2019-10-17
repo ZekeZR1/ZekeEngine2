@@ -24,18 +24,29 @@ void GameObjectManager::Execute()
 		}
 	}
 
-
 	for (GameObjectList objList : m_gameObjectListArray) {
 		for (GameObject* obj : objList) {
 			obj->PostUpdateWrapper();
 		}
 	}
+	
+
+	if (Pad(0).IsPress(enButtonA)) {
+		ppp.x += 3;
+	}
+	if (Pad(0).IsPress(enButtonB)) {
+		ppp.x -= 3;
+	}
 
 	//シャドウマップを更新。
 	m_shadowMap.UpdateFromLightTarget(
-		{ 1000.0f, 1000.0f, 1000.0f },
-		{ 0.0f, 0.0f, 0.0f }
+		m_lightCameraPos,
+		m_lightCameraTarget
 	);
+
+	if (Pad(0).IsTrigger(enButtonStart)) {
+		printf("light pos x %f, z , %f", ppp.x, ppp.z);
+	}
 
 	//ポストエフェクトを更新。
 	m_postEffect.Update();

@@ -25,7 +25,8 @@ signed WINAPI wWinMain(
 	eParam.screenHeight = 720;
 
 	//Start Main Roop
-	if (Engine().Init(eParam)) {
+	//if (Engine().Init(eParam)) {
+	if (Engine().Init(eParam) or true) {
 		//Camera
 		MainCamera().SetTarget(CVector3::Zero());
 		MainCamera().SetPosition({ 0,4,-4 });

@@ -60,7 +60,7 @@ private:
 		CVector4 offset;
 		float weights[NUM_WEIGHTS];
 	};
-	float m_blurDispersion = 5.0f;		//ブラーの分散具合。大きくするほど強く分散する。
+	float m_blurDispersion = 1.0f;		//ブラーの分散具合。大きくするほど強く分散する。
 	bool m_isEnable = false;		//!<有効。
 	RenderTarget m_luminanceRT;	//!<輝度を抽出するレンダリングターゲット。
 	RenderTarget m_combineRT;		//!<ぼかし合成用のレンダリングターゲット。
