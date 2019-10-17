@@ -31,22 +31,12 @@ void GameObjectManager::Execute()
 	}
 	
 
-	if (Pad(0).IsPress(enButtonA)) {
-		ppp.x += 3;
-	}
-	if (Pad(0).IsPress(enButtonB)) {
-		ppp.x -= 3;
-	}
-
 	//シャドウマップを更新。
 	m_shadowMap.UpdateFromLightTarget(
 		m_lightCameraPos,
 		m_lightCameraTarget
 	);
 
-	if (Pad(0).IsTrigger(enButtonStart)) {
-		printf("light pos x %f, z , %f", ppp.x, ppp.z);
-	}
 
 	//ポストエフェクトを更新。
 	m_postEffect.Update();

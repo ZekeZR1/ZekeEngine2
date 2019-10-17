@@ -34,8 +34,8 @@ void ShadowMap::UpdateFromLightDirection(CVector3 lightCameraPos, CVector3 light
 	);
 
 	m_lightProjMatrix.MakeOrthoProjectionMatrix(
-		30.f,
-		30.f,
+		100.f,
+		100.f,
 		0.01f,
 		1000.0f
 	);

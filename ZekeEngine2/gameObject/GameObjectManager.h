@@ -2,7 +2,7 @@
 #define _CGAMEOBJECTMANAGER_H_
 
 #include "GameObject.h"
-#include "graphics/CUtil.h"
+#include "..//graphics/CUtil.h"
 #include "CTransform.h"
 #include "../graphics/ShadowMap.h"
 #include "../graphics/postEffect/Bloom.h"
@@ -13,8 +13,6 @@ class CTransform;
 class GameObjectManager : Noncopyable
 {
 private:
-	CVector3 ppp = CVector3::Zero();
-
 	GameObjectManager() :
 		m_gameObjectPriorityMax(0)
 	{
