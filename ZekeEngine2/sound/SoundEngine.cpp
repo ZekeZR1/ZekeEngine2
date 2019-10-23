@@ -10,7 +10,7 @@ SoundEngine::SoundEngine() {
 #ifdef _DEBUG
 	eflags = eflags | DirectX::AudioEngine_Debug;
 #endif
-	audEngine = std::make_unique<DirectX::AudioEngine>(eflags);
+	m_audEngine = std::make_unique<DirectX::AudioEngine>(eflags);
 }
 
 SoundEngine::~SoundEngine() {
@@ -18,10 +18,10 @@ SoundEngine::~SoundEngine() {
 }
 
 void SoundEngine::Update() {
-	if (!audEngine->Update())
+	if (!m_audEngine->Update())
 	{
 		// No audio device is active
-		if (audEngine->IsCriticalError())
+		if (m_audEngine->IsCriticalError())
 		{
 		}
 	}
