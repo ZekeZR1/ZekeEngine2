@@ -8,61 +8,49 @@ void Ball::Awake() {
 }
 
 bool Ball::Start() {
-	
-	//btSphereShape* colShape  = new btSphereShape(m_radius);
-	colShape = new btSphereShape(m_radius);
-	btTransform startTransform;
-	startTransform.setIdentity();
-
-	btScalar mass(1.1f);
-
-	//rigidbody is dynamic if and only if mass is non zero, otherwise static
-	bool isDynamic = (mass != 0.f);
-
 	btVector3 localInertia(0, 0, 0);
-	if (isDynamic)
-		colShape->calculateLocalInertia(mass, localInertia);
 
-	startTransform.setOrigin(btVector3(
-		btScalar(0),
-		btScalar(20),
-		btScalar(0)));
-	 m_rigidBody = createRigidBody(mass, startTransform, colShape);
-	 m_rigidBody->applyDamping(3.f);
-	 m_rigidBody->setRestitution(1.5f);
-	 auto wtr = m_rigidBody->getWorldTransform();
-	 wtr.setOrigin({ 0,10,10 });
-	 m_rigidBody->setWorldTransform(wtr);
+	m_col.Create(m_radius);
+	m_col.GetBody()->calculateLocalInertia(m_mass, localInertia);
+
+	RigidBodyInfo rbinfo;
+	rbinfo.pos = { 0,10,0 };
+	rbinfo.mass = m_mass;
+	rbinfo.collider = &m_col;
+
+	m_rb.Create(rbinfo);
+
+	m_rb.GetBody()->applyDamping(m_damping);
+	m_rb.GetBody()->setRestitution(m_restitution);
+
+	PhysicsWorld().AddRigidBody(m_rb);
+
 	return true;
 }
 
 void Ball::OnDestroy() {
-	PhysicsWorld().GetDynamicWorld()->removeRigidBody(m_rigidBody);
-	delete m_rigidBody->getMotionState();
-	delete colShape;
+	PhysicsWorld().RemoveRigidBody(m_rb);
 	DeleteGO(m_ballModel);
 }
 
 void Ball::Update() {
-	m_ballModel->SetPosition(m_rigidBody->getWorldTransform().getOrigin());
-	m_ballModel->SetRotation(m_rigidBody->getWorldTransform().getRotation());
+	m_ballModel->SetPosition(m_rb.GetBody()->getWorldTransform().getOrigin());
+	m_ballModel->SetRotation(m_rb.GetBody()->getWorldTransform().getRotation());
 }
 
 void Ball::ResetBall() {
 	btTransform wtr;
 	wtr.setOrigin(btVector3(0, 5, 0));
 	wtr.setRotation(btQuaternion::getIdentity());
-	m_rigidBody->setCenterOfMassTransform(wtr);
-	m_rigidBody->setLinearVelocity(btVector3(0, 0, 0));
-	m_rigidBody->setAngularVelocity(btVector3(0, 0, 0));
+	m_rb.GetBody()->setCenterOfMassTransform(wtr);
+	m_rb.GetBody()->setLinearVelocity(btVector3(0, 0, 0));
+	m_rb.GetBody()->setAngularVelocity(btVector3(0, 0, 0));
 }
 
 void Ball::SetTransform(CVector3 pos, CQuaternion rot) {
 	btTransform wtr;
 	wtr.setOrigin(pos);
 	wtr.setRotation(rot);
-	if(m_rigidBody != nullptr)
-		m_rigidBody->setCenterOfMassTransform(wtr);
-	//m_rigidBody->setLinearVelocity(btVector3(0, 0, 0));
-	//m_rigidBody->setAngularVelocity(btVector3(0, 0, 0));
+	if(m_rb.GetBody() != nullptr)
+		m_rb.GetBody()->setCenterOfMassTransform(wtr);
 }

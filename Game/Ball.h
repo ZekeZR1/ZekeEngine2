@@ -1,4 +1,7 @@
 #pragma once
+#include "../ZekeEngine2/physics/CSphereCollider.h"
+#include "../ZekeEngine2/physics/RigitBody.h"
+
 class Ball : public GameObject
 {
 public:
@@ -17,40 +20,15 @@ public:
 
 	void SetTransform(CVector3 pos,CQuaternion rot);
 private:
-	btRigidBody* m_rigidBody = nullptr;
-	btRigidBody* createRigidBody(float mass, const btTransform& startTransform, btCollisionShape* shape, const btVector4& color = btVector4(1, 0, 0, 1))
-	{
-		assert((!shape || shape->getShapeType() != INVALID_SHAPE_PROXYTYPE));
-
-		//rigidbody is dynamic if and only if mass is non zero, otherwise static
-		bool isDynamic = (mass != 0.f);
-
-		btVector3 localInertia(0, 0, 0);
-		if (isDynamic)
-			shape->calculateLocalInertia(mass, localInertia);
-
-		//using motionstate is recommended, it provides interpolation capabilities, and only synchronizes 'active' objects
-
-#define USE_MOTIONSTATE 1
-#ifdef USE_MOTIONSTATE
-		btDefaultMotionState * myMotionState = new btDefaultMotionState(startTransform);
-
-		btRigidBody::btRigidBodyConstructionInfo cInfo(mass, myMotionState, shape, localInertia);
-
-		btRigidBody* body = new btRigidBody(cInfo);
-		//body->setContactProcessingThreshold(m_defaultContactProcessingThreshold);
-
-#else
-		btRigidBody* body = new btRigidBody(mass, 0, shape, localInertia);
-		body->setWorldTransform(startTransform);
-#endif  //
-
-		body->setUserIndex(-1);
-		PhysicsWorld().GetDynamicWorld()->addRigidBody(body);
-		return body;
-	}
+	//graphics
 	SkinModelRender* m_ballModel = nullptr;
-	btSphereShape* colShape;
+
+	//physics
+	CSphereCollider m_col;
+	RigidBody m_rb;
 	float m_radius = 3.f;
+	float m_mass = 1.1f;
+	float m_damping = 3.f;
+	float m_restitution = 1.5f;
 };
 

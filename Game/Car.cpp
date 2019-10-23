@@ -16,7 +16,6 @@ class btCollisionShape;
 #include "BulletDynamics/Vehicle/btRaycastVehicle.h"
 #include "BulletDynamics/ConstraintSolver/btHingeConstraint.h"
 #include "BulletDynamics/ConstraintSolver/btSliderConstraint.h"
-//#include "../CommonInterfaces/CommonExampleInterface.h"
 #include "LinearMath/btAlignedObjectArray.h"
 #include "btBulletCollisionCommon.h"
 
@@ -56,10 +55,10 @@ float maxBreakingForce = 100.f;
 
 float steeringIncrement = 0.04f;
 
-float suspensionStiffness = 10.f; //10
-float suspensionDamping = 2.13f; //2.3
-float suspensionCompression = 14.4f; //4.4
-float rollInfluence = 0.0f;  //0.1f;
+float suspensionStiffness = 10.f; 
+float suspensionDamping = 2.13f; 
+float suspensionCompression = 14.4f; 
+float rollInfluence = 0.0f; 
 
 //btScalar suspensionRestLength(0.7);
 btScalar suspensionRestLength(0.55);
@@ -498,12 +497,4 @@ void Car::SetTransform(CVector3 pos, CQuaternion rot) {
 	wtr.setRotation(rot);
 	m_carChassis->setCenterOfMassTransform(wtr);
 	m_dynamicsWorld->getBroadphase()->getOverlappingPairCache()->cleanProxyFromPairs(m_carChassis->getBroadphaseHandle(), m_dynamicsWorld->getDispatcher());
-	if (m_vehicle)
-	{
-		//m_vehicle->resetSuspension();
-		for (int i = 0; i < m_vehicle->getNumWheels(); i++)
-		{
-			//m_vehicle->updateWheelTransform(i, true);
-		}
-	}
 }
