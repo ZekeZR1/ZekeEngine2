@@ -45,7 +45,6 @@ private:
 public:
 	void AddShadowCaster(SkinModel* model) {
 		m_shadowMap.RegistShadowCaster(model);
-		//m_shadowCaster = model;
 	}
 	void ClearShadowCasters() {
 		m_shadowMap.ClearShadowCasters();

@@ -27,5 +27,4 @@ void RigidBody::Create(RigidBodyInfo& rbInfo)
 	btRigidBody::btRigidBodyConstructionInfo btRbInfo(rbInfo.mass, myMotionState, rbInfo.collider->GetBody(), btVector3(0, 0, 0));
 	//„‘Ì‚ğì¬B
 	rigidBody = new btRigidBody(btRbInfo);
-
 }

@@ -1,6 +1,4 @@
 #pragma once
-#include "MyVehicle.h"
-
 class CarState;
 
 class Car : public GameObject

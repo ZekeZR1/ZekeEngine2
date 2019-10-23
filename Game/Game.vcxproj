@@ -146,7 +146,6 @@
     <ClCompile Include="GameCamera.cpp" />
     <ClCompile Include="Goal.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="MyVehicle.cpp" />
     <ClCompile Include="Network\BaseView.cpp" />
     <ClCompile Include="Network\Console.cpp" />
     <ClCompile Include="Network\LoadBalancingListener.cpp" />
@@ -163,7 +162,6 @@
     </ClCompile>
     <ClCompile Include="TestScene.cpp" />
     <ClCompile Include="Title.cpp" />
-    <ClCompile Include="Vehicle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Ball.h" />
@@ -172,7 +170,6 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameCamera.h" />
     <ClInclude Include="Goal.h" />
-    <ClInclude Include="MyVehicle.h" />
     <ClInclude Include="Network\BaseView.h" />
     <ClInclude Include="Network\Console.h" />
     <ClInclude Include="Network\LoadBalancingListener.h" />
@@ -187,7 +184,6 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TestScene.h" />
     <ClInclude Include="Title.h" />
-    <ClInclude Include="Vehicle.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\modelData\ball.FBX">
@@ -228,9 +224,6 @@
     <None Include="Assets\sprite\inGame\BlueTeamScoreBack.png" />
     <None Include="Assets\sprite\inGame\OrangeTeamScoreBack.png" />
     <None Include="Assets\sprite\inGame\TimerBack.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Assets\sprite\title\title.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

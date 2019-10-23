@@ -1,13 +1,8 @@
 #include "stdafx.h"
 #include "FPSCounter.h"
 
-// コンストラクタ
 CFPSCounter::CFPSCounter(unsigned int smp)
 {
-
-	//
-	//pSpriteBatch = new DirectX::SpriteBatch(g_graphicsEngine->GetD3DDeviceContext());
-	//pSpriteFont = new DirectX::SpriteFont(g_graphicsEngine->GetD3DDevice(), L"Assets/font/myfile.spritefont");
 	// サンプル数の設定
 	SetSampleNum(smp);
 
@@ -121,11 +116,4 @@ void CFPSCounter::Draw() {
 	wchar_t str[256];
 	swprintf_s(str, L"%.2f\n", FrameRate);
 	m_font->Init(str, { -630.f , 350.f }, 0.f, CVector4::Green, 1.f, { 0.0f,0.0f });
-	/*
-	pSpriteBatch->Begin();
-	fps = GetFPS();
-	_itow_s(fps, wfps, 10);
-	pSpriteFont->DrawString(pSpriteBatch, (L"%d", wfps), DirectX::XMFLOAT2(1220.0f, 0.0f), CVector4::Green, 0.0f, DirectX::XMFLOAT2(0.0, 0.0), 1.0f);
-	pSpriteBatch->End();
-	*/
 }

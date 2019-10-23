@@ -45,12 +45,6 @@
     <ClCompile Include="Car.cpp">
       <Filter>src\car</Filter>
     </ClCompile>
-    <ClCompile Include="MyVehicle.cpp">
-      <Filter>src\car</Filter>
-    </ClCompile>
-    <ClCompile Include="Vehicle.cpp">
-      <Filter>src\car</Filter>
-    </ClCompile>
     <ClCompile Include="Game.cpp">
       <Filter>src\Scene</Filter>
     </ClCompile>
@@ -96,9 +90,11 @@
     <ClCompile Include="Result.cpp">
       <Filter>src\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerView.cpp" />
     <ClCompile Include="TestScene.cpp">
       <Filter>src\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerView.cpp">
+      <Filter>src\Network</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -109,12 +105,6 @@
       <Filter>src\car</Filter>
     </ClInclude>
     <ClInclude Include="Car.h">
-      <Filter>src\car</Filter>
-    </ClInclude>
-    <ClInclude Include="MyVehicle.h">
-      <Filter>src\car</Filter>
-    </ClInclude>
-    <ClInclude Include="Vehicle.h">
       <Filter>src\car</Filter>
     </ClInclude>
     <ClInclude Include="Game.h">
@@ -162,9 +152,11 @@
     <ClInclude Include="Result.h">
       <Filter>src\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerView.h" />
     <ClInclude Include="TestScene.h">
       <Filter>src\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerView.h">
+      <Filter>src\Network</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -200,9 +192,6 @@
     </None>
     <None Include="Assets\modelData\RLStage.fbx">
       <Filter>Assets\model</Filter>
-    </None>
-    <None Include="Assets\sprite\title\title.png">
-      <Filter>Assets\sprite</Filter>
     </None>
     <None Include="Assets\sprite\inGame\OrangeTeamScoreBack.png">
       <Filter>Assets\sprite</Filter>

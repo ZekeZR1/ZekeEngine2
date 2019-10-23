@@ -4,13 +4,6 @@
 //
 //class PostEffect;
 //
-///// <summary>
-///// どっふ、どふ
-///// </summary>
-///// <remarks>
-///// DofのインスタンスはPostEffectクラスが保持しているので
-///// 君たちが作る必要はない！Draw関数を適切に実装するのだ！
-///// </remarks>
 //class Dof
 //{
 //public:

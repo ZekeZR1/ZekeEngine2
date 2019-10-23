@@ -2,7 +2,6 @@
 #include "Game.h"
 #include "Goal.h"
 #include "ScoreManager.h"
-#include "Vehicle.h"
 #include "Ball.h"
 #include "Stage.h"
 #include "GameCamera.h"
@@ -72,8 +71,8 @@ void Game::Update() {
 	}
 
 	//Host
-	//if (lpn < opn) {
-	if (true) {
+	if (lpn < opn) {
+	//if (true) {
 
 		m_myCar->SetHostCarFlag(true);
 		m_enemyCar->SetHostCarFlag(true);

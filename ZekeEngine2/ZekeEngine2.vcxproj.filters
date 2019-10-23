@@ -49,9 +49,6 @@
     <Filter Include="src\util">
       <UniqueIdentifier>{834f878e-93d8-4b73-b25f-545f0efa171d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\window">
-      <UniqueIdentifier>{33f41912-feb4-4dab-ad8a-830850063d3f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\gameobject">
       <UniqueIdentifier>{6c87a639-3fc7-4e44-a88f-05ff8abdcacc}</UniqueIdentifier>
     </Filter>
@@ -282,9 +279,6 @@
     <ClInclude Include="util\Util.h">
       <Filter>src\util</Filter>
     </ClInclude>
-    <ClInclude Include="window\Window.h">
-      <Filter>src\window</Filter>
-    </ClInclude>
     <ClInclude Include="EngineStruct.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -511,9 +505,6 @@
     </ClCompile>
     <ClCompile Include="time\GameTime.cpp">
       <Filter>src\time</Filter>
-    </ClCompile>
-    <ClCompile Include="window\Window.cpp">
-      <Filter>src\window</Filter>
     </ClCompile>
     <ClCompile Include="EngineStruct.cpp">
       <Filter>src</Filter>

@@ -58,7 +58,6 @@ namespace Mouse {
 		//クリック
 		{
 			//左トリガー入力判定。
-			//if (mEve[0] != 0) {
 			if (Engine().GetMouseEvent(enLeftClick) != 0) {
 				trigger[enLeftClick] = 1 ^ press[enLeftClick];
 				press[enLeftClick] = 1;
@@ -68,7 +67,6 @@ namespace Mouse {
 				press[enLeftClick] = 0;
 			}
 			//右トリガー
-			//if (mEve[2] != 0) {
 			if (Engine().GetMouseEvent(enRightClick) != 0) {
 				trigger[enRightClick] = 1 ^ press[enRightClick];
 				press[enRightClick] = 1;
@@ -102,7 +100,6 @@ namespace Mouse {
 	}
 
 	bool IsPress(enMouseEve eve) {
-		//return mEve[eve];
 		return Engine().GetMouseEvent(eve);
 	}
 }

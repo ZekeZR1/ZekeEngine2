@@ -1,4 +1,11 @@
 #pragma once
+
+struct STransform {
+	CVector3 position = CVector3::Zero();
+	CVector3 scale = CVector3::One();
+	CQuaternion rotation = CQuaternion::Identity();
+};
+
 class CTransform
 {
 public:

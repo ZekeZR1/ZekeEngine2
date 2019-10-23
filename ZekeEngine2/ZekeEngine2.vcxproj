@@ -243,7 +243,6 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="time\GameTime.h" />
     <ClInclude Include="util\Util.h" />
-    <ClInclude Include="window\Window.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="character\CharacterController.cpp" />
@@ -325,7 +324,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="time\GameTime.cpp" />
-    <ClCompile Include="window\Window.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

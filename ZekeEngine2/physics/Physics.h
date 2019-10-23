@@ -11,7 +11,6 @@ class CPhysicsWorld {
 	btDiscreteDynamicsWorld*	 dynamicWorld = nullptr;		
 	btIDebugDraw* debugDrawer = nullptr;
 	PhysicsDebugDraw* m_debugDraw = nullptr;
-	//PhysicsDebugDraw tes;
 	bool m_isDrawLine = false;
 public:
 	CPhysicsWorld();

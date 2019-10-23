@@ -42,9 +42,7 @@ public:
 private:
 	CFont m_font;
 	wchar_t  m_text[256];
-	//wchar_t * m_returnString;
 	CVector2 m_pos = CVector2::Zero();
-	//CQuaternion m_rot = CQuaternion::Identity();
 	CVector4 m_color = CVector4::White;
 	float m_scale = 1.f;
 	float m_rot = 0.f;

@@ -55,7 +55,6 @@ static const int MAX_BONE = 512;
 #include "graphics\animation\Animation.h"
 #include "graphics/animation/AnimationClip.h"
 #include "math/Easing.h"
-#include "window\Window.h"
 #include "physics/Physics.h"
 #include "HID/Pad.h"
 

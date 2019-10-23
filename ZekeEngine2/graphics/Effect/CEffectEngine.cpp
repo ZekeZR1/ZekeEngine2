@@ -41,17 +41,10 @@ void CEffectEngine::Update() {
 
 	// ƒJƒƒ‰s—ñ‚ðÝ’è
 	CVector3 tar = MainCamera().GetTarget();
-	/*
-	g_renderer->SetCameraMatrix(
-	::Effekseer::Matrix44().LookAtLH(g_position, ::Effekseer::Vector3D(tar.x, tar.y, tar.z), ::Effekseer::Vector3D(0.0f, 1.0f, 0.0f)));
-	*/
+
 	m_renderer->SetCameraMatrix(MainCamera().GetViewMatrix());
 
 	// “Š‰es—ñ‚ðÝ’è
-	/*
-	g_renderer->SetProjectionMatrix(
-	::Effekseer::Matrix44().PerspectiveFovLH(camera3d->GetViewAngle(), camera3d->GetAspect(), 0.1f, 50000.0f));
-	*/
 	m_renderer->SetProjectionMatrix(MainCamera().GetProjectionMatrix());
 
 	m_manager->Update();

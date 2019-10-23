@@ -33,11 +33,6 @@ void SpriteBoxCollider::Execute(CVector3 tar) {
 }
 
 void SpriteBoxCollider::SideCalc() {
-	/*m_hitbox.upperSide = m_hitbox.pos.y + (m_hitbox.height/2);
-	m_hitbox.downSide = m_hitbox.pos.y - (m_hitbox.height / 2);
-	m_hitbox.rightSide	= m_hitbox.pos.x + (m_hitbox.width/2);
-	m_hitbox.leftSide		= m_hitbox.pos.x - (m_hitbox.width/2);*/
-
 	m_hitbox.upperSide = m_hitbox.pos.y + (m_hitbox.height * (1.f - m_pivot.y));
 	m_hitbox.downSide = m_hitbox.pos.y - (m_hitbox.height * m_pivot.y);
 	m_hitbox.rightSide = m_hitbox.pos.x + (m_hitbox.width * (1.f-m_pivot.x));
