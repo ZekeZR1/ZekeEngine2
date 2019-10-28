@@ -27,9 +27,13 @@ void Goal::OnDestroy() {
 }
 
 void Goal::Update() {
+
+#ifndef _DEBUG_HOST_GAME
 	if (!INetworkLogic().GetLBL()->IsHost()) {
 		return;
 	}
+#endif //_DEBUG_HOST_GAME
+
 
 	if (mp_ball == nullptr) {
 		mp_ball = FindGO<Ball>("BallChan");

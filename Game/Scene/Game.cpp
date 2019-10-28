@@ -11,6 +11,7 @@
 #include "Result.h"
 #include "..//GameObjects/Goal.h"
 
+
 bool Game::Start() {
 	m_stage = NewGO<Stage>(0);
 	m_ball = NewGO<Ball>(0,"BallChan");
@@ -70,8 +71,11 @@ void Game::Update() {
 
 	}
 
+#ifdef _DEBUG_HOST_GAME
 	if(true){
-	//if (INetworkLogic().GetLBL()->IsHost()) {
+#else
+	if (INetworkLogic().GetLBL()->IsHost()) {
+#endif //_DEBUG_HOST_GAME
 		HostUpdate();
 	}
 	else {
