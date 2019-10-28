@@ -96,6 +96,12 @@
     <ClCompile Include="PlayerView.cpp">
       <Filter>src\Network</Filter>
     </ClCompile>
+    <ClCompile Include="HostGame.cpp">
+      <Filter>src\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticipantsGame.cpp">
+      <Filter>src\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -157,6 +163,12 @@
     </ClInclude>
     <ClInclude Include="PlayerView.h">
       <Filter>src\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticipantsGame.h">
+      <Filter>src\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="HostGame.h">
+      <Filter>src\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

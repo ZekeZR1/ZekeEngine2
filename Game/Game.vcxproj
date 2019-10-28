@@ -145,6 +145,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameCamera.cpp" />
     <ClCompile Include="Goal.cpp" />
+    <ClCompile Include="HostGame.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Network\BaseView.cpp" />
     <ClCompile Include="Network\Console.cpp" />
@@ -153,6 +154,7 @@
     <ClCompile Include="Network\OutputListener.cpp" />
     <ClCompile Include="Network\TestView.cpp" />
     <ClCompile Include="OnlineMatch.cpp" />
+    <ClCompile Include="ParticipantsGame.cpp" />
     <ClCompile Include="PlayerView.cpp" />
     <ClCompile Include="Result.cpp" />
     <ClCompile Include="ScoreManager.cpp" />
@@ -170,6 +172,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameCamera.h" />
     <ClInclude Include="Goal.h" />
+    <ClInclude Include="HostGame.h" />
     <ClInclude Include="Network\BaseView.h" />
     <ClInclude Include="Network\Console.h" />
     <ClInclude Include="Network\LoadBalancingListener.h" />
@@ -177,6 +180,7 @@
     <ClInclude Include="Network\OutputListener.h" />
     <ClInclude Include="Network\TestView.h" />
     <ClInclude Include="OnlineMatch.h" />
+    <ClInclude Include="ParticipantsGame.h" />
     <ClInclude Include="PlayerView.h" />
     <ClInclude Include="Result.h" />
     <ClInclude Include="ScoreManager.h" />
