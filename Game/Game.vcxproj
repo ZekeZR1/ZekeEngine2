@@ -139,13 +139,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Ball.cpp" />
-    <ClCompile Include="Car.cpp" />
-    <ClCompile Include="CarState.cpp" />
-    <ClCompile Include="Game.cpp" />
-    <ClCompile Include="GameCamera.cpp" />
-    <ClCompile Include="Goal.cpp" />
-    <ClCompile Include="HostGame.cpp" />
+    <ClCompile Include="GameObjects\Ball.cpp" />
+    <ClCompile Include="GameObjects\Car\Car.cpp" />
+    <ClCompile Include="GameObjects\Car\CarState.cpp" />
+    <ClCompile Include="GameObjects\GameCamera.cpp" />
+    <ClCompile Include="GameObjects\Goal.cpp" />
+    <ClCompile Include="GameObjects\ScoreManager.cpp" />
+    <ClCompile Include="GameObjects\Stage.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Network\BaseView.cpp" />
     <ClCompile Include="Network\Console.cpp" />
@@ -153,41 +153,41 @@
     <ClCompile Include="Network\NetworkLogic.cpp" />
     <ClCompile Include="Network\OutputListener.cpp" />
     <ClCompile Include="Network\TestView.cpp" />
-    <ClCompile Include="OnlineMatch.cpp" />
-    <ClCompile Include="ParticipantsGame.cpp" />
     <ClCompile Include="PlayerView.cpp" />
-    <ClCompile Include="Result.cpp" />
-    <ClCompile Include="ScoreManager.cpp" />
-    <ClCompile Include="Stage.cpp" />
+    <ClCompile Include="Scene\Game.cpp" />
+    <ClCompile Include="Scene\HostGame.cpp" />
+    <ClCompile Include="Scene\OnlineMatch.cpp" />
+    <ClCompile Include="Scene\ParticipantsGame.cpp" />
+    <ClCompile Include="Scene\Result.cpp" />
+    <ClCompile Include="Scene\TestScene.cpp" />
+    <ClCompile Include="Scene\Title.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="TestScene.cpp" />
-    <ClCompile Include="Title.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Ball.h" />
-    <ClInclude Include="Car.h" />
-    <ClInclude Include="CarState.h" />
-    <ClInclude Include="Game.h" />
-    <ClInclude Include="GameCamera.h" />
-    <ClInclude Include="Goal.h" />
-    <ClInclude Include="HostGame.h" />
+    <ClInclude Include="GameObjects\Ball.h" />
+    <ClInclude Include="GameObjects\Car\Car.h" />
+    <ClInclude Include="GameObjects\Car\CarState.h" />
+    <ClInclude Include="GameObjects\GameCamera.h" />
+    <ClInclude Include="GameObjects\Goal.h" />
+    <ClInclude Include="GameObjects\ScoreManager.h" />
+    <ClInclude Include="GameObjects\Stage.h" />
     <ClInclude Include="Network\BaseView.h" />
     <ClInclude Include="Network\Console.h" />
     <ClInclude Include="Network\LoadBalancingListener.h" />
     <ClInclude Include="Network\NetworkLogic.h" />
     <ClInclude Include="Network\OutputListener.h" />
     <ClInclude Include="Network\TestView.h" />
-    <ClInclude Include="OnlineMatch.h" />
-    <ClInclude Include="ParticipantsGame.h" />
     <ClInclude Include="PlayerView.h" />
-    <ClInclude Include="Result.h" />
-    <ClInclude Include="ScoreManager.h" />
-    <ClInclude Include="Stage.h" />
+    <ClInclude Include="Scene\Game.h" />
+    <ClInclude Include="Scene\HostGame.h" />
+    <ClInclude Include="Scene\OnlineMatch.h" />
+    <ClInclude Include="Scene\ParticipantsGame.h" />
+    <ClInclude Include="Scene\Result.h" />
+    <ClInclude Include="Scene\TestScene.h" />
+    <ClInclude Include="Scene\Title.h" />
     <ClInclude Include="stdafx.h" />
-    <ClInclude Include="TestScene.h" />
-    <ClInclude Include="Title.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\modelData\ball.FBX">

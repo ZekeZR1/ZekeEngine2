@@ -39,18 +39,6 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="CarState.cpp">
-      <Filter>src\car</Filter>
-    </ClCompile>
-    <ClCompile Include="Car.cpp">
-      <Filter>src\car</Filter>
-    </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>src\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Title.cpp">
-      <Filter>src\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="Network\NetworkLogic.cpp">
       <Filter>src\Network</Filter>
     </ClCompile>
@@ -69,55 +57,55 @@
     <ClCompile Include="Network\LoadBalancingListener.cpp">
       <Filter>src\Network</Filter>
     </ClCompile>
-    <ClCompile Include="OnlineMatch.cpp">
-      <Filter>src\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Ball.cpp">
-      <Filter>src\gameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="ScoreManager.cpp">
-      <Filter>src\gameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="Goal.cpp">
-      <Filter>src\gameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="GameCamera.cpp">
-      <Filter>src\gameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="Stage.cpp">
-      <Filter>src\gameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="Result.cpp">
-      <Filter>src\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="TestScene.cpp">
-      <Filter>src\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerView.cpp">
       <Filter>src\Network</Filter>
     </ClCompile>
-    <ClCompile Include="HostGame.cpp">
+    <ClCompile Include="GameObjects\Car\CarState.cpp">
+      <Filter>src\car</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjects\Car\Car.cpp">
+      <Filter>src\car</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjects\Goal.cpp">
+      <Filter>src\gameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjects\ScoreManager.cpp">
+      <Filter>src\gameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjects\Stage.cpp">
+      <Filter>src\gameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjects\Ball.cpp">
+      <Filter>src\gameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjects\GameCamera.cpp">
+      <Filter>src\gameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\ParticipantsGame.cpp">
       <Filter>src\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="ParticipantsGame.cpp">
+    <ClCompile Include="Scene\Result.cpp">
+      <Filter>src\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\TestScene.cpp">
+      <Filter>src\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Title.cpp">
+      <Filter>src\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Game.cpp">
+      <Filter>src\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\HostGame.cpp">
+      <Filter>src\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\OnlineMatch.cpp">
       <Filter>src\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
       <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="CarState.h">
-      <Filter>src\car</Filter>
-    </ClInclude>
-    <ClInclude Include="Car.h">
-      <Filter>src\car</Filter>
-    </ClInclude>
-    <ClInclude Include="Game.h">
-      <Filter>src\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Title.h">
-      <Filter>src\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Network\LoadBalancingListener.h">
       <Filter>src\Network</Filter>
@@ -137,37 +125,49 @@
     <ClInclude Include="Network\Console.h">
       <Filter>src\Network</Filter>
     </ClInclude>
-    <ClInclude Include="OnlineMatch.h">
-      <Filter>src\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Ball.h">
-      <Filter>src\gameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="ScoreManager.h">
-      <Filter>src\gameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="Goal.h">
-      <Filter>src\gameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="GameCamera.h">
-      <Filter>src\gameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="Stage.h">
-      <Filter>src\gameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="Result.h">
-      <Filter>src\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="TestScene.h">
-      <Filter>src\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerView.h">
       <Filter>src\Network</Filter>
     </ClInclude>
-    <ClInclude Include="ParticipantsGame.h">
+    <ClInclude Include="GameObjects\Car\CarState.h">
+      <Filter>src\car</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjects\Car\Car.h">
+      <Filter>src\car</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjects\Goal.h">
+      <Filter>src\gameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjects\ScoreManager.h">
+      <Filter>src\gameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjects\Stage.h">
+      <Filter>src\gameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjects\Ball.h">
+      <Filter>src\gameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjects\GameCamera.h">
+      <Filter>src\gameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\ParticipantsGame.h">
       <Filter>src\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="HostGame.h">
+    <ClInclude Include="Scene\Result.h">
+      <Filter>src\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\TestScene.h">
+      <Filter>src\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Title.h">
+      <Filter>src\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Game.h">
+      <Filter>src\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\HostGame.h">
+      <Filter>src\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\OnlineMatch.h">
       <Filter>src\Scene</Filter>
     </ClInclude>
   </ItemGroup>
