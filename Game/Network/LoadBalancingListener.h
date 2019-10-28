@@ -50,6 +50,14 @@ public:
 		return mpLbc->getCountPlayersOnline();
 	}
 
+	/// <summary>
+	/// 自分がゲームホストか
+	/// </summary>
+	/// <returns>ホストの場合trueを返します</returns>
+	bool IsHost() {
+		return GetLocalPlayerNumber() < GetEnemyPlayerNumber();
+	}
+
 	JString GetState();
 
 	int GetLocalPlayerNumber() {

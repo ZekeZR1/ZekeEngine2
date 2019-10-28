@@ -1,5 +1,6 @@
 #pragma once
 class Ball;
+class ScoreManager;
 class Goal : public GameObject
 {
 public:
@@ -11,7 +12,7 @@ public:
 		m_isScored = flag;
 	}
 
-	bool GetScoredFlag() {
+	bool IsScored() {
 		return m_isScored;
 	}
 
@@ -22,6 +23,7 @@ private:
 	Ball* mp_ball = nullptr;
 	bool m_isScored = false;
 	bool m_isHost = false;
+	ScoreManager * mp_scoreManager = nullptr;
 	//btGhostObject * m_ghost = nullptr;
 	//btBoxShape* m_boxShape = nullptr;
 };

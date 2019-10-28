@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "BaseView.h"
 #include "OutputListener.h"
-#include "..//Car.h"
+#include "../GameObjects/Car.h"
 #include "LoadBalancingListener.h"
 #include "NetworkLogic.h"
 #include "Console.h"

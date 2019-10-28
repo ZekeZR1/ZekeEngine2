@@ -22,6 +22,8 @@ private:
 	void RaiseCarTransform();
 	void RaiseGameTime();
 	void RaiseGameScore();
+	void HostUpdate();
+	void ParticipantUpdate();
 	Car::CarControll m_carCon;
 	Car* m_myCar = nullptr;
 	Car* m_enemyCar = nullptr;

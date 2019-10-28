@@ -9,6 +9,7 @@
 #include "Network/NetworkLogic.h"
 #include "Network/LoadBalancingListener.h"
 #include "Result.h"
+#include "..//GameObjects/Goal.h"
 
 bool Game::Start() {
 	m_stage = NewGO<Stage>(0);
@@ -19,6 +20,7 @@ bool Game::Start() {
 	m_enemyCar->ResetCar(m_onlineCarInitPos);
 	m_gameCamera = NewGO<GameCamera>(0);
 	m_scoreManager = NewGO < ScoreManager>(0,"ScoreManager");
+
 
 	NetworkLogic::GetInstance().GetLBL()->SetCars(m_myCar, m_enemyCar);
 
@@ -56,121 +58,24 @@ void Game::Update() {
 
 	m_raiseTimer++;
 
-	int lpn = NetworkLogic::GetInstance().GetLBL()->GetLocalPlayerNumber();
-	int opn = NetworkLogic::GetInstance().GetLBL()->GetEnemyPlayerNumber();
 
 	if (Pad(0).IsTrigger(enButtonStart)) {
 		m_ball->ResetBall();
 		m_myCar->ResetCar(m_localCarInitPos);
 		m_enemyCar->ResetCar(m_onlineCarInitPos);
-		if (lpn < opn) {
+		if(INetworkLogic().GetLBL()->IsHost()){
 			printf("Im Host\n");
 		}
 		printf("Lag %d\n", NetworkLogic::GetInstance().GetLBL()->GetLag());
 
 	}
 
-	//Host
-	//if (lpn < opn) {
-	if (true) {
-
-		m_myCar->SetHostCarFlag(true);
-		m_enemyCar->SetHostCarFlag(true);
-
-		SetInputs();
-		m_inputDataQueue.push(m_carCon);
-
-		{//goal
-			auto pos = m_ball->GetPosition();
-			if (pos.z <= -175 or pos.z >= 175) {
-				if (pos.z < 0) {
-					m_scoreManager->Goal(ScoreManager::enOrangeTeam);
-				}
-				if (pos.z > 0)
-				{
-					m_scoreManager->Goal(ScoreManager::enBlueTeam);
-				}
-				printf("Goal");
-				RaiseGameScore();
-				m_myCar->ResetCar(m_localCarInitPos);
-				m_enemyCar->ResetCar(m_onlineCarInitPos);
-				m_ball->ResetBall();
-			}
-		}
-
-		//RaiseInputs();
-		RaiseCarVelocitys();
-
-		RaiseBallTransform();
-
-		//if (m_lagFixTimer >= m_NetworkLagTime) {
-			if (true) {
-				m_myCar->SetCarInput(m_inputDataQueue.front());
-				m_inputDataQueue.pop();
-			}
-			else {
-				m_lagFixTimer += IGameTime().GetFrameDeltaTime();
-			}
-		//}
-		//m_myCar->SetCarInput(cc);
-
-		auto eci = NetworkLogic::GetInstance().GetLBL()->GetEnemeyCarInputs();
-		m_enemyCar->SetCarInput(eci);
-
-		//if (m_raiseTimer ==180) {
-			RaiseCarTransform();
-			m_raiseTimer = 0;
-		//}
+	if(true){
+	//if (INetworkLogic().GetLBL()->IsHost()) {
+		HostUpdate();
 	}
 	else {
-		SetInputs();
-		RaiseInputs();
-
-		auto lpos = NetworkLogic::GetInstance().GetLBL()->GetLocalPlayerView().pos;
-		auto lrot = NetworkLogic::GetInstance().GetLBL()->GetLocalPlayerView().rot;
-		auto opos = NetworkLogic::GetInstance().GetLBL()->GetOnlinePlayerView().pos;
-		auto orot = NetworkLogic::GetInstance().GetLBL()->GetOnlinePlayerView().rot;
-
-		auto dif = m_myCar->GetPosition() - lpos;
-		float fixDist = 5.f;
-		if (abs(dif.Length()) > fixDist) {
-			m_myCar->SetTransform(lpos, lrot);
-		}
-
-		dif = m_enemyCar->GetPosition() - opos;
-		if (abs(dif.Length()) > fixDist) {
-			m_enemyCar->SetTransform(opos, orot);
-		}
-
-
-		auto ecav = NetworkLogic::GetInstance().GetLBL()->GetOnlinePlayerView().angularVelocity;
-		auto eclv = NetworkLogic::GetInstance().GetLBL()->GetOnlinePlayerView().linearVelocity;
-		m_enemyCar->GetRayCastVehicle()->getRigidBody()->setLinearVelocity(eclv);
-		m_enemyCar->GetRayCastVehicle()->getRigidBody()->setAngularVelocity(ecav);
-
-
-		auto mcav = NetworkLogic::GetInstance().GetLBL()->GetLocalPlayerView().angularVelocity;
-		auto mclv = NetworkLogic::GetInstance().GetLBL()->GetLocalPlayerView().linearVelocity;
-		m_myCar->GetRayCastVehicle()->getRigidBody()->setLinearVelocity(mclv);
-		m_myCar->GetRayCastVehicle()->getRigidBody()->setAngularVelocity(mcav);
-
-		auto bp = NetworkLogic::GetInstance().GetLBL()->GetBallPos();
-		auto br = NetworkLogic::GetInstance().GetLBL()->GetBallRot();
-
-		m_ball->SetTransform(bp,br);
-
-		auto bts = NetworkLogic::GetInstance().GetLBL()->GetBlueTeamScore();
-		auto ots = NetworkLogic::GetInstance().GetLBL()->GetOrangeTeamScore();
-
-		m_scoreManager->SetPoint(bts, ots);
-
-		//auto eci = NetworkLogic::GetInstance().GetLBL()->GetEnemeyCarInputs();
-
-		//m_enemyCar->SetCarInput(eci);
-
-		//m_myCar->SetCarInput(eci);
-
-		//NetworkLogic::GetInstance().GetLBL()->GetGameTime();
+		ParticipantUpdate();
 	}
 
 	////Test
@@ -251,4 +156,96 @@ void Game::RaiseGameScore() {
 
 void Game::RaiseGameTime() {
 
+}
+
+void Game::HostUpdate() {
+	m_myCar->SetHostCarFlag(true);
+	m_enemyCar->SetHostCarFlag(true);
+
+	SetInputs();
+	m_inputDataQueue.push(m_carCon);
+
+	if (m_stage->GetGoalObject() != nullptr) {
+		if (m_stage->GetGoalObject()->IsScored()) {
+			RaiseGameScore();
+			m_myCar->ResetCar(m_localCarInitPos);
+			m_enemyCar->ResetCar(m_onlineCarInitPos);
+			m_ball->ResetBall();
+			m_stage->GetGoalObject()->SetScoredFlag(false);
+		}
+	}
+	//RaiseInputs();
+	RaiseCarVelocitys();
+
+	RaiseBallTransform();
+
+	//if (m_lagFixTimer >= m_NetworkLagTime) {
+	if (true) {
+		m_myCar->SetCarInput(m_inputDataQueue.front());
+		m_inputDataQueue.pop();
+	}
+	else {
+		m_lagFixTimer += IGameTime().GetFrameDeltaTime();
+	}
+	//}
+	//m_myCar->SetCarInput(cc);
+
+	auto eci = NetworkLogic::GetInstance().GetLBL()->GetEnemeyCarInputs();
+	m_enemyCar->SetCarInput(eci);
+
+	//if (m_raiseTimer ==180) {
+	RaiseCarTransform();
+	m_raiseTimer = 0;
+	//}
+}
+
+void Game::ParticipantUpdate() {
+	SetInputs();
+	RaiseInputs();
+
+	auto lpos = NetworkLogic::GetInstance().GetLBL()->GetLocalPlayerView().pos;
+	auto lrot = NetworkLogic::GetInstance().GetLBL()->GetLocalPlayerView().rot;
+	auto opos = NetworkLogic::GetInstance().GetLBL()->GetOnlinePlayerView().pos;
+	auto orot = NetworkLogic::GetInstance().GetLBL()->GetOnlinePlayerView().rot;
+
+	auto dif = m_myCar->GetPosition() - lpos;
+	float fixDist = 5.f;
+	if (abs(dif.Length()) > fixDist) {
+		m_myCar->SetTransform(lpos, lrot);
+	}
+
+	dif = m_enemyCar->GetPosition() - opos;
+	if (abs(dif.Length()) > fixDist) {
+		m_enemyCar->SetTransform(opos, orot);
+	}
+
+
+	auto ecav = NetworkLogic::GetInstance().GetLBL()->GetOnlinePlayerView().angularVelocity;
+	auto eclv = NetworkLogic::GetInstance().GetLBL()->GetOnlinePlayerView().linearVelocity;
+	m_enemyCar->GetRayCastVehicle()->getRigidBody()->setLinearVelocity(eclv);
+	m_enemyCar->GetRayCastVehicle()->getRigidBody()->setAngularVelocity(ecav);
+
+
+	auto mcav = NetworkLogic::GetInstance().GetLBL()->GetLocalPlayerView().angularVelocity;
+	auto mclv = NetworkLogic::GetInstance().GetLBL()->GetLocalPlayerView().linearVelocity;
+	m_myCar->GetRayCastVehicle()->getRigidBody()->setLinearVelocity(mclv);
+	m_myCar->GetRayCastVehicle()->getRigidBody()->setAngularVelocity(mcav);
+
+	auto bp = NetworkLogic::GetInstance().GetLBL()->GetBallPos();
+	auto br = NetworkLogic::GetInstance().GetLBL()->GetBallRot();
+
+	m_ball->SetTransform(bp, br);
+
+	auto bts = NetworkLogic::GetInstance().GetLBL()->GetBlueTeamScore();
+	auto ots = NetworkLogic::GetInstance().GetLBL()->GetOrangeTeamScore();
+
+	m_scoreManager->SetPoint(bts, ots);
+
+	//auto eci = NetworkLogic::GetInstance().GetLBL()->GetEnemeyCarInputs();
+
+	//m_enemyCar->SetCarInput(eci);
+
+	//m_myCar->SetCarInput(eci);
+
+	//NetworkLogic::GetInstance().GetLBL()->GetGameTime();
 }

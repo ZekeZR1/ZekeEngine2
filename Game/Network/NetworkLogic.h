@@ -32,3 +32,7 @@ private:
 	LoadBalancingListener* mpLbl = nullptr;
 	TestView m_testview;
 };
+
+static inline NetworkLogic& INetworkLogic() {
+	return NetworkLogic::GetInstance();
+}
