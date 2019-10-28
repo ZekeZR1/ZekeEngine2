@@ -140,8 +140,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="GameObjects\Ball.cpp" />
-    <ClCompile Include="GameObjects\Car\Car.cpp" />
-    <ClCompile Include="GameObjects\Car\CarState.cpp" />
+    <ClCompile Include="GameObjects\Car.cpp" />
+    <ClCompile Include="GameObjects\CarState.cpp" />
     <ClCompile Include="GameObjects\GameCamera.cpp" />
     <ClCompile Include="GameObjects\Goal.cpp" />
     <ClCompile Include="GameObjects\ScoreManager.cpp" />
@@ -167,8 +167,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObjects\Ball.h" />
-    <ClInclude Include="GameObjects\Car\Car.h" />
-    <ClInclude Include="GameObjects\Car\CarState.h" />
+    <ClInclude Include="GameObjects\Car.h" />
+    <ClInclude Include="GameObjects\CarState.h" />
     <ClInclude Include="GameObjects\GameCamera.h" />
     <ClInclude Include="GameObjects\Goal.h" />
     <ClInclude Include="GameObjects\ScoreManager.h" />

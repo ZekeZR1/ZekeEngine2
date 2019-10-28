@@ -1,8 +1,6 @@
 #include "stdafx.h"
 #include "ShadowMap.h"
 
-#include "..//..//Game/Ball.h"
-
 ShadowMap::ShadowMap()
 {
 	m_shadowMapRT.Create(

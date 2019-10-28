@@ -1,5 +1,5 @@
 #pragma once
-#include "Car.h"
+#include "../GameObjects/Car.h"
 class GameCamera;
 class Stage;
 

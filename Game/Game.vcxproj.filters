@@ -60,12 +60,6 @@
     <ClCompile Include="PlayerView.cpp">
       <Filter>src\Network</Filter>
     </ClCompile>
-    <ClCompile Include="GameObjects\Car\CarState.cpp">
-      <Filter>src\car</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObjects\Car\Car.cpp">
-      <Filter>src\car</Filter>
-    </ClCompile>
     <ClCompile Include="GameObjects\Goal.cpp">
       <Filter>src\gameObjects</Filter>
     </ClCompile>
@@ -102,6 +96,12 @@
     <ClCompile Include="Scene\OnlineMatch.cpp">
       <Filter>src\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="GameObjects\CarState.cpp">
+      <Filter>src\car</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjects\Car.cpp">
+      <Filter>src\car</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -127,12 +127,6 @@
     </ClInclude>
     <ClInclude Include="PlayerView.h">
       <Filter>src\Network</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObjects\Car\CarState.h">
-      <Filter>src\car</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObjects\Car\Car.h">
-      <Filter>src\car</Filter>
     </ClInclude>
     <ClInclude Include="GameObjects\Goal.h">
       <Filter>src\gameObjects</Filter>
@@ -169,6 +163,12 @@
     </ClInclude>
     <ClInclude Include="Scene\OnlineMatch.h">
       <Filter>src\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjects\Car.h">
+      <Filter>src\car</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjects\CarState.h">
+      <Filter>src\car</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

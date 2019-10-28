@@ -1,8 +1,8 @@
 #include "stdafx.h"
-#include "Game.h"
-#include "Title.h"
-#include "OnlineMatch.h"
-#include "TestScene.h"
+#include "Scene/Game.h"
+#include "Scene/Title.h"
+#include "Scene/OnlineMatch.h"
+#include "Scene/TestScene.h"
 
 signed WINAPI wWinMain(
 	HINSTANCE hInstance,

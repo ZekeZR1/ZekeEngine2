@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "TestScene.h"
-#include "GameCamera.h"
-#include "Stage.h"
+#include "../GameObjects/GameCamera.h"
+#include "../GameObjects/Stage.h"
 
 bool TestScene::Start() {
 	m_stage = NewGO<Stage>(0);

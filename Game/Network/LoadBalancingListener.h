@@ -1,7 +1,7 @@
 #pragma once
 #include "LoadBalancing-cpp/inc/Client.h"
 #include "BaseView.h"
-#include "..//Car.h"
+#include "../GameObjects/Car.h"
 
 #define PLAYER_UPDATE_INTERVAL_MS 500
 
