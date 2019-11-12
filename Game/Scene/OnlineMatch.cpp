@@ -4,6 +4,7 @@
 #include "Network/NetworkLogic.h"
 #include "Network/LoadBalancingListener.h"
 #include "Game.h"
+#include "..//..//ZekeEngine2/HID/CVEditor.h"
 
 bool OnlineMatch::Start() {
 	NetworkLogic::GetInstance().Start();
@@ -20,6 +21,11 @@ bool OnlineMatch::Start() {
 	m_sp1->SetPosition({ 100,0,0 });
 	m_sp2->SetPosition({ -100,0,0 });
 	m_sp3->SetPosition({ 0,100,0 });
+
+	m_editor = NewGO<CVEditor>(0);
+	FontRender::FontInfo info;
+	info.pos = { -10,200 };
+	m_editor->SetEditorInfo(info);
 	return true;
 }
 
@@ -31,14 +37,17 @@ void OnlineMatch::OnDestroy() {
 	DeleteGO(m_sp1);
 	DeleteGO(m_sp2);
 	DeleteGO(m_sp3);
+	DeleteGO(m_editor);
 }
 
-void OnlineMatch::Update(){
+void OnlineMatch::Update() {
 
 	SYSTEMTIME st;
 	GetLocalTime(&st);
-
-
+	auto lstate = ZKeyBoard().GetStateTracker().GetLastState();
+	//if(ZKeyBoard().IsTrigger(DirectX::Keyboard::State::Space)) {
+	//}
+	//auto lstate = ZKeyBoard().GetStateTracker().GetLastState();
 	//auto lag = NetworkLogic::GetInstance().GetLBL()->GetLag();
 	//if (lag < 999) {
 	//	m_cs++;
@@ -98,8 +107,8 @@ void OnlineMatch::Update(){
 	auto pc = room.getPlayerCount();
 	
 	if (Pad(0).IsTrigger(enButtonA)) {
-		NewGO<Game>(0);
-		DeleteGO(this);
+		//NewGO<Game>(0);
+		//DeleteGO(this);
 	}
 
 	if (pc == 2 and m_isSelectedRoom) {

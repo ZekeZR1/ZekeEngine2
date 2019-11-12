@@ -1,4 +1,7 @@
 #pragma once
+#include <stack>
+class CVEditor;
+
 class OnlineMatch : public GameObject
 {
 public:
@@ -10,6 +13,8 @@ private:
 	SpriteRender* m_sp2 = nullptr;
 	SpriteRender* m_sp3 = nullptr;
 	bool m_isSelectedRoom = false;
+	CVEditor* m_editor = nullptr;
+	std::string roomName;
 
 	int m_cs = 0;
 	unsigned int m_sumLag = 0;

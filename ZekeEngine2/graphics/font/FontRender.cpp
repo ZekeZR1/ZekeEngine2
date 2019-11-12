@@ -32,12 +32,12 @@ void FontRender::PostRender() {
 	if (m_isDrawShadow)
 	{
 		m_Shadow->Begin();
-		m_Shadow->Draw(m_text, m_pos + *m_Soffset, *m_Scolor, m_rot + *m_Srot, m_scale * *m_Ssize, m_pivot);
+		m_Shadow->Draw(m_text, m_fontInfo.pos + *m_Soffset, *m_Scolor, m_fontInfo.rot + *m_Srot, m_fontInfo.scale * *m_Ssize, m_fontInfo.pivot);
 		m_Shadow->End();
 	}
 
 	m_font.Begin();
-	m_font.Draw(m_text, m_pos, m_color, m_rot, m_scale, m_pivot);
+	m_font.Draw(m_text, m_fontInfo.pos, m_fontInfo.col, m_fontInfo.rot, m_fontInfo.scale, m_fontInfo.pivot);
 	m_font.End();
 	
 }
@@ -52,16 +52,17 @@ void FontRender::Init(
 	) {
 	//m_text = text;
 	wcscpy(m_text,text);
-	m_pos = pos;
-	m_rot = rot;
-	m_color = col;
-	m_scale = scale;
-	m_pivot = pivot;
+	m_fontInfo.pos = pos;
+	m_fontInfo.rot = rot;
+	m_fontInfo.col = col;
+	m_fontInfo.scale = scale;
+	m_fontInfo.pivot = pivot;
 }
 
 void FontRender::SetText(const wchar_t* text) {
 	wcscpy(m_text, text);
 }
+
 
 void FontRender::DrawShadow(CVector2 offset, float size, float rote, CVector4 color)
 {
