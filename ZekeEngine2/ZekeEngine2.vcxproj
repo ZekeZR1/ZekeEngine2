@@ -217,6 +217,7 @@
     <ClInclude Include="graphics\Sprite\Sprite.h" />
     <ClInclude Include="graphics\StructedBuffer.h" />
     <ClInclude Include="graphics\TScopedResource.h" />
+    <ClInclude Include="HID\CKeyboard.h" />
     <ClInclude Include="HID\Mouse.h" />
     <ClInclude Include="HID\Pad.h" />
     <ClInclude Include="IScene.h" />
@@ -298,6 +299,7 @@
     <ClCompile Include="graphics\Sprite\Sprite.cpp" />
     <ClCompile Include="graphics\StructedBuffer.cpp" />
     <ClCompile Include="graphics\TScopedResource.cpp" />
+    <ClCompile Include="HID\CKeyboard.cpp" />
     <ClCompile Include="HID\Mouse.cpp" />
     <ClCompile Include="HID\Pad.cpp" />
     <ClCompile Include="level\Level.cpp" />

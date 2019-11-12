@@ -73,7 +73,6 @@ private:
 	CGraphicsEngine		m_graphicsEngine;					//グラフィックエンジン
 	CPhysicsWorld			m_physicsWorld;						//物理ワールド
 	CPad						m_pad[CPad::CONNECT_PAD_MAX];
-
 	int m_notch = 0;
 	bool mEve[10] = { false };
 	int Key = 0;

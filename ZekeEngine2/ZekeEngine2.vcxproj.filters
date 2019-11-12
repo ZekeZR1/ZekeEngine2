@@ -297,6 +297,9 @@
     <ClInclude Include="graphics\SpriteRender.h">
       <Filter>src\graphics\Sprite</Filter>
     </ClInclude>
+    <ClInclude Include="HID\CKeyboard.h">
+      <Filter>src\HID</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -520,6 +523,9 @@
     </ClCompile>
     <ClCompile Include="graphics\SpriteRender.cpp">
       <Filter>src\graphics\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="HID\CKeyboard.cpp">
+      <Filter>src\HID</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

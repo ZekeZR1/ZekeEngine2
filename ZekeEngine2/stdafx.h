@@ -38,6 +38,7 @@ static const int MAX_BONE = 512;
 #include "DirectXTK/Inc/DDSTextureLoader.h"
 #include "DirectXTK/Inc/SpriteBatch.h"
 #include "DirectXTK\Inc\Audio.h"
+#include "DirectXTK/Inc/Keyboard.h"
 
 #include "bulletPhysics/src/btBulletDynamicsCommon.h"
 #include "bulletPhysics/src/btBulletCollisionCommon.h"
@@ -57,6 +58,7 @@ static const int MAX_BONE = 512;
 #include "math/Easing.h"
 #include "physics/Physics.h"
 #include "HID/Pad.h"
+#include "HID/CKeyboard.h"
 
 #include "PhotonEngine/Common-cpp/inc/Common.h"
 #include "PhotonEngine/LoadBalancing-cpp/inc/Client.h"
