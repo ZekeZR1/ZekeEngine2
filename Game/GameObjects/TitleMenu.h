@@ -2,10 +2,6 @@
 class TitleMenu : public GameObject
 {
 public:
-	bool Start() override;
-	void OnDestroy() override;
-	void Update() override;
-private:
 	enum MenuButton {
 		enOnlineMatch,
 		enTraining,
@@ -13,6 +9,14 @@ private:
 		enNumMenu
 	};
 
+	bool Start() override;
+	void OnDestroy() override;
+	void Update() override;
+
+	MenuButton GetSelectiongMenu() {
+		return (MenuButton)m_selecting;
+	}
+private:
 	int m_selecting = enOnlineMatch;
 
 	std::vector<SpriteRender*> m_menus;

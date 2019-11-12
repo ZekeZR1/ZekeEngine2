@@ -4,6 +4,7 @@
 #include "..//GameObjects/Car.h"
 #include "..//GameObjects/Stage.h"
 #include "..//GameObjects/TitleMenu.h"
+#include "Scene/OnlineMatch.h"
 
 bool Title::Start() {
 	m_menu = NewGO<TitleMenu>(0);
@@ -21,5 +22,13 @@ void Title::OnDestroy() {
 }
 
 void Title::Update() {
-
+	auto smenu = m_menu->GetSelectiongMenu();
+	if (Pad(0).IsTrigger(enButtonA)) {
+		switch (smenu) {
+		case TitleMenu::enOnlineMatch:
+			NewGO<OnlineMatch>(0);
+			DeleteGO(this);
+			break;
+		}
+	}
 }
