@@ -8,15 +8,19 @@ bool CVEditor::Start() {
 }
 
 void CVEditor::OnDestroy() {
-
+	DeleteGO(m_font);
 }
 
 void CVEditor::Update() {
 	if (!m_isEditorActive) return;
+
 	if (ZKeyBoard().GetStateTracker().pressed.Back){
 		if(m_str.length() > 0)
 			m_str.erase(m_str.length() - 1);
 	}
+
+	if (m_str.length() > m_numMaxChar) return;
+
 	if (ZKeyBoard().GetStateTracker().pressed.A)
 		m_str += L"A";
 	if (ZKeyBoard().GetStateTracker().pressed.B)

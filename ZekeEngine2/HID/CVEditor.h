@@ -21,6 +21,7 @@ public:
 		return m_str;
 	}
 private:
+	int m_numMaxChar = 5;
 	FontRender* m_font = nullptr;
 	FontRender::FontInfo m_fontInfo;
 	std::wstring m_str = L"";
