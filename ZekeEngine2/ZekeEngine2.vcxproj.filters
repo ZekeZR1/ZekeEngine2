@@ -300,6 +300,9 @@
     <ClInclude Include="HID\CKeyboard.h">
       <Filter>src\HID</Filter>
     </ClInclude>
+    <ClInclude Include="HID\CVEditor.h">
+      <Filter>src\HID</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -525,6 +528,9 @@
       <Filter>src\graphics\Sprite</Filter>
     </ClCompile>
     <ClCompile Include="HID\CKeyboard.cpp">
+      <Filter>src\HID</Filter>
+    </ClCompile>
+    <ClCompile Include="HID\CVEditor.cpp">
       <Filter>src\HID</Filter>
     </ClCompile>
   </ItemGroup>
