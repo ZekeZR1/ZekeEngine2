@@ -69,7 +69,7 @@ private:
 	//CVector2 m_pivot = { 0.5f,0.5f };
 
 	CFont::TextType m_textType = CFont::en_Alphabet;
-
+	CVector2 size = { 1,1 };
 	bool m_isDrawShadow = false;
 	CFont* m_Shadow = nullptr;
 	CVector2* m_Soffset = nullptr;

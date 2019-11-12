@@ -1,20 +1,25 @@
 #include "stdafx.h"
 #include "Title.h"
 #include "Game.h"
+#include "..//GameObjects/Car.h"
+#include "..//GameObjects/Stage.h"
+#include "..//GameObjects/TitleMenu.h"
 
 bool Title::Start() {
-	m_spriteRender = NewGO<SpriteRender>(0);
-	m_spriteRender->Init(L"Assets/sprite/title.dds", 1280, 720);
+	m_menu = NewGO<TitleMenu>(0);
+	m_stage = NewGO<Stage>(0);
+	m_myCar = NewGO<Car>(0, "MyCar");
+	m_myCar->ResetCar(CVector3::Zero());
+	MainCamera().SetPosition({ -2,2,4 });
+	MainCamera().Update();
+
 	return true;
 }
 
 void Title::OnDestroy() {
-	DeleteGO(m_spriteRender);
+
 }
 
 void Title::Update() {
-	if (Pad(0).IsTrigger(enButtonA)) {
-		NewGO<Game>(0);
-		DeleteGO(this);
-	}
+
 }

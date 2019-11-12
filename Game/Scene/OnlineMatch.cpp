@@ -86,7 +86,10 @@ void OnlineMatch::Update() {
 	m_sp3->SetCollisionTarget(cp);
 
 	if (m_sp1->isCollidingTarget() and Mouse::IsTrigger(enLeftClick)) {
-		NetworkLogic::GetInstance().GetLBC()->opJoinOrCreateRoom("A", RoomOptions().setMaxPlayers(2));
+		auto str = m_editor->GetString();
+		JString s = str.c_str();
+
+		NetworkLogic::GetInstance().GetLBC()->opJoinOrCreateRoom(s, RoomOptions().setMaxPlayers(2));
 		printf("Create or Join A Room\n");
 		m_isSelectedRoom = true;
 	}

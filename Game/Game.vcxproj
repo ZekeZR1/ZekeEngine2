@@ -146,6 +146,7 @@
     <ClCompile Include="GameObjects\Goal.cpp" />
     <ClCompile Include="GameObjects\ScoreManager.cpp" />
     <ClCompile Include="GameObjects\Stage.cpp" />
+    <ClCompile Include="GameObjects\TitleMenu.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Network\BaseView.cpp" />
     <ClCompile Include="Network\Console.cpp" />
@@ -173,6 +174,7 @@
     <ClInclude Include="GameObjects\Goal.h" />
     <ClInclude Include="GameObjects\ScoreManager.h" />
     <ClInclude Include="GameObjects\Stage.h" />
+    <ClInclude Include="GameObjects\TitleMenu.h" />
     <ClInclude Include="Network\BaseView.h" />
     <ClInclude Include="Network\Console.h" />
     <ClInclude Include="Network\LoadBalancingListener.h" />
@@ -228,6 +230,12 @@
     <None Include="Assets\sprite\inGame\BlueTeamScoreBack.png" />
     <None Include="Assets\sprite\inGame\OrangeTeamScoreBack.png" />
     <None Include="Assets\sprite\inGame\TimerBack.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\sprite\menuButton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ImageContentTask Include="Assets\sprite\menuButtonSelected.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

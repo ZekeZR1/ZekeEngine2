@@ -102,6 +102,9 @@
     <ClCompile Include="GameObjects\Car.cpp">
       <Filter>src\car</Filter>
     </ClCompile>
+    <ClCompile Include="GameObjects\TitleMenu.cpp">
+      <Filter>src\gameObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -170,6 +173,9 @@
     <ClInclude Include="GameObjects\CarState.h">
       <Filter>src\car</Filter>
     </ClInclude>
+    <ClInclude Include="GameObjects\TitleMenu.h">
+      <Filter>src\gameObjects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\modelData\Stage.FBX">
@@ -214,5 +220,13 @@
     <None Include="Assets\sprite\inGame\BlueTeamScoreBack.png">
       <Filter>Assets\sprite</Filter>
     </None>
+    <None Include="Assets\sprite\menuButton.png">
+      <Filter>Assets\sprite</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ImageContentTask Include="Assets\sprite\menuButtonSelected.png">
+      <Filter>Assets\sprite</Filter>
+    </ImageContentTask>
   </ItemGroup>
 </Project>

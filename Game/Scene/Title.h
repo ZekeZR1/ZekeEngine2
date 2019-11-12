@@ -1,4 +1,8 @@
 #pragma once
+class Car;
+class Stage;
+class TitleMenu;
+
 class Title : public GameObject
 {
 public:
@@ -6,7 +10,9 @@ public:
 	void OnDestroy() override;
 	void Update();
 private:
-	SkinModelRender* m_car;
+	Car* m_myCar = nullptr;
+	Stage* m_stage = nullptr;
+	TitleMenu* m_menu = nullptr;
 	SkinModelRender* m_ground;
 	SpriteRender* m_spriteRender = nullptr;
 };

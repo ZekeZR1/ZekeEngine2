@@ -24,6 +24,10 @@ public:
 
 	void Init(const wchar_t* texFilePath, float w, float h, bool collisionFlag = true, bool PosChangeByMouse = false);
 
+	void ResetFilePath(const wchar_t* FilePath) {
+		m_sprite.Init(FilePath, m_w, m_h);
+	}
+
 	void SetPosition(const CVector3& pos)
 	{
 		m_pos = pos;
