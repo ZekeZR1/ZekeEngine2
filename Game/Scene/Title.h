@@ -1,5 +1,6 @@
 #pragma once
 class Car;
+class OnlineMatch;
 class Stage;
 class TitleMenu;
 
@@ -13,6 +14,7 @@ private:
 	Car* m_myCar = nullptr;
 	Stage* m_stage = nullptr;
 	TitleMenu* m_menu = nullptr;
+	OnlineMatch* m_onlineMatch = nullptr;
 	SkinModelRender* m_ground;
 	SpriteRender* m_spriteRender = nullptr;
 };

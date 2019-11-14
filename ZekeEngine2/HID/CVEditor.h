@@ -5,6 +5,7 @@ public:
 	bool Start();
 	void OnDestroy();
 	void Update();
+	void CreateText(int updatePriority);
 	/// <summary>
 	/// エディターの設定
 	/// </summary>
@@ -20,6 +21,7 @@ public:
 	const std::wstring const GetString() {
 		return m_str;
 	}
+
 private:
 	int m_numMaxChar = 5;
 	FontRender* m_font = nullptr;

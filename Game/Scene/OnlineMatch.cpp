@@ -10,19 +10,20 @@
 bool OnlineMatch::Start() {
 	NetworkLogic::GetInstance().Start();
 
-	m_backSp = NewGO<SpriteRender>(0);
+	m_backSp = NewGO<SpriteRender>(3);
 	m_backSp->Init(L"Assets/sprite/online.dds",900,500);
 
-	m_startSp = NewGO<SpriteRender>(0);
+	m_startSp = NewGO<SpriteRender>(3);
 	m_startSp->Init(L"Assets/sprite/start.dds", 300, 80, true);
 
-	m_sp3 = NewGO<SpriteRender>(0);
+	m_sp3 = NewGO<SpriteRender>(3);
 	m_sp3->Init(L"Assets/sprite/TimerBack.dds", 50, 50, true);
 
 	m_startSp->SetPosition({ 250,-130,0 });
 	m_sp3->SetPosition({ 0,100,-130 });
 
 	m_editor = NewGO<CVEditor>(0);
+	m_editor->CreateText(5);
 	FontRender::FontInfo info;
 	info.pos = { -100,70 };
 	m_editor->SetEditorInfo(info);
@@ -108,11 +109,6 @@ void OnlineMatch::Update() {
 	auto room = NetworkLogic::GetInstance().GetLBC()->getCurrentlyJoinedRoom();
 	auto name = room.getName();
 	auto pc = room.getPlayerCount();
-	
-	if (Pad(0).IsTrigger(enButtonA)) {
-		//NewGO<Game>(0);
-		//DeleteGO(this);
-	}
 
 	if (pc == 2 and m_isSelectedRoom) {
 		NewGO<Game>(0);

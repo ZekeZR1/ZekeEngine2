@@ -28,12 +28,15 @@ void Title::OnDestroy() {
 }
 
 void Title::Update() {
-	
 	auto smenu = m_menu->GetSelectiongMenu();
+
 	if (Pad(0).IsTrigger(enButtonA)) {
 		switch (smenu) {
-		case TitleMenu::enOnlineMatch:
-			NewGO<OnlineMatch>(0);
+		case TitleMenu::enOnlineMatch: 
+		{
+			if(m_onlineMatch == nullptr)
+				m_onlineMatch = NewGO<OnlineMatch>(0,"OnlineMatch");
+		}
 			break;
 		case TitleMenu::enTraining:
 			NewGO<Training>(0, "TrainingScene");

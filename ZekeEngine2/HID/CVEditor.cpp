@@ -2,13 +2,16 @@
 #include "CVEditor.h"
 
 bool CVEditor::Start() {
-	m_font = NewGO<FontRender>(0);
-	m_font->Init(L"", m_fontInfo.pos, m_fontInfo.rot, m_fontInfo.col, m_fontInfo.scale, m_fontInfo.pivot);
 	return true;
 }
 
 void CVEditor::OnDestroy() {
 	DeleteGO(m_font);
+}
+
+void CVEditor::CreateText(int priority) {
+	m_font = NewGO<FontRender>(priority);
+	m_font->Init(L"", m_fontInfo.pos, m_fontInfo.rot, m_fontInfo.col, m_fontInfo.scale, m_fontInfo.pivot);
 }
 
 void CVEditor::Update() {
@@ -22,57 +25,57 @@ void CVEditor::Update() {
 	if (m_str.length() > m_numMaxChar) return;
 
 	if (ZKeyBoard().GetStateTracker().pressed.A)
-		m_str += L"A";
+		m_str += L"a";
 	if (ZKeyBoard().GetStateTracker().pressed.B)
-		m_str += L"B";
+		m_str += L"b";
 	if (ZKeyBoard().GetStateTracker().pressed.C)
-		m_str += L"C";
+		m_str += L"c";
 	if (ZKeyBoard().GetStateTracker().pressed.D)
-		m_str += L"D";
+		m_str += L"d";
 	if (ZKeyBoard().GetStateTracker().pressed.E)
-		m_str += L"E";
+		m_str += L"e";
 	if (ZKeyBoard().GetStateTracker().pressed.F)
-		m_str += L"F";
+		m_str += L"f";
 	if (ZKeyBoard().GetStateTracker().pressed.G)
-		m_str += L"G";
+		m_str += L"g";
 	if (ZKeyBoard().GetStateTracker().pressed.H)
-		m_str += L"H";
+		m_str += L"h";
 	if (ZKeyBoard().GetStateTracker().pressed.I)
-		m_str += L"I";
+		m_str += L"i";
 	if (ZKeyBoard().GetStateTracker().pressed.J)
-		m_str += L"J";
+		m_str += L"j";
 	if (ZKeyBoard().GetStateTracker().pressed.K)
-		m_str += L"K";
+		m_str += L"k";
 	if (ZKeyBoard().GetStateTracker().pressed.L)
-		m_str += L"L";
+		m_str += L"l";
 	if (ZKeyBoard().GetStateTracker().pressed.M)
-		m_str += L"M";
+		m_str += L"m";
 	if (ZKeyBoard().GetStateTracker().pressed.N)
-		m_str += L"N";
+		m_str += L"n";
 	if (ZKeyBoard().GetStateTracker().pressed.O)
-		m_str += L"O";
+		m_str += L"o";
 	if (ZKeyBoard().GetStateTracker().pressed.P)
-		m_str += L"P";
+		m_str += L"p";
 	if (ZKeyBoard().GetStateTracker().pressed.Q)
-		m_str += L"Q";
+		m_str += L"q";
 	if (ZKeyBoard().GetStateTracker().pressed.R)
-		m_str += L"R";
+		m_str += L"r";
 	if (ZKeyBoard().GetStateTracker().pressed.S)
-		m_str += L"S";
+		m_str += L"s";
 	if (ZKeyBoard().GetStateTracker().pressed.T)
-		m_str += L"T";
+		m_str += L"t";
 	if (ZKeyBoard().GetStateTracker().pressed.U)
-		m_str += L"U";
+		m_str += L"u";
 	if (ZKeyBoard().GetStateTracker().pressed.V)
-		m_str += L"V";
+		m_str += L"v";
 	if (ZKeyBoard().GetStateTracker().pressed.W)
-		m_str += L"W";
+		m_str += L"w";
 	if (ZKeyBoard().GetStateTracker().pressed.X)
-		m_str += L"X";
+		m_str += L"x";
 	if (ZKeyBoard().GetStateTracker().pressed.Y)
-		m_str += L"Y";
+		m_str += L"y";
 	if (ZKeyBoard().GetStateTracker().pressed.Z)
-		m_str += L"Z";
+		m_str += L"z";
 
 	m_font->SetText(m_str);
 
