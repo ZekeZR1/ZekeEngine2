@@ -18,7 +18,7 @@ public:
 	}
 private:
 	int m_selecting = enOnlineMatch;
-
+	SpriteRender* m_selectingButtonSp = nullptr;
 	std::vector<SpriteRender*> m_menus;
 	std::vector<FontRender*> m_fonts;
 	CVector3 m_menuTopPos = { -450,-150,0 };

@@ -5,27 +5,28 @@
 #include "Network/LoadBalancingListener.h"
 #include "Game.h"
 #include "..//..//ZekeEngine2/HID/CVEditor.h"
+#include "Title.h"
 
 bool OnlineMatch::Start() {
 	NetworkLogic::GetInstance().Start();
 
-	m_sp1 = NewGO<SpriteRender>(0);
-	m_sp1->Init(L"Assets/sprite/BlueTeamScoreBack.dds", 50, 50, true);
+	m_backSp = NewGO<SpriteRender>(0);
+	m_backSp->Init(L"Assets/sprite/online.dds",900,500);
 
-	m_sp2 = NewGO<SpriteRender>(0);
-	m_sp2->Init(L"Assets/sprite/OrangeTeamScoreBack.dds", 50, 50, true);
+	m_startSp = NewGO<SpriteRender>(0);
+	m_startSp->Init(L"Assets/sprite/start.dds", 300, 80, true);
 
 	m_sp3 = NewGO<SpriteRender>(0);
 	m_sp3->Init(L"Assets/sprite/TimerBack.dds", 50, 50, true);
 
-	m_sp1->SetPosition({ 100,0,0 });
-	m_sp2->SetPosition({ -100,0,0 });
-	m_sp3->SetPosition({ 0,100,0 });
+	m_startSp->SetPosition({ 250,-130,0 });
+	m_sp3->SetPosition({ 0,100,-130 });
 
 	m_editor = NewGO<CVEditor>(0);
 	FontRender::FontInfo info;
-	info.pos = { -10,200 };
+	info.pos = { -100,70 };
 	m_editor->SetEditorInfo(info);
+
 	return true;
 }
 
@@ -34,8 +35,8 @@ void OnlineMatch::OnDestroy() {
 	if(m_cs!=0)
 		NetworkLogic::GetInstance().GetLBL()->SetLagAve(m_sumLag / m_cs);
 
-	DeleteGO(m_sp1);
-	DeleteGO(m_sp2);
+	DeleteGO(m_startSp);
+	DeleteGO(m_backSp);
 	DeleteGO(m_sp3);
 	DeleteGO(m_editor);
 }
@@ -81,27 +82,26 @@ void OnlineMatch::Update() {
 	}
 
 	auto cp = Mouse::GetCursorPos();
-	m_sp1->SetCollisionTarget(cp);
-	m_sp2->SetCollisionTarget(cp);
+	m_startSp->SetCollisionTarget(cp);
 	m_sp3->SetCollisionTarget(cp);
 
-	if (m_sp1->isCollidingTarget() and Mouse::IsTrigger(enLeftClick)) {
+	if (Pad(0).IsTrigger(enButtonStart) or (m_startSp->isCollidingTarget() and Mouse::IsTrigger(enLeftClick))) {
 		auto str = m_editor->GetString();
-		JString s = str.c_str();
+		JString roomName = str.c_str();
 
-		NetworkLogic::GetInstance().GetLBC()->opJoinOrCreateRoom(s, RoomOptions().setMaxPlayers(2));
-		printf("Create or Join A Room\n");
+		NetworkLogic::GetInstance().GetLBC()->opJoinOrCreateRoom(roomName, RoomOptions().setMaxPlayers(2));
+		printf("Create or Join Room\n");
+		
+		m_startSp->SetMulCol({ 0.5,0.5,0.5 ,1 });
+		m_editor->SetActiveFlag(false);
+
 		m_isSelectedRoom = true;
 	}
 
-	if (m_sp2->isCollidingTarget() and Mouse::IsTrigger(enLeftClick)) {
-		NetworkLogic::GetInstance().GetLBC()->opJoinOrCreateRoom("B", RoomOptions().setMaxPlayers(2));
-		printf("Create or Join B Room\n");
-		m_isSelectedRoom = true;
-	}
-
-	if (m_sp3->isCollidingTarget() and Mouse::IsTrigger(enLeftClick)) {
+	if (ZKeyBoard().GetStateTracker().pressed.Escape or m_sp3->isCollidingTarget() and Mouse::IsTrigger(enLeftClick)) {
 		NetworkLogic::GetInstance().GetLBC()->opLeaveRoom();
+		m_startSp->SetMulCol({ 1,1,1 ,1 });
+		m_editor->SetActiveFlag(true);
 		m_isSelectedRoom = false;
 	}
 
@@ -116,6 +116,7 @@ void OnlineMatch::Update() {
 
 	if (pc == 2 and m_isSelectedRoom) {
 		NewGO<Game>(0);
+		DeleteGO(FindGO<Title>("TitleScene"));
 		DeleteGO(this);
 	}
 

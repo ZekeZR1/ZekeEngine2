@@ -9,8 +9,8 @@ public:
 	void OnDestroy() override;
 	void Update() override;
 private:
-	SpriteRender* m_sp1 = nullptr;
-	SpriteRender* m_sp2 = nullptr;
+	SpriteRender* m_backSp = nullptr;
+	SpriteRender* m_startSp = nullptr;
 	SpriteRender* m_sp3 = nullptr;
 	bool m_isSelectedRoom = false;
 	CVEditor* m_editor = nullptr;

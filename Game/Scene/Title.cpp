@@ -18,17 +18,21 @@ bool Title::Start() {
 }
 
 void Title::OnDestroy() {
-
+	DeleteGO(m_menu);
+	DeleteGO(m_stage);
+	DeleteGO(m_myCar);
 }
 
 void Title::Update() {
+	
 	auto smenu = m_menu->GetSelectiongMenu();
 	if (Pad(0).IsTrigger(enButtonA)) {
 		switch (smenu) {
 		case TitleMenu::enOnlineMatch:
 			NewGO<OnlineMatch>(0);
-			DeleteGO(this);
+			//DeleteGO(this);
 			break;
 		}
 	}
+	
 }

@@ -223,6 +223,18 @@
     <None Include="Assets\sprite\menuButton.png">
       <Filter>Assets\sprite</Filter>
     </None>
+    <None Include="Assets\sprite\avg2.png">
+      <Filter>Assets\sprite</Filter>
+    </None>
+    <None Include="Assets\sprite\avg_button2.png">
+      <Filter>Assets\sprite</Filter>
+    </None>
+    <None Include="Assets\sprite\online.png">
+      <Filter>Assets\sprite</Filter>
+    </None>
+    <None Include="Assets\sprite\start.png">
+      <Filter>Assets\sprite</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ImageContentTask Include="Assets\sprite\menuButtonSelected.png">

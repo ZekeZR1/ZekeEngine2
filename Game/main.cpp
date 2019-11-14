@@ -43,7 +43,7 @@ signed WINAPI wWinMain(
 		PhysicsWorld().SetDebugDraw(false);
 
 		//NewGO<OnlineMatch>(0);
-		NewGO<Title>(0, "Title");
+		NewGO<Title>(0, "TitleScene");
 		Engine().GameRoop();
 	}
 
