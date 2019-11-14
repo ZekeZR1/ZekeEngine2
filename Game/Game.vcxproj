@@ -237,7 +237,7 @@
     <None Include="Assets\sprite\menuButton.png" />
   </ItemGroup>
   <ItemGroup>
-    <ImageContentTask Include="Assets\sprite\menuButtonSelected.png" />
+    <None Include="Assets\sprite\menuButtonSelected.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\sprite\avg2.png" />
@@ -250,6 +250,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\sprite\start.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ImageContentTask Include="Assets\sprite\searching.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

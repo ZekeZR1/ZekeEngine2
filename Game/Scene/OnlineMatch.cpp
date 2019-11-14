@@ -95,22 +95,26 @@ void OnlineMatch::Update() {
 		
 		m_startSp->SetMulCol({ 0.5,0.5,0.5 ,1 });
 		m_editor->SetActiveFlag(false);
+		m_searching = NewGO<Searching>(6);
 
-		m_isSelectedRoom = true;
+		m_isSearchingRoom = true;
 	}
 
 	if (ZKeyBoard().GetStateTracker().pressed.Escape or m_sp3->isCollidingTarget() and Mouse::IsTrigger(enLeftClick)) {
-		NetworkLogic::GetInstance().GetLBC()->opLeaveRoom();
-		m_startSp->SetMulCol({ 1,1,1 ,1 });
-		m_editor->SetActiveFlag(true);
-		m_isSelectedRoom = false;
+		if (m_isSearchingRoom) {
+			NetworkLogic::GetInstance().GetLBC()->opLeaveRoom();
+			m_startSp->SetMulCol({ 1,1,1 ,1 });
+			m_editor->SetActiveFlag(true);
+			DeleteGO(m_searching);
+			m_isSearchingRoom = false;
+		}
 	}
 
 	auto room = NetworkLogic::GetInstance().GetLBC()->getCurrentlyJoinedRoom();
 	auto name = room.getName();
 	auto pc = room.getPlayerCount();
 
-	if (pc == 2 and m_isSelectedRoom) {
+	if (pc == 2 and m_isSearchingRoom) {
 		NewGO<Game>(0);
 		DeleteGO(FindGO<Title>("TitleScene"));
 		DeleteGO(this);
@@ -148,4 +152,23 @@ void OnlineMatch::Update() {
 		//printf("Count Players In Game : %d\n", cpig);
 		//printf("Count Players Online : %d\n", cpo);
 	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+bool Searching::Start() {
+	m_sp = NewGO<SpriteRender>(6);
+	m_sp->Init(L"Assets/sprite/searching.dds", 80, 80);
+	m_sp->SetPosition(m_pos);
+	return true;
+}
+
+void Searching::OnDestroy() {
+	DeleteGO(m_sp);
+}
+
+void Searching::Update() {
+	CQuaternion rot = CQuaternion::Identity();
+	rot.SetRotationDeg({ 0,0,1 }, 4);
+	m_rot.Multiply(rot);
+	m_sp->SetRotation(m_rot);
 }
