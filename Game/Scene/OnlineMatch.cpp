@@ -154,6 +154,10 @@ void OnlineMatch::Update() {
 	}
 }
 
+void OnlineMatch::Disconnect() {
+	INetworkLogic().Disconnect();
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////
 bool Searching::Start() {
 	m_sp = NewGO<SpriteRender>(6);
@@ -168,7 +172,7 @@ void Searching::OnDestroy() {
 
 void Searching::Update() {
 	CQuaternion rot = CQuaternion::Identity();
-	rot.SetRotationDeg({ 0,0,1 }, 4);
+	rot.SetRotationDeg({ 0,0,-1 }, 4);
 	m_rot.Multiply(rot);
 	m_sp->SetRotation(m_rot);
 }

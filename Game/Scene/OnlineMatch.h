@@ -9,6 +9,8 @@ public:
 	bool Start() override;
 	void OnDestroy() override;
 	void Update() override;
+	bool IsSearchingRoom() { return m_isSearchingRoom; }
+	void Disconnect();
 private:
 	SpriteRender* m_backSp = nullptr;
 	SpriteRender* m_startSp = nullptr;

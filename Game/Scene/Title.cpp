@@ -45,4 +45,12 @@ void Title::Update() {
 		}
 	}
 	
+
+	if (ZKeyBoard().GetStateTracker().pressed.Escape and m_onlineMatch != nullptr) {
+		if (m_onlineMatch->IsSearchingRoom() == false) {
+			m_onlineMatch->Disconnect();
+			DeleteGO(m_onlineMatch);
+			m_onlineMatch = nullptr;
+		}
+	}
 }
