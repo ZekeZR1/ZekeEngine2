@@ -29,7 +29,7 @@ void Goal::OnDestroy() {
 void Goal::Update() {
 
 #ifndef _DEBUG_HOST_GAME
-	if (!INetworkLogic().GetLBL()->IsHost()) {
+	if (INetworkLogic().GetLBL() == nullptr or !INetworkLogic().GetLBL()->IsHost()) {
 		return;
 	}
 #endif //_DEBUG_HOST_GAME

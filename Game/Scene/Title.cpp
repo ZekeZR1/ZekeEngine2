@@ -17,6 +17,11 @@ bool Title::Start() {
 	MainCamera().SetTarget(CVector3::Zero());
 	MainCamera().Update();
 
+	IGameObjectManager().SetShadowCameraPosAndTarget(
+		{ m_myCar->GetPosition().x,m_myCar->GetPosition().y + 50,m_myCar->GetPosition().z },
+		{ m_myCar->GetPosition().x,m_myCar->GetPosition().y,m_myCar->GetPosition().z }
+	);
+
 	return true;
 }
 

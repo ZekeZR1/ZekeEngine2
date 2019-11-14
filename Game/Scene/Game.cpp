@@ -9,7 +9,7 @@
 #include "Network/LoadBalancingListener.h"
 #include "Result.h"
 #include "..//GameObjects/Goal.h"
-
+#include "Title.h"
 
 bool Game::Start() {
 	m_stage = NewGO<Stage>(0);
@@ -103,6 +103,13 @@ void Game::Update() {
 		//DeleteGO(this);
 		//NewGO<Result>(0, "ResultScene");
 	}
+
+#if _DEBUG
+	if (ZKeyBoard().GetStateTracker().pressed.Escape) {
+		DeleteGO(this);
+		NewGO<Title>(0, "TitleScene");
+	}
+#endif
 }
 
 void Game::PostUpdate() {

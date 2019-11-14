@@ -87,17 +87,19 @@ void OnlineMatch::Update() {
 	m_sp3->SetCollisionTarget(cp);
 
 	if (Pad(0).IsTrigger(enButtonStart) or (m_startSp->isCollidingTarget() and Mouse::IsTrigger(enLeftClick))) {
-		auto str = m_editor->GetString();
-		JString roomName = str.c_str();
+		if (!m_isSearchingRoom) {
+			auto str = m_editor->GetString();
+			JString roomName = str.c_str();
 
-		NetworkLogic::GetInstance().GetLBC()->opJoinOrCreateRoom(roomName, RoomOptions().setMaxPlayers(2));
-		printf("Create or Join Room\n");
-		
-		m_startSp->SetMulCol({ 0.5,0.5,0.5 ,1 });
-		m_editor->SetActiveFlag(false);
-		m_searching = NewGO<Searching>(6);
+			NetworkLogic::GetInstance().GetLBC()->opJoinOrCreateRoom(roomName, RoomOptions().setMaxPlayers(2));
+			printf("Create or Join Room\n");
 
-		m_isSearchingRoom = true;
+			m_startSp->SetMulCol({ 0.5,0.5,0.5 ,1 });
+			m_editor->SetActiveFlag(false);
+			m_searching = NewGO<Searching>(6);
+
+			m_isSearchingRoom = true;
+		}
 	}
 
 	if (ZKeyBoard().GetStateTracker().pressed.Escape or m_sp3->isCollidingTarget() and Mouse::IsTrigger(enLeftClick)) {
@@ -121,37 +123,37 @@ void OnlineMatch::Update() {
 	}
 
 
-	if (Pad(0).IsPress(enButtonStart)) {
-		int cgr = NetworkLogic::GetInstance().GetLBC()->getCountGamesRunning();
-		int cpig = NetworkLogic::GetInstance().GetLBC()->getCountPlayersIngame();
-		int cpo = NetworkLogic::GetInstance().GetLBC()->getCountPlayersOnline();
+	//if (Pad(0).IsPress(enButtonStart)) {
+	//	int cgr = NetworkLogic::GetInstance().GetLBC()->getCountGamesRunning();
+	//	int cpig = NetworkLogic::GetInstance().GetLBC()->getCountPlayersIngame();
+	//	int cpo = NetworkLogic::GetInstance().GetLBC()->getCountPlayersOnline();
 
-		NetworkLogic::GetInstance().GetLBL()->RaiseCurrentLocalTime();
+	//	NetworkLogic::GetInstance().GetLBL()->RaiseCurrentLocalTime();
 
-		auto state = NetworkLogic::GetInstance().GetLBL()->GetState();
+	//	auto state = NetworkLogic::GetInstance().GetLBL()->GetState();
 
-		wprintf(state);
-		puts("");
+	//	wprintf(state);
+	//	puts("");
 
-		if (NetworkLogic::GetInstance().GetLBC()->getIsInRoom()) {
-			printf("is in room now\n");
-		}
-		else {
-			puts("isnt in room now");
-		}
+	//	if (NetworkLogic::GetInstance().GetLBC()->getIsInRoom()) {
+	//		printf("is in room now\n");
+	//	}
+	//	else {
+	//		puts("isnt in room now");
+	//	}
 
-		auto lpn = NetworkLogic::GetInstance().GetLBL()->GetLocalPlayerNumber();
-		wprintf(L"Local Player Number : %d\n", lpn);
+	//	auto lpn = NetworkLogic::GetInstance().GetLBL()->GetLocalPlayerNumber();
+	//	wprintf(L"Local Player Number : %d\n", lpn);
 
-		printf("Room Player Count : %d\n", pc);
-		wprintf(name);
-		printf("\n");
-		//auto name = NetSystem().GetNetworkLogic().GetLBC()->getCurrentlyJoinedRoom().getName();
+	//	printf("Room Player Count : %d\n", pc);
+	//	wprintf(name);
+	//	printf("\n");
+	//	//auto name = NetSystem().GetNetworkLogic().GetLBC()->getCurrentlyJoinedRoom().getName();
 
-		//printf("Count Games Running : %d\n", cgr);
-		//printf("Count Players In Game : %d\n", cpig);
-		//printf("Count Players Online : %d\n", cpo);
-	}
+	//	//printf("Count Games Running : %d\n", cgr);
+	//	//printf("Count Players In Game : %d\n", cpig);
+	//	//printf("Count Players Online : %d\n", cpo);
+	//}
 }
 
 void OnlineMatch::Disconnect() {
