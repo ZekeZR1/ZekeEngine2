@@ -162,6 +162,7 @@
     <ClCompile Include="Scene\Result.cpp" />
     <ClCompile Include="Scene\TestScene.cpp" />
     <ClCompile Include="Scene\Title.cpp" />
+    <ClCompile Include="Scene\Training.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
@@ -189,6 +190,7 @@
     <ClInclude Include="Scene\Result.h" />
     <ClInclude Include="Scene\TestScene.h" />
     <ClInclude Include="Scene\Title.h" />
+    <ClInclude Include="Scene\Training.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>

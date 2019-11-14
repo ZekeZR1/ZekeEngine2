@@ -41,12 +41,14 @@ void Goal::Update() {
 	else {
 		auto pos = mp_ball->GetPosition();
 		if (pos.z <= -175 or pos.z >= 175) {
-			if (pos.z < 0) {
-				mp_scoreManager->Goal(ScoreManager::enOrangeTeam);
-			}
-			if (pos.z > 0)
-			{
-				mp_scoreManager->Goal(ScoreManager::enBlueTeam);
+			if (mp_scoreManager != nullptr) {
+				if (pos.z < 0) {
+					mp_scoreManager->Goal(ScoreManager::enOrangeTeam);
+				}
+				if (pos.z > 0)
+				{
+					mp_scoreManager->Goal(ScoreManager::enBlueTeam);
+				}
 			}
 			printf("Goal");
 			m_isScored = true;

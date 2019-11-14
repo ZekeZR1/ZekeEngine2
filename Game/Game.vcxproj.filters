@@ -105,6 +105,9 @@
     <ClCompile Include="GameObjects\TitleMenu.cpp">
       <Filter>src\gameObjects</Filter>
     </ClCompile>
+    <ClCompile Include="Scene\Training.cpp">
+      <Filter>src\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -175,6 +178,9 @@
     </ClInclude>
     <ClInclude Include="GameObjects\TitleMenu.h">
       <Filter>src\gameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Training.h">
+      <Filter>src\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -4,6 +4,7 @@
 #include "..//GameObjects/Car.h"
 #include "..//GameObjects/Stage.h"
 #include "..//GameObjects/TitleMenu.h"
+#include "Training.h"
 #include "Scene/OnlineMatch.h"
 
 bool Title::Start() {
@@ -11,7 +12,10 @@ bool Title::Start() {
 	m_stage = NewGO<Stage>(0);
 	m_myCar = NewGO<Car>(0, "MyCar");
 	m_myCar->ResetCar(CVector3::Zero());
+
 	MainCamera().SetPosition({ -2,2,4 });
+	MainCamera().SetTarget(CVector3::Zero());
+	MainCamera().Update();
 	MainCamera().Update();
 
 	return true;
@@ -30,7 +34,10 @@ void Title::Update() {
 		switch (smenu) {
 		case TitleMenu::enOnlineMatch:
 			NewGO<OnlineMatch>(0);
-			//DeleteGO(this);
+			break;
+		case TitleMenu::enTraining:
+			NewGO<Training>(0, "TrainingScene");
+			DeleteGO(this);
 			break;
 		}
 	}

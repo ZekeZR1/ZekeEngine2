@@ -2,7 +2,6 @@
 #include "Game.h"
 #include "..//GameObjects//Ball.h"
 #include "../GameObjects/ScoreManager.h"
-#include "../GameObjects/Ball.h"
 #include "../GameObjects/Stage.h"
 #include "../GameObjects/GameCamera.h"
 #include "../GameObjects/Car.h"

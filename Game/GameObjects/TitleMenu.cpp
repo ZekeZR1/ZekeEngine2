@@ -31,6 +31,7 @@ void TitleMenu::OnDestroy() {
 		DeleteGO(i);
 	for (auto i : m_fonts)
 		DeleteGO(i);
+	DeleteGO(m_selectingButtonSp);
 }
 
 void TitleMenu::Update() {
