@@ -13,6 +13,10 @@ public:
 	void OnDestroy() override;
 	void Update() override;
 
+	void SetActiveFlag(bool isNeedToUpdate) {
+		m_isActiveMenu = isNeedToUpdate;
+	}
+
 	MenuButton GetSelectiongMenu() {
 		return (MenuButton)m_selecting;
 	}
@@ -23,5 +27,6 @@ private:
 	std::vector<FontRender*> m_fonts;
 	CVector3 m_menuTopPos = { -450,-150,0 };
 	float m_menuDist = 80.f;
+	bool m_isActiveMenu = true;
 };
 

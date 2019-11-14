@@ -244,10 +244,8 @@
     <None Include="Assets\sprite\menuButtonSelected.png">
       <Filter>Assets\sprite</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ImageContentTask Include="Assets\sprite\searching.png">
+    <None Include="Assets\sprite\searching.png">
       <Filter>Assets\sprite</Filter>
-    </ImageContentTask>
+    </None>
   </ItemGroup>
 </Project>

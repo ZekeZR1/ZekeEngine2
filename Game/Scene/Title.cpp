@@ -16,7 +16,6 @@ bool Title::Start() {
 	MainCamera().SetPosition({ -2,2,4 });
 	MainCamera().SetTarget(CVector3::Zero());
 	MainCamera().Update();
-	MainCamera().Update();
 
 	return true;
 }
@@ -34,8 +33,10 @@ void Title::Update() {
 		switch (smenu) {
 		case TitleMenu::enOnlineMatch: 
 		{
-			if(m_onlineMatch == nullptr)
-				m_onlineMatch = NewGO<OnlineMatch>(0,"OnlineMatch");
+			if (m_onlineMatch == nullptr) {
+				m_onlineMatch = NewGO<OnlineMatch>(0, "OnlineMatch");
+				m_menu->SetActiveFlag(false);
+			}
 		}
 			break;
 		case TitleMenu::enTraining:
@@ -51,6 +52,7 @@ void Title::Update() {
 			m_onlineMatch->Disconnect();
 			DeleteGO(m_onlineMatch);
 			m_onlineMatch = nullptr;
+			m_menu->SetActiveFlag(true);
 		}
 	}
 }

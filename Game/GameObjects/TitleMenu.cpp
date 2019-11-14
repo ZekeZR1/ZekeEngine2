@@ -35,6 +35,8 @@ void TitleMenu::OnDestroy() {
 }
 
 void TitleMenu::Update() {
+	if (!m_isActiveMenu) return;
+
 	if (Pad(0).IsTrigger(enButtonDown)) {
 		if(m_selecting > 0)
 			m_selecting--;
