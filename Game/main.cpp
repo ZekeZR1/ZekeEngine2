@@ -42,8 +42,8 @@ signed WINAPI wWinMain(
 		//bullet physics debug drawing flag
 		PhysicsWorld().SetDebugDraw(false);
 
-		//NewGO<OnlineMatch>(0);
-		NewGO<Title>(0, "TitleScene");
+		NewGO<TestScene>(0);
+		//NewGO<Title>(0, "TitleScene");
 		Engine().GameRoop();
 	}
 

@@ -8,6 +8,7 @@
 #include "Scene/OnlineMatch.h"
 
 bool Title::Start() {
+
 	m_menu = NewGO<TitleMenu>(0);
 	m_stage = NewGO<Stage>(0);
 	m_myCar = NewGO<Car>(0, "MyCar");

@@ -55,6 +55,9 @@
     <Filter Include="src\network">
       <UniqueIdentifier>{2e413773-8bc9-43c5-bb67-ea273aeb30dc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\graphics\media">
+      <UniqueIdentifier>{7e2fd823-3668-4345-80f5-7333723d3eb0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -303,6 +306,12 @@
     <ClInclude Include="HID\CVEditor.h">
       <Filter>src\HID</Filter>
     </ClInclude>
+    <ClInclude Include="graphics\Media\MediaPlayer.h">
+      <Filter>src\graphics\media</Filter>
+    </ClInclude>
+    <ClInclude Include="graphics\Media\resource.h">
+      <Filter>src\graphics\media</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -532,6 +541,12 @@
     </ClCompile>
     <ClCompile Include="HID\CVEditor.cpp">
       <Filter>src\HID</Filter>
+    </ClCompile>
+    <ClCompile Include="graphics\Media\MediaPlayer.cpp">
+      <Filter>src\graphics\media</Filter>
+    </ClCompile>
+    <ClCompile Include="graphics\Media\resource.cpp">
+      <Filter>src\graphics\media</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

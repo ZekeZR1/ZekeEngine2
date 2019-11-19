@@ -2,6 +2,7 @@
 #include "../GameObjects/Car.h"
 class GameCamera;
 class Stage;
+class CPlayer;
 
 class TestScene : public GameObject
 {
@@ -10,10 +11,6 @@ public :
 	void Update() override;
 	void OnDestroy() override;
 private:
-	Stage* m_stage = nullptr;
-	GameCamera* m_gameCamera = nullptr;
-	Car::CarControll m_carCon;
-	Car* m_myCar = nullptr;
-	Car* m_enemyCar = nullptr;
+	CPlayer* g_pPlayer = nullptr;
 };
 
