@@ -184,9 +184,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\modelData\Stage.FBX">
-      <Filter>Assets\model</Filter>
-    </None>
     <None Include="Assets\modelData\chassis.FBX">
       <Filter>Assets\model\car</Filter>
     </None>
@@ -217,10 +214,13 @@
     <None Include="Assets\modelData\RLStage.fbx">
       <Filter>Assets\model</Filter>
     </None>
-    <None Include="Assets\sprite\inGame\OrangeTeamScoreBack.png">
+    <None Include="Assets\modelData\Stage.FBX">
+      <Filter>Assets\model</Filter>
+    </None>
+    <None Include="Assets\sprite\avg_button2.png">
       <Filter>Assets\sprite</Filter>
     </None>
-    <None Include="Assets\sprite\inGame\TimerBack.png">
+    <None Include="Assets\sprite\avg2.png">
       <Filter>Assets\sprite</Filter>
     </None>
     <None Include="Assets\sprite\inGame\BlueTeamScoreBack.png">
@@ -229,22 +229,22 @@
     <None Include="Assets\sprite\menuButton.png">
       <Filter>Assets\sprite</Filter>
     </None>
-    <None Include="Assets\sprite\avg2.png">
-      <Filter>Assets\sprite</Filter>
-    </None>
-    <None Include="Assets\sprite\avg_button2.png">
+    <None Include="Assets\sprite\menuButtonSelected.png">
       <Filter>Assets\sprite</Filter>
     </None>
     <None Include="Assets\sprite\online.png">
       <Filter>Assets\sprite</Filter>
     </None>
-    <None Include="Assets\sprite\start.png">
-      <Filter>Assets\sprite</Filter>
-    </None>
-    <None Include="Assets\sprite\menuButtonSelected.png">
+    <None Include="Assets\sprite\inGame\OrangeTeamScoreBack.png">
       <Filter>Assets\sprite</Filter>
     </None>
     <None Include="Assets\sprite\searching.png">
+      <Filter>Assets\sprite</Filter>
+    </None>
+    <None Include="Assets\sprite\start.png">
+      <Filter>Assets\sprite</Filter>
+    </None>
+    <None Include="Assets\sprite\inGame\TimerBack.png">
       <Filter>Assets\sprite</Filter>
     </None>
   </ItemGroup>
